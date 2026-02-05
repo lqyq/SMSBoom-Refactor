@@ -1,0 +1,898 @@
+{% extends 'admin/model/list.html' %}
+
+{% block head_css %}
+    {{ super() }}
+    <!-- 引入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入 Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* 隐藏 Flask-Admin 原生的一些不需要的元素 */
+        .breadcrumb, .nav-tabs {
+            margin-bottom: 20px;
+        }
+
+        /* 玻璃拟态效果 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .api-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+        .api-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
+        .api-card.selected {
+            transform: scale(0.98);
+            border: 2px solid #6366f1; /* Indigo 500 */
+            background-color: #eef2ff; /* Indigo 50 */
+        }
+        .api-card.success { border-left-color: #10b981; }
+        .api-card.failed { border-left-color: #ef4444; }
+        .api-card.untested { border-left-color: #94a3b8; }
+
+        .method-badge {
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+        }
+        .method-get { background-color: #dcfce7; color: #166534; }
+        .method-post { background-color: #dbeafe; color: #1e40af; }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        /* 批量操作浮动栏动画 */
+        #batch-action-bar {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transform: translate(-50%, 100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #batch-action-bar.visible {
+            transform: translate(-50%, 0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .dot-success { background-color: #10b981; box-shadow: 0 0 8px #10b981; }
+        .dot-failed { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
+        .dot-untested { background-color: #94a3b8; }
+
+        /* 隐藏原本的表格 */
+        .model-list {
+            display: none;
+        }
+
+        /* 自定义控制栏样式 */
+        .custom-controls {
+            margin-bottom: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-fancy {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            transition: opacity 0.2s;
+        }
+        .btn-fancy:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .filter-btn.active {
+            background-color: white;
+            color: #4f46e5; /* Indigo 600 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        /* 修复一些冲突 */
+        .container {
+            width: 100% !important;
+            max-width: 1400px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto py-8 px-4 animate__animated animate__fadeIn">
+        
+        <!-- 头部区域 -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+            <div>
+                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-2">
+                    <span class="block gradient-text">接口管理中心</span>
+                </h1>
+                <p class="text-gray-500 text-lg">高效、直观、现代化的接口测试与监控平台</p>
+            </div>
+            <div class="mt-6 md:mt-0 space-x-3">
+                <a href="#" onclick="switchStyle('default'); return false;" class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                    <i class="fa fa-table mr-2"></i> 返回原始界面
+                </a>
+            </div>
+        </div>
+
+        <!-- 统计面板 -->
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-10">
+            <div class="stat-card glass-card rounded-2xl p-6 flex items-center">
+                <div class="p-4 rounded-xl bg-blue-100 text-blue-600 mr-4">
+                    <i class="fa fa-database fa-2x"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">接口总数</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-900" id="stat-total">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card rounded-2xl p-6 flex items-center">
+                <div class="p-4 rounded-xl bg-green-100 text-green-600 mr-4">
+                    <i class="fa fa-check-circle fa-2x"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">有效接口</p>
+                    <p class="mt-1 text-3xl font-bold text-green-600" id="stat-success">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card rounded-2xl p-6 flex items-center">
+                <div class="p-4 rounded-xl bg-red-100 text-red-600 mr-4">
+                    <i class="fa fa-times-circle fa-2x"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">无效接口</p>
+                    <p class="mt-1 text-3xl font-bold text-red-600" id="stat-failed">0</p>
+                </div>
+            </div>
+
+            <div class="stat-card glass-card rounded-2xl p-6 flex items-center">
+                <div class="p-4 rounded-xl bg-gray-100 text-gray-600 mr-4">
+                    <i class="fa fa-question-circle fa-2x"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">尚未测试</p>
+                    <p class="mt-1 text-3xl font-bold text-gray-400" id="stat-untested">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制栏 -->
+        <div class="glass-card rounded-2xl p-4 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: Phone Input -->
+            <div class="w-full md:w-auto flex-1 max-w-md relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa fa-phone text-gray-400"></i>
+                </div>
+                <input type="text" id="batch-phone"
+                       value="{{ current_app.config.get('TEST_PHONE', '') }}"
+                       class="block w-full pl-10 pr-4 py-2.5 border-gray-200 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+                       placeholder="输入测试手机号...">
+            </div>
+        
+            <!-- Middle: Filters -->
+            <div class="flex items-center bg-gray-100/50 p-1 rounded-xl border border-gray-200/50 overflow-x-auto max-w-full">
+                <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap" data-filter="all">全部</button>
+                <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium text-green-600 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap" data-filter="success">有效</button>
+                <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap" data-filter="failed">无效</button>
+                <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-500 hover:bg-white hover:shadow-sm transition-all whitespace-nowrap" data-filter="untested">未测</button>
+            </div>
+        
+            <!-- Right: Actions -->
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center mr-2 px-3 py-2 bg-indigo-50 rounded-xl border border-indigo-100 cursor-pointer hover:bg-indigo-100 transition-colors" id="select-all-container">
+                     <input id="select-all" type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer mr-2">
+                     <span class="text-sm font-medium text-indigo-700 select-none">全选</span>
+                </div>
+                
+                <div class="h-8 w-px bg-gray-200 mx-2 hidden md:block"></div>
+        
+                <button id="btn-import-json" class="p-2.5 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors tooltip" title="导入 JSON">
+                    <i class="fa fa-upload"></i>
+                </button>
+                <button id="btn-export-json" class="p-2.5 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors tooltip" title="导出 JSON">
+                    <i class="fa fa-download"></i>
+                </button>
+                <button id="btn-refresh-top" class="p-2.5 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors tooltip" title="刷新">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                
+                <!-- 停止按钮 (隐藏) -->
+                <button id="btn-stop-test" style="display:none;" class="p-2.5 text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-colors tooltip shadow-md" title="停止测试">
+                    <i class="fa fa-stop"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 进度条 -->
+        <div id="progress-container" class="hidden mb-10">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-indigo-700" id="progress-status-text text-lg">正在执行批量测试...</span>
+                <span class="text-sm font-bold text-indigo-700" id="progress-percent-text">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden shadow-inner">
+                <div id="progress-bar" class="bg-indigo-600 h-4 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mt-4">
+                <div class="text-center p-2 rounded-lg bg-indigo-50">
+                    <div class="text-xs text-indigo-500 uppercase font-bold">总数</div>
+                    <div class="font-bold" id="progress-total">0</div>
+                </div>
+                <div class="text-center p-2 rounded-lg bg-gray-50">
+                    <div class="text-xs text-gray-500 uppercase font-bold">已完成</div>
+                    <div class="font-bold" id="progress-completed">0</div>
+                </div>
+                <div class="text-center p-2 rounded-lg bg-green-50">
+                    <div class="text-xs text-green-500 uppercase font-bold">成功</div>
+                    <div class="font-bold text-green-600" id="progress-success">0</div>
+                </div>
+                <div class="text-center p-2 rounded-lg bg-red-50">
+                    <div class="text-xs text-red-500 uppercase font-bold">失败</div>
+                    <div class="font-bold text-red-600" id="progress-failed">0</div>
+                </div>
+            </div>
+            <div class="mt-2 text-center">
+                <span class="text-xs text-gray-400">正在处理: </span>
+                <span class="text-xs font-medium text-gray-600" id="progress-current">-</span>
+            </div>
+        </div>
+
+        <!-- API 卡片网格 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="api-grid">
+            {% for row in data %}
+                <div class="api-card-container api-card glass-card rounded-2xl p-6 relative flex flex-col h-full animate__animated animate__fadeInUp {{ row.status or 'untested' }}"
+                     data-api-id="{{ row.id }}">
+                    
+                    <!-- Checkbox -->
+                    <div class="absolute top-4 left-4 z-20">
+                        <input type="checkbox" class="api-checkbox w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer opacity-0 transition-opacity duration-200" data-api-id="{{ row.id }}">
+                    </div>
+
+                    <div class="flex justify-between items-start mb-4 pl-8">
+                        <div class="flex items-center">
+                            <span class="method-badge method-{{ row.method|lower }} mr-2">{{ row.method }}</span>
+                            <h3 class="font-bold text-gray-900 truncate max-w-[150px]" title="{{ row.desc }}">{{ row.desc }}</h3>
+                        </div>
+                        <div class="status-clickable cursor-pointer flex items-center bg-gray-100 px-3 py-1 rounded-full" data-api-id="{{ row.id }}">
+                            <span class="status-dot dot-{{ row.status or 'untested' }}"></span>
+                            <span class="text-[10px] font-bold text-gray-600 uppercase">
+                                {{ '有效' if row.status == 'success' else '无效' if row.status == 'failed' else '未测' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 flex-grow">
+                        <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mb-1">接口地址</p>
+                        <p class="text-sm text-gray-600 break-all bg-gray-50 p-3 rounded-xl border border-gray-100 mb-4 line-clamp-2" title="{{ row.url }}">
+                            {{ row.url }}
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mb-1">测试时间</p>
+                                <p class="text-sm font-medium text-gray-700" data-field="last_test_time">
+                                    {{ row.last_test_time.strftime('%H:%M:%S') if row.last_test_time else '-' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mb-1">添加时间</p>
+                                <p class="text-sm font-medium text-gray-700">
+                                    {{ row.add_time.strftime('%m-%d %H:%M') if row.add_time else '-' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100 mt-auto flex justify-between items-center gap-2">
+                        <button class="test-api-btn flex-1 inline-flex justify-center items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-sm font-bold hover:bg-indigo-100 transition-all"
+                                data-api-id="{{ row.id }}"
+                                data-desc="{{ row.desc }}"
+                                data-url="{{ row.url }}"
+                                data-method="{{ row.method }}"
+                                data-header="{{ row.header or '' }}"
+                                data-data="{{ row.data or '' }}"
+                                data-status="{{ row.status or 'untested' }}">
+                            <i class="fa fa-play mr-2"></i> 测试
+                        </button>
+                        
+                        <div class="flex gap-1">
+                            {% if admin_view.can_edit %}
+                                <a href="{{ url_for('.edit_view', id=row.id, url=return_url) }}" class="p-2 text-gray-400 hover:text-blue-500 transition-colors" title="编辑">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            {% endif %}
+                            {% if admin_view.can_delete %}
+                                <form class="icon" method="POST" action="{{ url_for('.delete_view') }}">
+                                    <input name="id" value="{{ row.id }}" type="hidden">
+                                    <input name="url" value="{{ return_url }}" type="hidden">
+                                    <button class="p-2 text-gray-400 hover:text-red-500 transition-colors" onclick="return confirm('确定删除?');" title="删除">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- 分页 -->
+        <div class="mt-12 flex justify-center">
+            <nav class="inline-flex rounded-xl shadow-sm -space-x-px glass-card overflow-hidden">
+                <!-- 这里的逻辑需要根据 Flask-Admin 的 pagination 对象来渲染 -->
+                <!-- 为了简单起见，我们暂且保留原有的分页逻辑，或者简单的显示“更多内容在底部” -->
+                <div class="p-4 text-gray-500 text-sm italic">
+                    使用底部原始分页控件进行翻页
+                </div>
+            </nav>
+        </div>
+
+        <!-- 隐藏原生表格 -->
+        <div class="model-list">
+            {{ super() }}
+        </div>
+    </div>
+
+    <!-- 底部原始手机号输入（隐藏，供 JS 使用） -->
+    <input type="hidden" value="{{ current_app.config.get('TEST_PHONE', '') }}" class="test-phone-input" data-api-id="phone">
+    
+    <!-- 隐藏的文件上传输入框 -->
+    <input type="file" id="file-upload-input" accept=".json" style="display: none;">
+
+    <!-- 浮动批量操作栏 -->
+    <div id="batch-action-bar" class="fixed bottom-8 left-1/2 z-50 flex items-center bg-white/90 backdrop-blur-md shadow-2xl rounded-full px-6 py-3 border border-gray-200/50 space-x-4">
+        <div class="font-bold text-gray-700 flex items-center pr-4 border-r border-gray-200">
+            <span class="bg-indigo-100 text-indigo-700 py-1 px-2 rounded-lg text-xs mr-2" id="selected-count">0</span>
+            <span class="text-sm">已选择</span>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <button onclick="batchAction('test')" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors tooltip" title="批量测试">
+                <i class="fa fa-play"></i>
+            </button>
+            <button onclick="batchAction('export')" class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors tooltip" title="导出选中">
+                <i class="fa fa-download"></i>
+            </button>
+            
+            <div class="relative group">
+                <button class="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-full transition-colors tooltip" title="修改状态">
+                    <i class="fa fa-tag"></i>
+                </button>
+                <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-32 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden hidden group-hover:block">
+                    <button onclick="batchAction('status', 'success')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
+                        <i class="fa fa-check-circle mr-2"></i> 有效
+                    </button>
+                    <button onclick="batchAction('status', 'failed')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700">
+                        <i class="fa fa-times-circle mr-2"></i> 无效
+                    </button>
+                    <button onclick="batchAction('status', 'untested')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i class="fa fa-question-circle mr-2"></i> 未测
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="batchAction('delete')" class="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors tooltip" title="批量删除">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+
+        <div class="pl-4 border-l border-gray-200">
+            <button onclick="clearSelection()" class="text-xs font-bold text-gray-400 hover:text-gray-600 uppercase">取消</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block tail %}
+    {{ super() }}
+    
+    <div id="test-results" style="position: fixed; top: 20px; right: 20px; z-index: 10000; max-width: 400px;"></div>
+    
+    <script type="text/javascript">
+    // 切换界面风格（保留其他URL参数）
+    function switchStyle(style) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('style', style);
+        window.location.href = url.toString();
+    }
+    
+    (function() {
+        function waitForJQuery(callback) {
+            if (window.jQuery) callback(window.jQuery);
+            else setTimeout(function() { waitForJQuery(callback); }, 50);
+        }
+
+        waitForJQuery(function($) {
+            // 复用逻辑
+            function getStatusText(status) {
+                if (status === 'success') return '有效';
+                if (status === 'failed') return '无效';
+                return '未测';
+            }
+
+            function updateRowStatus(apiId, status) {
+                const card = $(`.api-card[data-api-id="${apiId}"]`);
+                const btn = card.find('.test-api-btn');
+                const dot = card.find('.status-dot');
+                const text = card.find('.status-clickable span:last-child');
+
+                card.removeClass('untested success failed').addClass(status);
+                dot.removeClass('dot-untested dot-success dot-failed').addClass('dot-' + status);
+                text.text(getStatusText(status));
+                
+                if (status === 'success') {
+                    btn.removeClass('bg-indigo-50 text-indigo-600 bg-red-50 text-red-600').addClass('bg-green-50 text-green-600').html('<i class="fa fa-refresh mr-2"></i> 重测');
+                } else if (status === 'failed') {
+                    btn.removeClass('bg-indigo-50 text-indigo-600 bg-green-50 text-green-600').addClass('bg-red-50 text-red-600').html('<i class="fa fa-refresh mr-2"></i> 重测');
+                }
+
+                // 更新时间
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                card.find('[data-field=\"last_test_time\"]').text(timeStr);
+            }
+
+            function loadStats() {
+                $.get('/api/stats/', function(data) {
+                    $('#stat-total').text(data.total);
+                    $('#stat-success').text(data.success);
+                    $('#stat-failed').text(data.failed);
+                    $('#stat-untested').text(data.untested);
+                });
+            }
+
+            function showDetailModal(apiId, success, statusCode, message, fullResponse) {
+                // ... 复用 detail modal 逻辑 ...
+                const modalHtml = `
+                    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" style="z-index: 10001;">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content rounded-2xl overflow-hidden border-none shadow-2xl">
+                                <div class="modal-header bg-gray-50 border-b border-gray-100 p-6">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title font-bold text-gray-800">API 测试详情 (ID: ${apiId})</h4>
+                                </div>
+                                <div class="modal-body p-6">
+                                    <div class="p-4 rounded-xl mb-6 ${success ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}">
+                                        <div class="flex items-center mb-2">
+                                            <i class="fa ${success ? 'fa-check-circle' : 'fa-times-circle'} fa-lg mr-2"></i>
+                                            <strong class="text-lg">${success ? '测试成功' : '测试失败'} (HTTP ${statusCode})</strong>
+                                        </div>
+                                        <p class="text-sm opacity-90">${message}</p>
+                                    </div>
+                                    <h5 class="font-bold text-gray-700 mb-2 uppercase tracking-wider text-xs">响应原始内容:</h5>
+                                    <div class="bg-gray-900 rounded-xl p-4 overflow-hidden">
+                                        <pre class="text-green-400 text-xs font-mono overflow-auto max-h-[300px] whitespace-pre-wrap">${escapeHtml(fullResponse)}</pre>
+                                    </div>
+                                </div>
+                                <div class="modal-footer bg-gray-50 p-6 flex justify-between items-center">
+                                    <div class="text-xs text-gray-400">自动判定有误？点击按钮强制修正</div>
+                                    <div class="flex gap-2">
+                                        <button class="btn btn-success rounded-xl font-bold px-4 py-2" id="btn-mark-success">标记有效</button>
+                                        <button class="btn btn-danger rounded-xl font-bold px-4 py-2" id="btn-mark-failed">标记无效</button>
+                                        <button class="btn btn-default rounded-xl font-bold px-4 py-2" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#detailModal').remove();
+                $('body').append(modalHtml);
+                $('#btn-mark-success').click(() => updateApiStatus(apiId, 'success'));
+                $('#btn-mark-failed').click(() => updateApiStatus(apiId, 'failed'));
+                $('#detailModal').modal('show');
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                return String(text).replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"').replace(/'/g, '&#039;');
+            }
+
+            function updateApiStatus(apiId, status) {
+                $.ajax({
+                    url: `/api/${apiId}/status/`,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ status: status }),
+                    success: function(r) {
+                        if (r.status === 0) {
+                            $('.modal').modal('hide');
+                            updateRowStatus(apiId, status);
+                            loadStats();
+                        }
+                    }
+                });
+            }
+
+            function testSingleApi(apiId) {
+                const btn = $(`.test-api-btn[data-api-id="${apiId}"]`);
+                const phone = $('#batch-phone').val();
+                if (!phone) { alert('请输入手机号'); return; }
+                
+                btn.prop('disabled', true).addClass('opacity-50').find('i').removeClass('fa-play fa-refresh').addClass('fa-spinner fa-spin');
+                
+                $.ajax({
+                    type: "POST",
+                    url: `/testapi/${apiId}/`,
+                    contentType: "application/json",
+                    data: JSON.stringify({ phone: phone }),
+                    success: function(res) {
+                        const isSuccess = res.status === 0;
+                        updateRowStatus(apiId, isSuccess ? 'success' : 'failed');
+                        showDetailModal(apiId, isSuccess, res.status_code || 200, res.resp, res.resp);
+                        loadStats();
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false).removeClass('opacity-50').find('i').removeClass('fa-spinner fa-spin').addClass('fa-refresh');
+                    }
+                });
+            }
+
+            // 批量测试 (支持传 ids)
+            let progressInterval = null;
+            function startBatchTest(ids = null) {
+                const phone = $('#batch-phone').val();
+                if (!phone) { alert('请输入手机号'); return; }
+                
+                const data = { phone: phone };
+                
+                if (ids && Array.isArray(ids)) {
+                    data.ids = ids;
+                } else {
+                    // 如果没有特定 IDs，则检查筛选器
+                    const filterStatus = $('#filter-status').val();
+                    data.filter_status = filterStatus || null;
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/batch_test/",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function(r) {
+                        if (r.status == 0) {
+                            $('#progress-container').removeClass('hidden').addClass('animate__animated animate__fadeInDown');
+                            // $('#btn-batch-test').hide(); // 旧按钮已移除
+                            $('#btn-stop-test').show();
+                            clearSelection(); // 开始测试后清除选择
+                            startProgressPolling();
+                        } else {
+                            alert(r.resp);
+                        }
+                    }
+                });
+            }
+
+            function startProgressPolling() {
+                progressInterval = setInterval(function() {
+                    $.get('/batch_test/progress/', function(data) {
+                        const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
+                        $('#progress-bar').css('width', percent + '%');
+                        $('#progress-percent-text').text(percent + '%');
+                        $('#progress-completed').text(data.completed);
+                        $('#progress-total').text(data.total);
+                        $('#progress-success').text(data.success);
+                        $('#progress-failed').text(data.failed);
+                        $('#progress-current').text(data.current_api || '-');
+
+                        if (!data.running) {
+                            clearInterval(progressInterval);
+                            $('#btn-batch-test').show();
+                            $('#btn-stop-test').hide();
+                            loadStats();
+                            setTimeout(() => alert('批量测试完成！'), 500);
+                        }
+                    });
+                }, 1000);
+            }
+
+            // 初始化
+            loadStats();
+            
+            // 设置动画延迟
+            $('.api-card-container').each(function(index) {
+                const delay = Math.min(index * 0.05, 1.0);
+                $(this).css('animation-delay', delay + 's');
+            });
+
+            // Hover 显示 checkbox
+            $('.api-card-container').hover(
+                function() { $(this).find('.api-checkbox').removeClass('opacity-0'); },
+                function() {
+                    if(!$(this).find('.api-checkbox').prop('checked')) {
+                        $(this).find('.api-checkbox').addClass('opacity-0');
+                    }
+                }
+            );
+
+            // 多选逻辑
+            let selectedIds = new Set();
+            
+            function updateSelectionUI() {
+                const count = selectedIds.size;
+                $('#selected-count').text(count);
+                
+                if (count > 0) {
+                    $('#batch-action-bar').addClass('visible');
+                } else {
+                    $('#batch-action-bar').removeClass('visible');
+                }
+
+                // 更新 checkbox 和 卡片状态
+                $('.api-checkbox').each(function() {
+                    const id = parseInt($(this).data('api-id'));
+                    const checked = selectedIds.has(id);
+                    $(this).prop('checked', checked);
+                    if(checked) {
+                        $(this).removeClass('opacity-0');
+                        $(this).closest('.api-card').addClass('selected');
+                    } else {
+                        // 如果鼠标不在卡片上，隐藏
+                        if (!$(this).closest('.api-card').is(':hover')) {
+                            $(this).addClass('opacity-0');
+                        }
+                        $(this).closest('.api-card').removeClass('selected');
+                    }
+                });
+
+                // 更新全选框
+                const totalVisible = $('.api-card-container:visible').length;
+                const selectedVisible = $('.api-card-container:visible .api-checkbox:checked').length;
+                $('#select-all').prop('checked', totalVisible > 0 && totalVisible === selectedVisible);
+                $('#select-all').prop('indeterminate', selectedVisible > 0 && selectedVisible < totalVisible);
+            }
+
+            // 单个选中
+            $('body').on('change', '.api-checkbox', function() {
+                const id = parseInt($(this).data('api-id'));
+                if(this.checked) selectedIds.add(id);
+                else selectedIds.delete(id);
+                updateSelectionUI();
+            });
+
+            // 全选 (容器点击)
+            $('#select-all-container').click(function(e) {
+                if (e.target.type !== 'checkbox') {
+                    $('#select-all').click();
+                }
+            });
+
+            // 全选 (Checkbox change)
+            $('#select-all').change(function() {
+                const isChecked = this.checked;
+                // 只选择当前可见的
+                $('.api-card-container:visible .api-checkbox').each(function() {
+                    const id = parseInt($(this).data('api-id'));
+                    if(isChecked) selectedIds.add(id);
+                    else selectedIds.delete(id);
+                });
+                updateSelectionUI();
+            });
+
+            // 视觉筛选逻辑
+            window.currentFilter = 'all';
+            
+            $('.filter-btn').click(function() {
+                const filter = $(this).data('filter');
+                window.currentFilter = filter;
+                
+                // 更新按钮状态
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                // 筛选卡片
+                if (filter === 'all') {
+                    $('.api-card-container').show();
+                } else {
+                    $('.api-card-container').hide();
+                    $(`.api-card-container.${filter}`).show();
+                }
+                
+                // 更新全选框状态 (因为可见数量变了)
+                updateSelectionUI();
+            });
+
+            window.clearSelection = function() {
+                selectedIds.clear();
+                updateSelectionUI();
+            };
+
+            // 批量操作分发
+            window.batchAction = function(action, param) {
+                const ids = Array.from(selectedIds);
+                if (ids.length === 0) return;
+
+                if (action === 'test') {
+                    startBatchTest(ids);
+                } else if (action === 'delete') {
+                    if(confirm(`确定删除选中的 ${ids.length} 个接口吗？此操作不可恢复！`)) {
+                        $.ajax({
+                            url: '/api/batch_delete/',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ ids: ids }),
+                            success: function(r) {
+                                alert(r.resp);
+                                if(r.status === 0) location.reload();
+                            }
+                        });
+                    }
+                } else if (action === 'status') {
+                    $.ajax({
+                        url: '/api/batch_status/',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ ids: ids, status: param }),
+                        success: function(r) {
+                            // alert(r.resp);
+                            if(r.status === 0) {
+                                // 乐观更新
+                                ids.forEach(id => updateRowStatus(id, param));
+                                clearSelection();
+                                loadStats();
+                            }
+                        }
+                    });
+                } else if (action === 'export') {
+                    // 构造 form 提交以触发下载
+                    const form = $('<form>', {
+                        action: '/api/export_json/',
+                        method: 'POST' // 改为 POST 支持大量 ID
+                    });
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'ids',
+                        value: JSON.stringify(ids)
+                    }).appendTo(form);
+                    form.appendTo('body').submit().remove();
+                }
+            };
+            
+            $('body').on('click', '.test-api-btn', function(e) {
+                e.preventDefault();
+                testSingleApi($(this).data('api-id'));
+            });
+
+            $('body').on('click', '.status-clickable', function() {
+                const id = $(this).data('api-id');
+                showStatusEditModal(id);
+            });
+
+            function showStatusEditModal(apiId) {
+                const modalHtml = `
+                    <div class="modal fade" id="statusEditModal" tabindex="-1" role="dialog" style="z-index: 10001;">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content rounded-2xl border-none shadow-2xl overflow-hidden">
+                                <div class="modal-header bg-gray-50 border-b border-gray-100 p-4">
+                                    <h4 class="modal-title font-bold text-gray-800">修改状态 (ID: ${apiId})</h4>
+                                </div>
+                                <div class="modal-body p-4 space-y-3 text-center">
+                                    <button class="w-full py-3 rounded-xl bg-green-50 text-green-700 font-bold hover:bg-green-100 transition-all flex items-center justify-center" onclick="updateApiStatus(${apiId}, 'success')">
+                                        <i class="fa fa-check-circle mr-2"></i> ✅ 有效
+                                    </button>
+                                    <button class="w-full py-3 rounded-xl bg-red-50 text-red-700 font-bold hover:bg-red-100 transition-all flex items-center justify-center" onclick="updateApiStatus(${apiId}, 'failed')">
+                                        <i class="fa fa-times-circle mr-2"></i> ❌ 无效
+                                    </button>
+                                    <button class="w-full py-3 rounded-xl bg-gray-50 text-gray-700 font-bold hover:bg-gray-100 transition-all flex items-center justify-center" onclick="updateApiStatus(${apiId}, 'untested')">
+                                        <i class="fa fa-question-circle mr-2"></i> ⚪ 未测
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#statusEditModal').remove();
+                $('body').append(modalHtml);
+                window.updateApiStatus = updateApiStatus; // 暴露给 onclick
+                $('#statusEditModal').modal('show');
+            }
+
+            // 绑定旧的全部测试按钮逻辑（如果有的话，现在可能通过全选+测试来做，或者保留筛选测试入口）
+            // 这里我们并没有彻底删除旧的“开始批量测试”按钮，而是移除了HTML。
+            // 如果用户想测试“全部”，可以先全选，再点击测试。或者我们可以保留一个“测试筛选结果”的按钮吗？
+            // 现在的 UI 设计鼓励使用 Checkbox。
+            // 为了方便，如果用户想测试筛选后的，可以先筛选，点全选，再测试。
+            
+            $('#btn-stop-test').click(function() {
+                $.post('/batch_test/stop/', function(res) {
+                    alert('已发送停止信号');
+                });
+            });
+
+            $('#btn-refresh-top').click(() => location.reload());
+            // 旧的清理无效按钮已移除，现在通过 筛选无效 -> 全选 -> 删除 流程替代
+            
+            // 导出 JSON (全部)
+            $('#btn-export-json').click(function() {
+                window.location.href = "/api/export_json/";
+            });
+
+            // 导入 JSON
+            $('#btn-import-json').click(function() {
+                $('#file-upload-input').click();
+            });
+
+            // 处理文件选择
+            $('#file-upload-input').change(function() {
+                const file = this.files[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // 显示加载状态
+                const btn = $('#btn-import-json');
+                const originalHtml = btn.html();
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin mr-2"></i> 导入中...');
+
+                $.ajax({
+                    url: '/api/import_json/',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res.status === 0) {
+                            alert(res.resp);
+                            location.reload();
+                        } else {
+                            alert('导入失败: ' + res.resp);
+                        }
+                    },
+                    error: function() {
+                        alert('导入请求失败，请检查网络或服务器状态');
+                    },
+                    complete: function() {
+                        // 恢复按钮状态
+                        btn.prop('disabled', false).html(originalHtml);
+                        // 清空 input，允许重复选择同一文件
+                        $('#file-upload-input').val('');
+                    }
+                });
+            });
+            
+            // 初始化卡片状态颜色
+            $('.api-card').each(function() {
+                const status = $(this).find('.test-api-btn').data('status');
+                if (status === 'success' || status === 'failed') {
+                    updateRowStatus($(this).data('api-id'), status);
+                }
+            });
+
+        });
+    })();
+    </script>
+{% endblock %}

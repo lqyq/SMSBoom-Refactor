@@ -1,0 +1,63 @@
+{% extends 'admin/base.html' %}
+
+{#
+    自定义 Flask-Admin 基础模板
+    目的：将默认的 CloudFlare CDN 替换为国内更稳定的 CDN
+    
+    解决问题：
+    - ERR_INVALID_HTTP_RESPONSE 错误
+    - 静态资源加载不稳定
+    
+    使用的国内 CDN：
+    - BootCDN (bootcdn.net) - 由 Bootstrap 中文网维护
+    - Staticfile CDN (staticfile.org) - 七牛云提供
+#}
+
+{% block head_css %}
+    {# 使用国内 CDN 加载 Bootstrap CSS #}
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    
+    {# Flask-Admin 自带的样式 #}
+    <link href="{{ admin_static.url(filename='admin/css/bootstrap3/admin.css', v='1.1.1') }}" rel="stylesheet">
+    
+    {# Select2 样式 - 用于下拉选择框美化 #}
+    <link href="https://cdn.bootcdn.net/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet">
+    
+    {# Datepicker 样式 #}
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    
+    {# Font Awesome 图标 #}
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    {% block admin_css %}{% endblock %}
+{% endblock %}
+
+{% block head_js %}
+    {# jQuery - 必须先加载 #}
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    {% block admin_js_head %}{% endblock %}
+{% endblock %}
+
+{% block tail_js %}
+    {# Bootstrap JS #}
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    {# Moment.js - 日期时间处理 #}
+    <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.4/locale/zh-cn.min.js"></script>
+    
+    {# Select2 - 下拉选择框增强 #}
+    <script src="https://cdn.bootcdn.net/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/select2/4.0.13/js/i18n/zh-CN.min.js"></script>
+    
+    {# Datepicker - 日期选择器 #}
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    
+    {# Flask-Admin 自带的 JS #}
+    <script src="{{ admin_static.url(filename='admin/js/bootstrap3/admin.js', v='1.1.1') }}"></script>
+    
+    {% block admin_js_tail %}{% endblock %}
+{% endblock %}

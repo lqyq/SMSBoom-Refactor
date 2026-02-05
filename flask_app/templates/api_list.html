@@ -1,0 +1,1376 @@
+{% extends 'admin/model/list.html' %}  
+
+{% block head_css %}
+    {{ super() }}
+    {% if request.args.get('style') == 'amnesty' %}
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='amnesty_style.css') }}">
+    {% endif %}
+    <style>
+        /* 强制全宽显示 */
+        .container {
+            width: 98% !important;
+            max-width: none !important;
+        }
+        
+        /* 表格样式优化 - 默认不换行，超出截断 */
+        .table td {
+            vertical-align: middle !important;
+            max-width: 300px; /* 默认最大宽度 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 开启换行模式 */
+        .table.table-wrap td {
+            white-space: normal !important;
+            overflow: hidden;
+            word-break: break-all;
+            max-width: 400px; /* 限制最大宽度，防止单列过宽 */
+            max-height:min-content;
+            /* min-width: 120px; 限制最小宽度，防止单列过窄导致高度爆炸 */
+        }
+        
+        /* 响应内容列特殊处理 */
+        .text-content {
+            cursor: pointer;
+            border-bottom: 1px dashed #ccc;
+            max-height: 100px;
+            overflow-y: auto;
+            display: block;
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.2;
+            background: #f9f9f9;
+            padding: 2px;
+        }
+
+        .batch-controls {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        .batch-controls .form-control {
+            /* width: auto; */
+            display: inline-block;
+        }
+        
+        .progress-container {
+            display: none;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .progress-container.active {
+            display: block;
+        }
+        .progress {
+            height: 25px;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            line-height: 25px;
+            font-size: 14px;
+        }
+        
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .stat-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .stat-box.success .number { color: #28a745; }
+        .stat-box.failed .number { color: #dc3545; }
+        .stat-box.untested .number { color: #6c757d; }
+        .stat-box.total .number { color: #007bff; }
+        
+        /* 状态徽章 */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .status-success { background: #d4edda; color: #155724; }
+        .status-failed { background: #f8d7da; color: #721c24; }
+        .status-untested { background: #e2e3e5; color: #383d41; }
+        
+        /* 测试按钮状态 */
+        .test-api-btn.testing {
+            background: #ffc107;
+            color: #000;
+        }
+        .test-api-btn.success {
+            background: #28a745;
+            color: #fff;
+        }
+        .test-api-btn.failed {
+            background: #dc3545;
+            color: #fff;
+        }
+        
+        /* 按钮激活状态 */
+        .btn.active {
+            background-color: #e6e6e6;
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+        }
+        
+        /* 拖拽排序样式 */
+        th[draggable] { cursor: move; user-select: none; }
+        th.drag-dragging { opacity: 0.5; background: #e9ecef; }
+        th.drag-over { border-left: 2px solid #007bff; }
+
+        /* 浮动批量操作栏 */
+        #batch-action-bar {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            background: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            padding: 10px 20px;
+            border-radius: 4px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+        #batch-action-bar.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+        #batch-action-bar .separator {
+            border-left: 1px solid #ddd;
+            height: 20px;
+            margin: 0 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <!-- 统计信息 -->
+    <div class="stats-container" id="stats-container">
+        <div class="stat-box total">
+            <div class="number" id="stat-total">0</div>
+            <div class="label">总计</div>
+        </div>
+        <div class="stat-box success">
+            <div class="number" id="stat-success">0</div>
+            <div class="label">✅ 有效</div>
+        </div>
+        <div class="stat-box failed">
+            <div class="number" id="stat-failed">0</div>
+            <div class="label">❌ 无效</div>
+        </div>
+        <div class="stat-box untested">
+            <div class="number" id="stat-untested">0</div>
+            <div class="label">⚪ 未测试</div>
+        </div>
+    </div>
+
+    <!-- 批量操作控制栏 -->
+    <div class="batch-controls">
+        <label>手机号:</label>
+        <div class="input-group" style="width: 180px; display: inline-table; vertical-align: middle;">
+            <input type="text"
+                   value="{{ current_app.config.get('TEST_PHONE', '') }}"
+                   class="test-phone-input form-control"
+                   id="batch-phone"
+                   placeholder="输入手机号">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" id="phone-history-list">
+                    <!-- History items will be injected here -->
+                </ul>
+            </div>
+        </div>
+        
+        <button class="btn btn-default" id="btn-reset-ui" title="重置界面布局和显示">
+            <i class="fa fa-undo"></i> 重置界面
+        </button>
+
+        <button class="btn btn-default" id="btn-cleanup-apis" title="整理ID并且去重">
+            <i class="fa fa-sort-numeric-asc"></i> 整理ID
+        </button>
+        
+        <div style="border-left: 1px solid #ccc; height: 30px; margin: 0 10px;"></div>
+
+        <button class="btn btn-default" id="btn-export-json" title="导出所有接口为JSON文件">
+            <i class="fa fa-download"></i> 导出JSON
+        </button>
+        <button class="btn btn-default" id="btn-import-json" title="从JSON文件导入接口">
+            <i class="fa fa-upload"></i> 导入JSON
+        </button>
+
+        <a href="/scraper/" class="btn btn-primary" title="进入接口智能采集中心">
+            <i class="fa fa-search-plus"></i> 采集中心
+        </a>
+
+        <div style="border-left: 1px solid #ccc; height: 30px; margin: 0 10px;"></div>
+        
+        <!-- 列显示控制 -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-columns"></i> 显示/隐藏列 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="column-toggler" style="padding: 10px; min-width: 200px;">
+                <!-- JS 会在这里生成 Checkbox -->
+            </ul>
+        </div>
+        
+        <!-- 换行控制 -->
+        <button class="btn btn-default" id="btn-toggle-wrap" title="切换自动换行/截断显示">
+            <i class="fa fa-align-justify"></i> 自动换行
+        </button>
+
+        <div style="border-left: 1px solid #ccc; height: 30px; margin: 0 10px;"></div>
+
+        <!-- 每页显示数量 -->
+        <label>每页显示:</label>
+        <select class="form-control" id="page-size-select" style="width: 75px;">
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+        </select>
+
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-paint-brush"></i> 界面风格 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#" onclick="switchStyle('default'); return false;"><i class="fa fa-desktop"></i> 默认 (Default)</a></li>
+                    <li><a href="#" onclick="switchStyle('amnesty'); return false;"><i class="fa fa-bold"></i> 国际特赦 (Amnesty)</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="switchStyle('beautiful'); return false;"><i class="fa fa-magic"></i> 现代化 (Beautiful)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 进度显示 -->
+    <div class="progress-container" id="progress-container">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active" id="progress-bar" 
+                 role="progressbar" style="width: 0%">
+                0%
+            </div>
+        </div>
+        <div class="progress-info" style="display: flex; align-items: center;">
+            <span>进度: <strong id="progress-completed">0</strong> / <strong id="progress-total">0</strong></span>
+            <span style="margin-left: 20px;">成功: <span class="text-success" id="progress-success">0</span></span>
+            <span style="margin-left: 10px;">失败: <span class="text-danger" id="progress-failed">0</span></span>
+            <span style="margin-left: 20px;">当前: <span id="progress-current">-</span></span>
+            
+            <button class="btn btn-xs btn-warning" id="btn-stop-test" style="margin-left: auto; display:none;">
+                <i class="fa fa-stop"></i> 停止测试
+            </button>
+        </div>
+    </div>
+    
+    <!-- 保留原有的单行测试手机号输入（隐藏，供 JS 使用） -->
+    <input type="hidden"
+           value="{{ current_app.config.get('TEST_PHONE', '') }}"
+           class="test-phone-input"
+           data-api-id="phone">
+    
+    <!-- 隐藏的文件上传输入框 -->
+    <input type="file" id="file-upload-input" accept=".json" style="display: none;">
+
+    <!-- 浮动批量操作栏 -->
+    <div id="batch-action-bar">
+        <div>
+            <span class="label label-primary" id="selected-count" style="font-size: 14px;">0</span>
+            <span style="margin-left: 5px; font-weight: bold;">已选择</span>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" onclick="batchAction('test')" title="批量测试">
+                <i class="fa fa-play text-primary"></i> 测试
+            </button>
+            <button type="button" class="btn btn-default" onclick="batchAction('export')" title="导出选中">
+                <i class="fa fa-download text-info"></i> 导出
+            </button>
+            
+            <div class="btn-group dropup">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-tag text-warning"></i> 状态 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="batchAction('status', 'success')"><i class="fa fa-check-circle text-success"></i> 标记为有效</a></li>
+                    <li><a href="#" onclick="batchAction('status', 'failed')"><i class="fa fa-times-circle text-danger"></i> 标记为无效</a></li>
+                    <li><a href="#" onclick="batchAction('status', 'untested')"><i class="fa fa-question-circle text-muted"></i> 标记为未测</a></li>
+                </ul>
+            </div>
+            
+            <button type="button" class="btn btn-default" onclick="batchAction('delete')" title="批量删除">
+                <i class="fa fa-trash text-danger"></i> 删除
+            </button>
+        </div>
+
+        <div class="separator"></div>
+
+        <button type="button" class="btn btn-link btn-sm" onclick="clearSelection()" style="color: #999; text-decoration: none;">
+            取消选择
+        </button>
+    </div>
+           
+    {{ super() }}
+{% endblock %}
+
+{% block list_row_actions %}
+    {# 添加行操作按钮 #}
+    {% if admin_view.can_edit %}
+        <a class="btn btn-sm btn-default test-api-btn" title="测试接口"
+                    data-api-id="{{ row.id }}"  
+                    data-desc="{{ row.desc }}"  
+                    data-url="{{ row.url }}"  
+                    data-method="{{ row.method }}"  
+                    data-header="{{ row.header or '' }}"  
+                    data-data="{{ row.data or '' }}"
+                    data-status="{{ row.status or 'untested' }}">
+            <i class="fa fa-play"></i> 测试
+        </a>
+    {% endif %}
+    {{ super() }}
+{% endblock %}
+  
+{% block tail %}
+    {{ super() }}
+    {% if request.args.get('style') == 'amnesty' %}
+    <script>
+        // Add Amnesty branding to the top
+        (function() {
+            function applyAmnestyBranding() {
+                var navbar = document.querySelector('.navbar-brand');
+                if (navbar) {
+                    navbar.innerHTML = '<span style="background: #ffff00; color: #000; padding: 0 5px;">AMNESTY</span> STYLE ADMIN';
+                }
+                
+                // Force buttons to have Amnesty classes if they don't match
+                var buttons = document.querySelectorAll('.btn');
+                buttons.forEach(function(btn) {
+                    if (!btn.classList.contains('btn-primary') &&
+                        !btn.classList.contains('btn-success') &&
+                        !btn.classList.contains('btn-danger')) {
+                        btn.classList.add('btn-default');
+                    }
+                });
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', applyAmnestyBranding);
+            } else {
+                applyAmnestyBranding();
+            }
+        })();
+    </script>
+    {% endif %}
+    <div id="test-results" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;">
+        <!-- Dynamic result alerts will appear here -->  
+    </div>  
+    
+    <script type="text/javascript">
+    // 切换界面风格（保留其他URL参数）
+    function switchStyle(style) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('style', style);
+        window.location.href = url.toString();
+    }
+    
+    (function() {
+        // 等待 jQuery 加载
+        function waitForJQuery(callback) {
+            if (window.jQuery) {
+                callback(window.jQuery);
+            } else {
+                setTimeout(function() { waitForJQuery(callback); }, 50);
+            }
+        }
+
+        waitForJQuery(function($) {
+            console.log('JQuery loaded, initializing test script...');
+
+            // 全局错误捕获
+            window.onerror = function(msg, url, lineNo, columnNo, error) {
+                console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + lineNo);
+                return false;
+            };
+
+            // ===== 状态列 HTML 生成器 =====
+            function getStatusHtml(apiId, status) {
+                let badge = '';
+                if (status === 'success') badge = '<span class="status-badge status-success">✅ 有效</span>';
+                else if (status === 'failed') badge = '<span class="status-badge status-failed">❌ 无效</span>';
+                else badge = '<span class="status-badge status-untested">⚪ 未测</span>';
+                
+                return `<div class="status-clickable" data-api-id="${apiId}" style="cursor:pointer" title="点击手动修改状态">${badge}</div>`;
+            }
+
+            // ===== DOM 操作 =====
+            
+            // 更新表格行状态
+            function updateRowStatus(apiId, status, responseText) {
+                const button = $(`.test-api-btn[data-api-id="${apiId}"]`);
+                if (button.length === 0) return;
+                
+                const row = button.closest('tr');
+                
+                // 0. 更新按钮的 data-status 属性，确保后续逻辑正确
+                button.attr('data-status', status);
+                button.data('status', status);
+
+                // 1. 更新按钮样式
+                button.removeClass('testing success failed btn-default btn-success btn-danger');
+                if (status === 'success') {
+                    button.addClass('btn-success success').html('<i class="fa fa-refresh"></i> 重测');
+                } else if (status === 'failed') {
+                    button.addClass('btn-danger failed').html('<i class="fa fa-refresh"></i> 重测');
+                } else {
+                    button.addClass('btn-default').html('<i class="fa fa-play"></i> 测试');
+                }
+
+                // 2. 更新状态列
+                const statusCell = row.find('.status-clickable');
+                if (statusCell.length > 0) {
+                    statusCell.html(getStatusHtml(apiId, status).replace(/<div.*?>|<\/div>/g, ''));
+                } else {
+                    const statusIndex = $('th.column-header').filter(function() {
+                        const t = $(this).text().trim();
+                        return t === '状态' || t.indexOf('状态') === 0;
+                    }).index();
+                    
+                    if (statusIndex !== -1) {
+                        row.find('td').eq(statusIndex).html(getStatusHtml(apiId, status));
+                    }
+                }
+                
+                // 3. 更新时间列
+                const timeCell = row.find('.test-time-cell');
+                const now = new Date();
+                const timeStr = now.toTimeString().split(' ')[0];
+                if (timeCell.length > 0) {
+                    timeCell.text(timeStr);
+                } else {
+                    const timeIndex = $('th.column-header').filter(function() {
+                        const t = $(this).text().trim();
+                        return t === '测试时间' || t.indexOf('测试时间') === 0;
+                    }).index();
+                    
+                    if (timeIndex !== -1) {
+                        row.find('td').eq(timeIndex).text(timeStr);
+                    }
+                }
+
+                // 4. 更新响应内容列 (新增)
+                if (responseText) {
+                    const responseIndex = $('th.column-header').filter(function() {
+                        const t = $(this).text().trim();
+                        return t === '响应内容' || t.indexOf('响应内容') === 0;
+                    }).index();
+                    
+                    if (responseIndex !== -1) {
+                        const cell = row.find('td').eq(responseIndex);
+                        const textContent = cell.find('.text-content');
+                        const formattedText = tryFormatJson(responseText);
+                        if (textContent.length > 0) {
+                            textContent.text(formattedText);
+                        } else {
+                            // 如果没有 .text-content 容器，创建一个，以便应用样式
+                            cell.html(`<div class="text-content" title="点击查看详情">${escapeHtml(formattedText)}</div>`);
+                        }
+                    }
+                }
+            }
+
+            // 尝试格式化 JSON
+            function tryFormatJson(text) {
+                if (!text) return '';
+                try {
+                    // 如果已经是对象则直接处理，如果是字符串则尝试解析
+                    const obj = typeof text === 'string' ? JSON.parse(text) : text;
+                    return JSON.stringify(obj, null, 2);
+                } catch (e) {
+                    return text;
+                }
+            }
+
+            // 初始化已有行的响应内容格式
+            function formatExistingResponses() {
+                const responseIndex = $('th.column-header').filter(function() {
+                    const t = $(this).text().trim();
+                    return t === '响应内容' || t.indexOf('响应内容') === 0;
+                }).index();
+
+                if (responseIndex !== -1) {
+                    $('table.table tbody tr').each(function() {
+                        const cell = $(this).find('td').eq(responseIndex);
+                        const textContent = cell.find('.text-content');
+                        if (textContent.length === 0) {
+                            const rawText = cell.text().trim();
+                            if (rawText && rawText !== '-') {
+                                const formattedText = tryFormatJson(rawText);
+                                cell.html(`<div class="text-content" title="点击查看详情">${escapeHtml(formattedText)}</div>`);
+                            }
+                        } else {
+                            // 如果已经有容器，也尝试格式化一下
+                            const container = textContent;
+                            const rawText = container.text().trim();
+                            if (rawText && rawText !== '-') {
+                                container.text(tryFormatJson(rawText));
+                            }
+                        }
+                    });
+                }
+            }
+
+            // 显示详情模态框
+            function showDetailModal(apiId, success, statusCode, message, fullResponse) {
+                const modalHtml = `
+                    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" style="z-index: 10000;">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">API 测试结果 (ID: ${apiId})</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-${success ? 'success' : 'danger'}">
+                                        <strong>状态:</strong> ${success ? '判定有效' : '判定无效'} (Code: ${statusCode})<br>
+                                        <strong>消息:</strong> ${message}
+                                    </div>
+                                    <hr>
+                                    <h5>服务器响应内容:</h5>
+                                    <pre style="max-height: 400px; overflow-y: auto; background-color: #f8f9fa; font-size: 12px; white-space: pre-wrap; word-break: break-all;">${escapeHtml(tryFormatJson(fullResponse))}</pre>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="pull-left text-muted">如果自动判定错误，请手动修正：</div>
+                                    <button type="button" class="btn btn-success" id="btn-mark-success">
+                                        <i class="fa fa-check"></i> 强制标记为有效
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="btn-mark-failed">
+                                        <i class="fa fa-times"></i> 强制标记为无效
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#detailModal').remove();
+                $('body').append(modalHtml);
+                
+                $('#btn-mark-success').click(() => updateApiStatus(apiId, 'success'));
+                $('#btn-mark-failed').click(() => updateApiStatus(apiId, 'failed'));
+                
+                $('#detailModal').modal('show');
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                return String(text)
+                    .replace(/&/g, '&')
+                    .replace(/</g, '<')
+                    .replace(/>/g, '>')
+                    .replace(new RegExp('"', 'g'), '"')
+                    .replace(new RegExp("'", 'g'), '&#039;');
+            }
+
+            // 手动更新 API 状态
+            function updateApiStatus(apiId, status) {
+                $.ajax({
+                    url: `/api/${apiId}/status/`,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ status: status }),
+                    success: function(response) {
+                        if (response.status === 0) {
+                            $('.modal').modal('hide'); // 关闭所有模态框
+                            updateRowStatus(apiId, status);
+                            loadStats();
+                        } else {
+                            alert('更新状态失败: ' + response.resp);
+                        }
+                    }
+                });
+            }
+
+            // 显示状态修改模态框
+            function showStatusEditModal(apiId) {
+                const modalHtml = `
+                    <div class="modal fade" id="statusEditModal" tabindex="-1" role="dialog" style="z-index: 10001;">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">修改状态 (ID: ${apiId})</h4>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <div class="btn-group-vertical btn-block">
+                                        <button type="button" class="btn btn-success btn-block" id="btn-set-success">
+                                            ✅ 有效 (Success)
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-block" id="btn-set-failed">
+                                            ❌ 无效 (Failed)
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-block" id="btn-set-untested">
+                                            ⚪ 未测 (Untested)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#statusEditModal').remove();
+                $('body').append(modalHtml);
+                
+                $('#btn-set-success').click(() => updateApiStatus(apiId, 'success'));
+                $('#btn-set-failed').click(() => updateApiStatus(apiId, 'failed'));
+                $('#btn-set-untested').click(() => updateApiStatus(apiId, 'untested'));
+                
+                $('#statusEditModal').modal('show');
+            }
+
+            // ===== 统计信息 =====
+            function loadStats() {
+                $.get('/api/stats/', function(data) {
+                    $('#stat-total').text(data.total);
+                    $('#stat-success').text(data.success);
+                    $('#stat-failed').text(data.failed);
+                    $('#stat-untested').text(data.untested);
+                });
+            }
+
+            // ===== 单个接口测试 =====
+            function testSingleApi(apiId) {
+                const button = $(`.test-api-btn[data-api-id="${apiId}"]`);
+                const phone = $('#batch-phone').val();
+                
+                if (!phone) {
+                    alert('请输入测试手机号');
+                    return;
+                }
+                
+                savePhoneToHistory(phone);
+                localStorage.setItem('last_test_phone', phone); // 同时保存到通用 key
+
+                button.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
+                
+                $.ajax({
+                    type: "POST",
+                    url: `/testapi/${apiId}/`,
+                    contentType: "application/json",
+                    data: JSON.stringify({ phone: phone }),
+                    dataType: "json",
+                    success: function(response) {
+                        const statusCode = response.status_code || (response.status === 0 ? 200 : 500);
+                        const isSuccess = response.status === 0;
+                        
+                        // 更新UI
+                        updateRowStatus(apiId, isSuccess ? 'success' : 'failed', response.resp);
+                        
+                        // 无论成功失败，都弹窗显示详情，方便人工复核
+                        showDetailModal(apiId, isSuccess, statusCode, response.resp, response.resp);
+                        
+                        loadStats();
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("请求错误: " + textStatus);
+                        updateRowStatus(apiId, 'failed');
+                    },
+                    complete: function() {
+                        button.prop('disabled', false);
+                    }
+                });
+            }
+
+            // ===== 批量测试 =====
+            let progressInterval = null;
+
+            function startBatchTest(ids = null) {
+                const phone = $('#batch-phone').val();
+                if (!phone) { alert('请输入测试手机号'); return; }
+                
+                savePhoneToHistory(phone);
+
+                const data = { phone: phone };
+                
+                if (ids && Array.isArray(ids)) {
+                    data.ids = ids;
+                } else {
+                    // 如果没有特定 IDs，则检查筛选器
+                    const filterStatus = $('#filter-status').val();
+                    data.filter_status = filterStatus || null;
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/batch_test/",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status == 0) {
+                            $('#progress-container').addClass('active');
+                            $('#btn-stop-test').show();
+                            clearSelection(); // 开始测试后清除选择
+                            startProgressPolling();
+                        } else {
+                            alert(response.resp);
+                        }
+                    },
+                    error: function() { alert('启动批量测试失败'); }
+                });
+            }
+
+            function startProgressPolling() {
+                progressInterval = setInterval(function() {
+                    $.get('/batch_test/progress/', function(data) {
+                        updateProgress(data);
+                        if (!data.running) {
+                            stopProgressPolling();
+                            onBatchTestComplete(data);
+                        }
+                        loadStats();
+                    });
+                }, 1000);
+            }
+
+            function stopProgressPolling() {
+                if (progressInterval) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                }
+            }
+
+            function updateProgress(data) {
+                const percent = data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0;
+                $('#progress-bar').css('width', percent + '%').text(percent + '%');
+                $('#progress-completed').text(data.completed);
+                $('#progress-total').text(data.total);
+                $('#progress-success').text(data.success);
+                $('#progress-failed').text(data.failed);
+                $('#progress-current').text(data.current_api || '-');
+
+                // 实时更新表格中的行状态
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach(result => {
+                        updateRowStatus(result.id, result.status, result.response);
+                    });
+                }
+            }
+
+            function onBatchTestComplete(data) {
+                $('#btn-stop-test').hide();
+                // alert(`批量测试完成！\n成功: ${data.success}\n失败: ${data.failed}`);
+                if(confirm(`批量测试完成！\n成功: ${data.success}\n失败: ${data.failed}`+"是否刷新页面以查看最新状态？")) {
+                    location.reload();
+                }
+            }
+
+            function stopBatchTest() {
+                $.post('/batch_test/stop/', function() {
+                    alert('已发送停止信号');
+                });
+            }
+
+            function deleteFailedApis() {
+                if (!confirm('确定要删除所有测试失败的接口吗？')) return;
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/delete_failed/",
+                    success: function(r) { 
+                        alert(r.resp); 
+                        if (r.status == 0) location.reload(); 
+                    }
+                });
+            }
+            
+            // ===== 界面控制逻辑 (新增) =====
+            
+            // 修复缺失的表头文字
+            function fixActionHeader() {
+                $('table.table thead th').each(function() {
+                    const text = $(this).text().trim();
+                    // 找到空的表头，且不是复选框列
+                    if (text === '' && $(this).find('input').length === 0) {
+                        $(this).text('操作');
+                    }
+                });
+            }
+
+            // 初始化列拖拽排序
+            function initDraggableColumns() {
+                const headers = $('table.table thead th');
+                let dragSrcEl = null;
+                
+                headers.each(function() {
+                    // 跳过复选框列，避免拖拽问题
+                    if ($(this).find('input').length > 0) return;
+                    
+                    $(this).attr('draggable', 'true');
+                });
+                
+                headers.on('dragstart', function(e) {
+                    dragSrcEl = this;
+                    e.originalEvent.dataTransfer.effectAllowed = 'move';
+                    e.originalEvent.dataTransfer.setData('text/html', this.innerHTML);
+                    $(this).addClass('drag-dragging');
+                });
+                
+                headers.on('dragend', function(e) {
+                    headers.removeClass('drag-dragging drag-over');
+                });
+                
+                headers.on('dragover', function(e) {
+                    if (e.preventDefault) e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'move';
+                    return false;
+                });
+                
+                headers.on('dragenter', function(e) {
+                    $(this).addClass('drag-over');
+                });
+                
+                headers.on('dragleave', function(e) {
+                    $(this).removeClass('drag-over');
+                });
+                
+                headers.on('drop', function(e) {
+                    if (e.stopPropagation) e.stopPropagation();
+                    
+                    if (dragSrcEl !== this) {
+                        const srcIndex = $(dragSrcEl).index();
+                        const targetIndex = $(this).index();
+                        const table = $(this).closest('table');
+                        
+                        // 简单交换逻辑：重新排序 DOM
+                        // 1. 交换表头
+                        if (srcIndex < targetIndex) {
+                            $(dragSrcEl).insertAfter(this);
+                        } else {
+                            $(dragSrcEl).insertBefore(this);
+                        }
+                        
+                        // 2. 交换每一行的数据
+                        table.find('tbody tr').each(function() {
+                            const tds = $(this).children('td');
+                            // 确保索引有效
+                            if (tds.length > Math.max(srcIndex, targetIndex)) {
+                                if (srcIndex < targetIndex) {
+                                    tds.eq(srcIndex).insertAfter(tds.eq(targetIndex));
+                                } else {
+                                    tds.eq(srcIndex).insertBefore(tds.eq(targetIndex));
+                                }
+                            }
+                        });
+                        
+                        // 3. 重新初始化列显示控制器，因为索引变了
+                        initColumnToggler();
+                    }
+                    return false;
+                });
+            }
+
+            function initColumnToggler() {
+                try {
+                    const table = $('table.table');
+                    const headers = table.find('thead th');
+                    const togglerMenu = $('#column-toggler');
+                    
+                    if (headers.length === 0) return;
+                    
+                    togglerMenu.empty(); // 清空旧的
+                    
+                    headers.each(function(index) {
+                        const text = $(this).text().trim();
+                        // 跳过选择框列和操作列 (增加中文匹配)
+                        if (!text || text === 'Actions' || text === '操作' || $(this).find('input[type=checkbox]').length > 0) return;
+                        
+                        // 使用列名作为 key，避免拖拽后索引错乱
+                        const colKey = 'col_visible_' + text;
+                        const isVisible = localStorage.getItem(colKey) !== 'false';
+                        
+                        // 初始隐藏
+                        if (!isVisible) {
+                            $(this).hide();
+                            table.find('tbody tr').each(function() {
+                                $(this).find('td').eq(index).hide();
+                            });
+                        }
+                        
+                        const item = $(`
+                            <li>
+                                <label style="display: block; padding: 3px 15px; cursor: pointer; font-weight: normal; margin: 0;">
+                                    <input type="checkbox" data-col-name="${text}" data-col-index="${index}" ${isVisible ? 'checked' : ''} style="margin-right: 5px;"> ${text}
+                                </label>
+                            </li>
+                        `);
+                        
+                        item.find('input').change(function() {
+                            const checked = $(this).is(':checked');
+                            const colName = $(this).data('col-name');
+                            const colIndex = $(this).data('col-index');
+                            
+                            // 切换显隐
+                            headers.eq(colIndex).toggle(checked);
+                            table.find('tbody tr').each(function() {
+                                $(this).find('td').eq(colIndex).toggle(checked);
+                            });
+                            
+                            // 保存状态 (使用列名)
+                            localStorage.setItem('col_visible_' + colName, checked);
+                        });
+                        
+                        togglerMenu.append(item);
+                    });
+                } catch (e) {
+                    console.error('initColumnToggler error:', e);
+                }
+            }
+
+            function initWrapToggler() {
+                const btn = $('#btn-toggle-wrap');
+                const table = $('table.table');
+                
+                // 恢复状态
+                const isWrap = localStorage.getItem('table_wrap') === 'true';
+                if (isWrap) {
+                    table.addClass('table-wrap');
+                    btn.addClass('active');
+                    btn.addClass('btn-info'); // 更明显的激活状态
+                }
+                
+                btn.click(function() {
+                    table.toggleClass('table-wrap');
+                    const active = table.hasClass('table-wrap');
+                    $(this).toggleClass('active', active);
+                    $(this).toggleClass('btn-info', active);
+                    localStorage.setItem('table_wrap', active);
+                });
+            }
+
+            function initPageSizeSelector() {
+                try {
+                    const select = $('#page-size-select');
+                    if (!select.length) return;
+                    
+                    const urlParams = new URLSearchParams(window.location.search);
+                    select.val(urlParams.get('page_size') || '20');
+                    
+                    select.change(function() {
+                        const size = $(this).val();
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('page_size', size);
+                        // Flask-Admin 的分页参数通常是 'page'，0 表示第一页
+                        url.searchParams.set('page', '0');
+                        window.location.href = url.toString();
+                    });
+                } catch (e) {
+                    console.error('initPageSizeSelector error:', e);
+                }
+            }
+
+            // ===== UI 增强逻辑 =====
+            
+            // 整合快捷选择到表头
+            function integrateQuickSelect() {
+                const firstHeader = $('table.table thead th').first();
+                // 检查是否是 Flask-Admin 的选择列
+                if (firstHeader.find('input.action-row-toggle, input[type=checkbox]').length > 0 || firstHeader.text().trim() === '') {
+                    // 如果已经存在则不重复添加
+                    if ($('#header-quick-select').length > 0) return;
+
+                    const btnGroup = `
+                        <div class="btn-group" id="header-quick-select" style="margin-left: 5px; display: inline-block; vertical-align: middle; position: relative; z-index: 10;">
+                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" title="快捷选择" style="padding: 0 2px; height: 18px; line-height: 1;">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header">快捷选择<br/></li>
+                                <li><a href="#" onclick="selectByStatus('success'); return false;"><i class="fa fa-check text-success"></i> 仅有效</a></li>
+                                <li><a href="#" onclick="selectByStatus('failed'); return false;"><i class="fa fa-times text-danger"></i> 仅无效</a></li>
+                                <li><a href="#" onclick="selectByStatus('untested'); return false;"><i class="fa fa-question text-muted"></i> 仅未测</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" onclick="clearSelection(); return false;">取消选择</a></li>
+                            </ul>
+                        </div>
+                    `;
+                    firstHeader.css('white-space', 'nowrap').append(btnGroup);
+                }
+            }
+
+            // ===== 手机号历史记录功能 (新增) =====
+            const PHONE_HISTORY_KEY = 'smsboom_phone_history';
+            const MAX_HISTORY_SIZE = 10;
+
+            function getPhoneHistory() {
+                try {
+                    const history = localStorage.getItem(PHONE_HISTORY_KEY);
+                    return history ? JSON.parse(history) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function savePhoneToHistory(phone) {
+                if (!phone) return;
+                let history = getPhoneHistory();
+                // Remove existing if present to move it to top
+                history = history.filter(p => p !== phone);
+                // Add to top
+                history.unshift(phone);
+                // Limit size
+                if (history.length > MAX_HISTORY_SIZE) {
+                    history = history.slice(0, MAX_HISTORY_SIZE);
+                }
+                localStorage.setItem(PHONE_HISTORY_KEY, JSON.stringify(history));
+                renderPhoneHistoryUI();
+            }
+
+            function deletePhoneFromHistory(phone) {
+                let history = getPhoneHistory();
+                history = history.filter(p => p !== String(phone));
+                localStorage.setItem(PHONE_HISTORY_KEY, JSON.stringify(history));
+                renderPhoneHistoryUI();
+            }
+
+            function renderPhoneHistoryUI() {
+                const history = getPhoneHistory();
+                const list = $('#phone-history-list');
+                list.empty();
+
+                if (history.length === 0) {
+                    list.append('<li class="dropdown-header">暂无历史记录</li>');
+                } else {
+                    list.append('<li class="dropdown-header">历史记录</li>');
+                    history.forEach(phone => {
+                        list.append(`
+                            <li style="position: relative;">
+                                <a href="#" class="phone-history-item" data-phone="${phone}" style="padding-right: 30px;">${phone}</a>
+                                <span class="btn-delete-phone-item" data-phone="${phone}" title="删除此记录"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #ccc; z-index: 10;">
+                                    ×<i class="fa fa-times"></i>
+                                </span>
+                            </li>
+                        `);
+                    });
+                    list.append('<li role="separator" class="divider"></li>');
+                    list.append('<li><a href="#" id="btn-clear-history"><i class="fa fa-trash"></i> 清空</a></li>');
+                }
+                
+                // Hover effect for delete button
+                $('.btn-delete-phone-item').hover(
+                    function() { $(this).css('color', '#d9534f'); },
+                    function() { $(this).css('color', '#ccc'); }
+                );
+            }
+
+            // Bind events for history
+            $(document).on('click', '.phone-history-item', function(e) {
+                e.preventDefault();
+                const phone = $(this).data('phone');
+                $('#batch-phone').val(phone).trigger('input'); // trigger input to sync hidden fields
+            });
+
+            $(document).on('click', '.btn-delete-phone-item', function(e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent dropdown from closing
+                const phone = $(this).data('phone');
+                deletePhoneFromHistory(phone);
+            });
+
+            $(document).on('click', '#btn-clear-history', function(e) {
+                e.preventDefault();
+                if(confirm('确定清空手机号历史记录吗？')) {
+                    localStorage.removeItem(PHONE_HISTORY_KEY);
+                    renderPhoneHistoryUI();
+                }
+            });
+            
+            // Initialize UI
+            renderPhoneHistoryUI();
+
+            // 自动填充上次使用的手机号
+            const lastPhone = localStorage.getItem('last_test_phone');
+            if (lastPhone) {
+                $('#batch-phone').val(lastPhone).trigger('input');
+                // 确保隐藏的 input 也被同步
+                $('.test-phone-input[data-api-id="phone"]').val(lastPhone);
+            }
+
+            // ===== 初始化事件绑定 =====
+            console.log('Binding events...');
+            loadStats();
+            fixActionHeader();
+            integrateQuickSelect();
+            initDraggableColumns();
+            initColumnToggler();
+            initWrapToggler();
+            initPageSizeSelector();
+            formatExistingResponses();
+            
+            // 绑定事件
+            // 绑定事件 (使用事件委托，确保动态加载的内容也能响应)
+            $(document).off('click', '.test-api-btn').on('click', '.test-api-btn', function(e) {
+                e.preventDefault();
+                testSingleApi($(this).data('api-id'));
+            });
+
+            // 点击状态徽章修改状态
+            $(document).off('click', '.status-clickable').on('click', '.status-clickable', function(e) {
+                e.preventDefault();
+                const apiId = $(this).data('api-id');
+                if(apiId) showStatusEditModal(apiId);
+            });
+            
+            $(document).off('click', '#btn-stop-test').on('click', '#btn-stop-test', stopBatchTest);
+            $(document).off('click', '#btn-refresh').on('click', '#btn-refresh', function() { location.reload(); });
+            
+            $(document).off('click', '#btn-reset-ui').on('click', '#btn-reset-ui', function() {
+                if (confirm('确定要重置界面布局吗？这会清除所有列的显示/隐藏状态。')) {
+                    Object.keys(localStorage).forEach(key => {
+                        if (key.startsWith('col_visible_') || key === 'table_wrap') {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                    location.reload();
+                }
+            });
+
+            // 导出 JSON
+            $(document).off('click', '#btn-export-json').on('click', '#btn-export-json', function() {
+                window.location.href = "/api/export_json/";
+            });
+
+            // 整理 ID 和去重
+            $(document).off('click', '#btn-cleanup-apis').on('click', '#btn-cleanup-apis', function() {
+                if (confirm('确定要整理 ID 并且去重吗？\n\n这将会：\n1. 删除重复的接口 URL（保留最早的）\n2. 尝试重新排序 ID 使其连续（如果数据量不大）\n\n此操作可能需要几秒钟，请耐心等待。')) {
+                    const btn = $(this);
+                    const originalHtml = btn.html();
+                    btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> 处理中...');
+                    
+                    $.ajax({
+                        url: '/api/cleanup/',
+                        type: 'POST',
+                        success: function(res) {
+                            alert(res.resp);
+                            if (res.status === 0) {
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('操作失败: ' + error);
+                        },
+                        complete: function() {
+                            btn.prop('disabled', false).html(originalHtml);
+                        }
+                    });
+                }
+            });
+
+            // 导入 JSON - 触发文件选择
+            $(document).off('click', '#btn-import-json').on('click', '#btn-import-json', function() {
+                $('#file-upload-input').click();
+            });
+
+            // 处理文件选择
+            $('#file-upload-input').on('change', function() {
+                const file = this.files[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // 显示加载状态
+                const btn = $('#btn-import-json');
+                const originalHtml = btn.html();
+                btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> 导入中...');
+
+                $.ajax({
+                    url: '/api/import_json/',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res.status === 0) {
+                            alert(res.resp);
+                            location.reload();
+                        } else {
+                            alert('导入失败: ' + res.resp);
+                        }
+                    },
+                    error: function() {
+                        alert('导入请求失败，请检查网络或服务器状态');
+                    },
+                    complete: function() {
+                        // 恢复按钮状态
+                        btn.prop('disabled', false).html(originalHtml);
+                        // 清空 input，允许重复选择同一文件
+                        $('#file-upload-input').val('');
+                    }
+                });
+            });
+            
+            $('#batch-phone').on('input', function() {
+                $('.test-phone-input[data-api-id="phone"]').val($(this).val());
+            });
+            
+            // 初始化按钮状态（根据HTML中的data属性）
+            $('.test-api-btn').each(function() {
+                const status = $(this).data('status');
+                if (status === 'success') {
+                    $(this).addClass('btn-success success').html('<i class="fa fa-refresh"></i> 重测');
+                    $(this).closest('tr').addClass('success'); // 初始高亮有效行
+                } else if (status === 'failed') {
+                    $(this).addClass('btn-danger failed').html('<i class="fa fa-refresh"></i> 重测');
+                }
+            });
+
+            // ===== 多选与批量操作逻辑 (新增) =====
+            
+            // 监听 Flask-Admin 生成的 Checkbox
+            $(document).on('change', 'input.action-checkbox', function() {
+                updateSelectionUI();
+            });
+
+            // 监听 Flask-Admin 的全选 Checkbox (使用更通用的选择器并增加调试)
+            $(document).on('change', 'thead input.action-row-toggle, thead input[type=checkbox]', function() {
+                const isChecked = $(this).is(':checked');
+                console.log('Header checkbox changed:', isChecked);
+                
+                // 找到所有行内的复选框
+                const checkboxes = $('tbody input.action-checkbox, tbody input[type=checkbox].action-checkbox');
+                checkboxes.prop('checked', isChecked).trigger('change');
+                
+                // 如果没有触发子项 change，手动更新 UI
+                updateSelectionUI();
+            });
+
+            // 全选 Checkbox (自定义的，如果存在)
+            $('#select-all-custom').change(function() {
+                const isChecked = $(this).is(':checked');
+                $('input.action-checkbox').prop('checked', isChecked).trigger('change');
+            });
+
+            // 快捷选择
+            window.selectByStatus = function(status) {
+                // 先清空
+                $('input.action-checkbox').prop('checked', false);
+                
+                // 遍历所有行，检查状态
+                $('tr').each(function() {
+                    const row = $(this);
+                    const btn = row.find('.test-api-btn');
+                    if (btn.length > 0 && btn.data('status') === status) {
+                        row.find('input.action-checkbox').prop('checked', true);
+                    }
+                });
+                updateSelectionUI();
+            };
+
+            window.clearSelection = function() {
+                $('input.action-checkbox').prop('checked', false);
+                $('#select-all-custom').prop('checked', false);
+                updateSelectionUI();
+            };
+
+            function updateSelectionUI() {
+                const count = $('input.action-checkbox:checked').length;
+                $('#selected-count').text(count);
+                
+                if (count > 0) {
+                    $('#batch-action-bar').addClass('visible');
+                } else {
+                    $('#batch-action-bar').removeClass('visible');
+                }
+            }
+
+            // 批量操作分发
+            window.batchAction = function(action, param) {
+                const ids = [];
+                $('input.action-checkbox:checked').each(function() {
+                    ids.push($(this).val());
+                });
+                
+                if (ids.length === 0) return;
+
+                if (action === 'test') {
+                    startBatchTest(ids);
+                } else if (action === 'delete') {
+                    if(confirm(`确定删除选中的 ${ids.length} 个接口吗？此操作不可恢复！`)) {
+                        $.ajax({
+                            url: '/api/batch_delete/',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ ids: ids }),
+                            success: function(r) {
+                                alert(r.resp);
+                                if(r.status === 0) location.reload();
+                            }
+                        });
+                    }
+                } else if (action === 'status') {
+                    $.ajax({
+                        url: '/api/batch_status/',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ ids: ids, status: param }),
+                        success: function(r) {
+                            if(r.status === 0) {
+                                // 乐观更新
+                                ids.forEach(id => updateRowStatus(id, param));
+                                clearSelection();
+                                loadStats();
+                            } else {
+                                alert(r.resp);
+                            }
+                        }
+                    });
+                } else if (action === 'export') {
+                    const form = $('<form>', {
+                        action: '/api/export_json/',
+                        method: 'POST'
+                    });
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'ids',
+                        value: JSON.stringify(ids)
+                    }).appendTo(form);
+                    form.appendTo('body').submit().remove();
+                }
+            };
+
+        }); // end waitForJQuery
+    })();
+    </script>
+{% endblock %}
