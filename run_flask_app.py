@@ -2,7 +2,6 @@
 # flask app 主文件
 from concurrent.futures import thread
 import click
-from sympy import threaded
 from loguru import logger
 from pathlib import Path
 import json

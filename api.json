@@ -14,13 +14,6 @@
         "data": ""
     },
     {
-        "desc": "麦克赛尔数字映像",
-        "url": "https://www.maxell-dm.cn/Code/CheckImage.aspx",
-        "method": "POST",
-        "header": "",
-        "data": "{'action': 'send', 'txtMember_Name': '[phone]'}"
-    },
-    {
         "desc": "宁夏伊地地质工程有限公司",
         "url": "http://www.yddzgc.com/bid-app/api/sys/code?phone=[phone]&type=1",
         "method": "GET",
@@ -107,10 +100,23 @@
     },
     {
         "desc": "HiFleet",
-        "url": "https://hifleet.com/hifleetapi/sendVerifyMessage.do?&_v=5.4.65",
+        "url": "https://www.hifleet.com/hifleetapi/sendVerifyMessage.do?&_v=5.4.65",
         "method": "POST",
         "header": {
-            "Cookie": "JSESSIONID=65DEA2C695684B66FE1E79C73ED5381B"
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "cookie": "JSESSIONID=BEE24A5BB2A014302C2384DE4ED37ADE",
+            "Referer": "https://www.hifleet.com/"
         },
         "data": "phone=[phone]"
     },
@@ -118,14 +124,45 @@
         "desc": "winechun",
         "url": "https://www.winechun.com/index.php?route=extension/sms/aliyun/create_mobile_code",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "PHPSESSID=4pmdpaggs071pt7edolh5kofto; default=eke1j1gqduqnf246iehmpcq4id; language=zh-cn; currency=CNY; api=nm87826sp1odm2crj8b7gd8eo2",
+            "Referer": "https://www.winechun.com/h5/login.php"
+        },
         "data": "telephone=[phone]"
     },
     {
         "desc": "银丰集团",
         "url": "https://d36.baicaidi.com/act.php",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "PHPSESSID=60hrdgk2gefaofld0frrff9unp",
+            "Referer": "https://d36.baicaidi.com/register.php"
+        },
         "data": "m=send&lx=0&phone=[phone]"
     },
     {
@@ -146,7 +183,9 @@
         "desc": "成功使者",
         "url": "https://www.cgsz.net/login.php?sendCode",
         "method": "POST",
-        "header": "",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data": "phone=[phone]&code=&s="
     },
     {
@@ -160,7 +199,17 @@
         "desc": "中国汽车工程学会",
         "url": "http://mm.sae-china.org/account/signupcode.php",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "proxy-connection": "keep-alive",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "acw_tc=707e660917702037822556476e72af8fcfe2aa88a47b7e91715c6de7879e6e; PHPSESSID=u0p9ivu9g72v4jlvkp4h3v8193",
+            "Referer": "http://mm.sae-china.org/account/signup.php"
+        },
         "data": "mobile=[phone]&code=get"
     },
     {
@@ -204,7 +253,23 @@
         "desc": "即墨人才网",
         "url": "https://jimojob.com/index.php?m=Home&c=Members&a=reg_send_sms",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=0, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "PHPSESSID=drdvd3ue0iklfs7kbrjkj0k056; think_language=zh-CN; think_template=default",
+            "Referer": "https://jimojob.com/index.php"
+        },
         "data": "mobile=[phone]"
     },
     {
@@ -218,7 +283,23 @@
         "desc": "IT星空",
         "url": "https://www.itxk.net/index.php?m=user&c=login&a=getmobilecode",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "PHPSESSID=hokvgaln8jkknl0a2r0vp3rbhu",
+            "Referer": "https://www.itxk.net/index.php?m=user&c=login&a=index"
+        },
         "data": "mobile=[phone]"
     },
     {
@@ -232,28 +313,84 @@
         "desc": "当代文具",
         "url": "https://m.ddwj.com.cn/user.php?act=send_mobile_code",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "text/plain, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "ECS_ID=bd712450aa39a2296a9cb8d9d3ac3e201cc0c41c; LYECS[visit_times]=1",
+            "Referer": "https://m.ddwj.com.cn/user.php"
+        },
         "data": "mobile=[phone]&mobile_captcha="
     },
     {
         "desc": "凡科网",
-        "url": "https://i.fkw.com/ajax/login_h.jsp?cmd=checkMobileVerify&mobile=[phone]&areaCode=86",
-        "method": "GET",
-        "header": null,
-        "data": null
+        "url": "https://www.fkw.com/ajax/reg_h.jsp",
+        "method": "POST",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "_cliid=S7hQ0m7U9Ju1-WYt; first_ta=207; _ta=207; _tp=-; _newUnion=0; _kw=0; _vid_url=https%3A%2F%2Fi.fkw.com%2F; _s_pro=i.fkw.com%2F; _c_pro=i.fkw.com%2F; reg_sid=0; innerFlag=1; _faiHeDistictId=67084af800cbff18; _fkwRegCount=2050; bdHomeFlag=0; faiscoRegUserJz=1; _new_reg_home=9; _new_reg_pro=true; www.fkw.com__MESIGN=ANGnhcwGCgQ3NTQyEOrftCo; loginReferer=https://www.fkw.com/reg.html?_fromsite=false&_ta=207; loginComeForm=fkjz; wxRegBiz=site",
+            "Referer": "https://www.fkw.com/reg.html?_fromsite=false&_ta=207"
+        },
+        "data": "cmd=checkCacctNew&areaCode=86&cacct=[phone]&acctType=1"
     },
     {
         "desc": "总裁读书会",
         "url": "http://www.winnerbook.cn/mobile/index.php?m=sms&a=send",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json, text/javascript, */*; q=0.01",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "proxy-connection": "keep-alive",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "real_ipd=112.98.38.243; dsc_real_ip=112.98.38.243; ECS_ID=9627b345d49fb2edbc83c75ffd4d8a97a2b8bff7; province=2; city=52; district=500; street=0; street_area=0; ECS[visit_times]=2; area_region=1; goodsId=0",
+            "Referer": "http://www.winnerbook.cn/mobile/index.php?m=user&c=login&a=mobile_quick"
+        },
         "data": "mobile=[phone]&country_code=%2B86&flag="
     },
     {
         "desc": "小狗吸尘器",
         "url": "https://www.xgdq.com/passport-send_vcode_sms_dz.html",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-request": "JSON",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "s=458fbfb45dbb08fd0d188e55f30badf9",
+            "Referer": "https://www.xgdq.com/passport-login.html"
+        },
         "data": "type=signup&uname=[phone]"
     },
     {
@@ -289,7 +426,23 @@
         "desc": "品尚品",
         "url": "https://www.psp-display.com/login/phoneCode.php",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-requested-with": "XMLHttpRequest",
+            "cookie": "server_name_session=073299dfd90e3b0e85fef55d286372a6; PHPSESSID=3g2088fctdtr84f3arcqbot2m0",
+            "Referer": "https://www.psp-display.com/login/register.php"
+        },
         "data": "phone=[phone]"
     },
     {
@@ -300,35 +453,25 @@
         "data": ""
     },
     {
-        "desc": "海鸥速递",
-        "url": "https://www.haiousudi.com/aliSms/aliSms.php?act=send&t=Tue%20Sep%2030%202025%2019:55:13%20GMT+0800%20(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)",
-        "method": "POST",
-        "header": "",
-        "data": "mobile=[phone]&country_code=86"
-    },
-    {
-        "desc": "翼码",
-        "url": "https://www.wangcaio2o.com/index.php?g=Label&m=Wheel&a=verifyCode",
-        "method": "POST",
-        "header": {
-            "Cookie": "PHPSESSID=51t7llk5d7564287ji1l99cbs0; SID=6ED4332D144548C3F7D0CA4AB47DCC83766D909A; cp-session=58fa6337f1d2b9141d52ea465478a89d; cookieId=e454124088ff179c1d76ee63b1198e73; visitId=e454124088ff179c1d76ee63b1198e73; captcha=null; WCO2OVisitCookie=https%3A%2F%2Fwww.wangcaio2o.com%2Findex.php%3Fg%3DHome%26m%3DReg%26a%3Dindex%26param1%3D%2C%E7%BF%BC%E7%A0%81%E6%97%BA%E8%B4%A2%E6%B3%A8%E5%86%8C%2C10583.577",
-            "Referer": "https://www.wangcaio2o.com/index.php?g=Label&m=Wheel&a=login",
-            "Origin": "https://www.wangcaio2o.com"
-        },
-        "data": "bindPhoneNo=[phone]"
-    },
-    {
-        "desc": "IS语音",
-        "url": "https://passport.ispeak.cn/login_mobile_code.php",
-        "method": "POST",
-        "header": null,
-        "data": "mobile=[phone]&type=1"
-    },
-    {
         "desc": "HiFleet",
         "url": "https://cas.hifleet.com/hifleetapi/sendVerifyMessage.do",
         "method": "POST",
-        "header": "",
+        "header": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "cookie": "JSESSIONID=BEE24A5BB2A014302C2384DE4ED37ADE",
+            "Referer": "https://www.hifleet.com/"
+        },
         "data": "phone=[phone]"
     },
     {
@@ -337,20 +480,6 @@
         "method": "POST",
         "header": "",
         "data": "zone=0086&phoneNumber=[phone]"
-    },
-    {
-        "desc": "来自棒糖测压",
-        "url": "https://ptlogin.4399.com/ptlogin/sendPhoneLoginCode.do?phone=[phone]&appId=www_home&v=1&sig=&t=1682229781426&v=1",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "来自棒糖测压",
-        "url": "https://knight.ele.me/knight/register/send-captcha?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
     },
     {
         "desc": "来自棒糖测压",
@@ -388,17 +517,12 @@
         "data": ""
     },
     {
-        "desc": "人人文库",
-        "url": "https://www.renrendoc.com/Reg.aspx/GetUserSMSCode",
-        "method": "POST",
-        "header": "{'Content-Type': 'application/json; charset=UTF-8', 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36', 'X-Requested-With': 'XMLHttpRequest'}",
-        "data": "{'userMobile': '[phone]'}"
-    },
-    {
         "desc": "励德星跃AI",
         "url": "https://www.lidexingyue.cn/",
         "method": "POST",
-        "header": null,
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data": "action=send_verification_code&account=[phone]&account_type=phone&type=register"
     },
     {
@@ -555,36 +679,6 @@
     },
     {
         "desc": "来自smstest.lazy52.com",
-        "url": "https://ls.xzrcfw.com/App/Sys/SendPhoneCode",
-        "method": "POST",
-        "header": {
-            "Host": "ls.xzrcfw.com",
-            "Connection": "keep-alive",
-            "xweb_xhr": "1",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x6309062b) XWEB/8555",
-            "Content-Type": "application/json",
-            "Accept": "*/*",
-            "Sec-Fetch-Site": "cross-site",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Dest": "empty",
-            "Referer": "https://servicewechat.com/wx244d94feafd1e7f7/8/page-frame.html",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "zh-CN,zh;q=0.9"
-        },
-        "data": {
-            "requestModel": {
-                "phone": "[phone]",
-                "OptionType": "1",
-                "Role": "2"
-            },
-            "Token": "None",
-            "Source": "MiniProject",
-            "Platform": "2",
-            "isTibetan": "False"
-        }
-    },
-    {
-        "desc": "来自smstest.lazy52.com",
         "url": "http://weixin.gys12345.cn/api/wechat.php",
         "method": "POST",
         "header": {
@@ -645,27 +739,6 @@
     },
     {
         "desc": "来自smstest.lazy52.com",
-        "url": "https://apis.btpmw.com/index/sms/send_code",
-        "method": "POST",
-        "header": {
-            "accept": "*/*",
-            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
-            "cache-control": "no-cache",
-            "content-type": "application/x-www-form-urlencoded",
-            "pragma": "no-cache",
-            "priority": "u=1, i",
-            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": "\"Windows\"",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-site",
-            "referrer": "https://x.btpmw.com/"
-        },
-        "data": "phone=[phone]&account=yrtsdtsadf&ym=crapp"
-    },
-    {
-        "desc": "来自smstest.lazy52.com",
         "url": "https://h5.5173.com/to_url/api/front/login/register/password/phone/code",
         "method": "POST",
         "header": {
@@ -711,25 +784,6 @@
             "tag": "register",
             "isApp": "false"
         }
-    },
-    {
-        "desc": "来自smstest.lazy52.com",
-        "url": "http://www.dtrcw.net/member/shoujiyzx.asp",
-        "method": "POST",
-        "header": {
-            "Host": "m.dtrcw.net",
-            "Connection": "keep-alive",
-            "Accept": "*/*",
-            "X-Requested-With": "XMLHttpRequest",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x6309062b) XWEB/9079",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Origin": "http://m.dtrcw.net",
-            "Referer": "http://m.dtrcw.net/member/person_reg.asp",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Cookie": "ASPSESSIONIDQCSTAACC=JJIEOPIDLNDFBINOGNIOIOAN"
-        },
-        "data": "UserNameh=[phone]"
     },
     {
         "desc": "来自smstest.lazy52.com",
@@ -978,42 +1032,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "http://www.youmw.top/tool/dxhz/?hm=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.jxxw.com.cn/app/user/sendLoginCode?username=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "http://www.variflight.com/login/reg/sendSms?AE71649A58c77&amp;phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.jxxw.com.cn/app/user/sendLoginCode?username=[phone]&amp;sign=572bf336d708a2b8b655ea05872cb596",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://wx.bda.com/ajax/ajax_login.php?action=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.youmw.top/tool/dxhz/?hm=[phone]&amp;ok=",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1028,34 +1047,6 @@
     {
         "desc": "通用采集",
         "url": "http://www.xjwvxz.com/api/call/index?user_id=244127&auth_key=c602e6ebb2311895b922d5bef854dc87&type=c&proxy_id=148455&phones=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://zhibo.zuoyebang.com/elearning/index/sendapplytoken?phone=[phone]&amp;_=1535534872440",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://zhibo.zuoyebang.com/elearning/index/sendapplytoken?phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.puyitou.com/service.html?SERVERID=770010&BIZ_CODE=REG_PHONE_CODE&PHONE_NUM=[phone]&SEND_TYPE=2",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.puyitou.com/service.html?SERVERID=770010&amp;BIZ_CODE=REG_PHONE_CODE&amp;PHONE_NUM=[phone]&amp;SEND_TYPE=2",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1083,20 +1074,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://api.bat100.net/v1/authority/sms/send-sms?tel=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://api.bat100.net/v1/authority/sms/send-sms?tel=[phone]&amp;smsType=2",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://api.sharkshopping.com/ec/api?method=b2c.member2.related_sms&uname=[phone]",
         "method": "GET",
         "header": "",
@@ -1112,41 +1089,6 @@
     {
         "desc": "通用采集",
         "url": "https://app-api.shop.ele.me/arena/invoke/?method=OpenAPIRegisterService.sendVerifyCode&site_id=gw_Cloudgame&geetest_challenge=&geetest_validate=&geetest_seccode=&reportData=number=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://apis.hyguanjia.com/user/send/phone/code?clientid=1254299999&amp;mid=1E0D9617-438F-4A0D-BED0-AEB20FF19A50&amp;phone=[phone]&amp;sign=jBvhDrZ6SlcNzwkCx6SIhwkLtCZZ1GCCjvPj%24%24QD8balMbMtSRigOLwJkGjU%40%40PIsjj1rTgAEWBZDHlnw3%40%40Yrg9qGdwvb5Qv4euoCCHNExqXAGhb",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://apis.hyguanjia.com/user/send/phone/code?clientid=1254299999&amp;mid=1E0D9617-438F-4A0D-BED0-AEB20FF19A50&amp;phone=[phone]&amp;sign=jBvhDrZ6SlcNzwkCx6SIhwkLtCZZ1GCCjvPj%2524%2524QD8balMbMtSRigOLwJkGjU%2540%2540PIsjj1rTgAEWBZDHlnw3%2540%2540Yrg9qGdwvb5Qv4euoCCHNExqXAGhb",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://apis.hyguanjia.com/user/send/phone/code?clientid=1254299999&mid=1E0D9617-438F-4A0D-BED0-AEB20FF19A50&phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://babyheartapi.ihealthbaby.cn/BabyheartServer/sms/sendMessage?sendType=1&smsType=1&tel=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://babyheartapi.ihealthbaby.cn/BabyheartServer/sms/sendMessage?sendType=1&amp;smsType=1&amp;tel=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1216,13 +1158,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://id.ifeng.com/api/simplesendmsg?comefrom=38&amp;msgtype=0&amp;auth=&amp;mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://exmail.qq.com/cgi-bin/bizmail_portal?action=send_sms&amp;type=11&amp;t=biz_rf_portal_mgr&amp;ef=jsnew&amp;resp_charset=UTF8&amp;area=86&amp;mobile=[phone]",
         "method": "GET",
         "header": "",
@@ -1230,28 +1165,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://id.ifeng.com/api/simplesendmsg?comefrom=38&msgtype=0&auth=&mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://host.convertlab.com/sms/get?mobile=[phone]&amp;name=Convertlab&amp;token=4080fdef3cb44298852d226af95b2502&amp;type=form&amp;uuid=4a48dbfe8e1d49ab87715d2ed8e6e79d",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://kaojiazhao.eclicks.cn/xc_v1/Enroll/create_code?driving_cert_type=1&amp;_cityCode=023&amp;tel=[phone]&amp;learn_stage=0&amp;appChannel=AppStore&amp;cUDID=5C351103-F887-4932-BC59-58C75875EFDE&amp;lng=106.2849618867906&amp;appVersion=7.5.3&amp;que_city_id=27&amp;os=iOS&amp;enr_city_id=75&amp;openUDID",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://consumer.fcbox.com:443/v1/account/sendCode?mobile=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1272,21 +1186,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://appv2.lygou.cc/loyouser/getBindCode?appfrom=203&appver=3.2.2&identity=%2B86[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://host.convertlab.com/sms/token?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://hdgateway.zto.com/auth_account_sendLoginOrRegisterSmsVerifyCode?mobile=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1307,98 +1207,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://appv2.lygou.cc/loyouser/getBindCode?appfrom=203&amp;appver=3.2.2&amp;identity=%2B86[phone]&amp;platform=2&amp;realVer=3.2.2&amp;region=zh-CN&amp;time_zone=28800&amp;type=0&amp;unlogin_token=724767db76a9c95e817d0101be771480&amp;version_code=138",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.health.pingan.com/mapi/smsCode.json?deviceId=5a4c935cbb6ff6ca&deviceType=SM-G9300&timestamp=1545122608&app=0&platform=3&app_key=PAHealth&osversion=23&info=&version=1.0.1&resolution=1440x2560&screenSize=22&netType=1&channel=m_h5&phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://login-user.kugou.com/v1/send_sms_for_reg?appid=1014&amp;callback=GetSmsCodeCallbackFn&amp;v=1&amp;verifycode=&amp;ct=1546670699&amp;type=reg&amp;mid=07546126fef194aa4b29a5a80ec7a8d1&amp;kguser_jv=180925&amp;mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://m.exmail.qq.com/cgi-bin/sell_dependent?action=send_sms&amp;t=wap_official_mgr&amp;ef=jsnew&amp;type=6&amp;area=86&amp;mobile=[phone]&amp;r=0.6184749692742786",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.exmail.qq.com/cgi-bin/sell_dependent?action=send_sms&t=wap_official_mgr&ef=jsnew&type=6&area=86&mobile=[phone]&r=0.6184749692742786",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.health.pingan.com:443/mapi/smsCode.json?deviceId=5a4c935cbb6ff6ca&amp;deviceType=SM-G9300&amp;timestamp=1545122608&amp;app=0&amp;platform=3&amp;app_key=PAHealth&amp;osversion=23&amp;info=&amp;version=1.0.1&amp;resolution=1440x2560&amp;screenSize=22&amp;netType=1&amp;channel=m_h5&amp;phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.health.pingan.com/mapi/smsCode.json?deviceId=5a4c935cbb6ff6ca&amp;deviceType=SM-G9300&amp;timestamp=1545122608&amp;app=0&amp;platform=3&amp;app_key=PAHealth&amp;osversion=23&amp;info=&amp;version=1.0.1&amp;resolution=1440x2560&amp;screenSize=22&amp;netType=1&amp;channel=m_h5&amp;phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.health.pingan.com:443/mapi/smsCode.json?deviceId=5a4c935cbb6ff6ca&deviceType=SM-G9300&timestamp=1545122608&app=0&platform=3&app_key=PAHealth&osversion=23&info=&version=1.0.1&resolution=1440x2560&screenSize=22&netType=1&channel=m_h5&phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://login-user.kugou.com/v1/send_sms_for_reg?appid=1014&callback=GetSmsCodeCallbackFn&v=1&verifycode=&ct=1546670699&type=reg&mid=07546126fef194aa4b29a5a80ec7a8d1&kguser_jv=180925&mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://login.10086.cn/chkNumberAction.action?userName=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://pass.hujiang.com/Handler/UCenter.json?action=SendMsg&business_domain=yyy_cichang&captchaVersion=2&hpuid=753-hG5lbwKtYM04Ldr-19&imgcode=&isapp=true&mobile=+86-[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://pass.hujiang.com/Handler/UCenter.json?action=SendMsg&amp;business_domain=yyy_cichang&amp;captchaVersion=2&amp;hpuid=753-hG5lbwKtYM04Ldr-19&amp;imgcode=&amp;isapp=true&amp;mobile=+86-[phone]&amp;msgtype=1&amp;sendtype=mobilemsgpwd&amp;token=4eee9083e9d146799ef5828ac583d8b3&amp;user_domain=hj",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://pass.hujiang.com/Handler/UCenter.json?action=SendMsg&business_domain=yyy_cichang&captchaVersion=2&hpuid=753-hG5lbwKtYM04Ldr-19&imgcode=&isapp=true&mobile=%2B86-[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://pass.hujiang.com/v2/api/v1/sms/send?action=SendMsg&mobile=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1545,20 +1354,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://wap.fruitday.com//v3/passport/send_vercode?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://v4.passport.sohu.com/i/smcode/mobile/sblmobile?mobile=[phone]&amp;way=1&amp;appid=116005&amp;callback=passport403_cb1596534389025&amp;_=1596534591810",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://v4.passport.sohu.com/i/smcode/mobile/sblmobile?mobile=[phone]&way=1&appid=116005&callback=passport403_cb1596534389025&_=1596534591810",
         "method": "GET",
         "header": "",
@@ -1636,49 +1431,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://new.yohoboys.com/yohonow/api/register/registerSms?appType=2&amp;app_version=5.9.4&amp;ararea=86&amp;client_secret=1296d0321e51188e17e698e128961947&amp;client_type=iphone&amp;curVersion=5.9.4&amp;degrees=%5B%5D&amp;fromPage=iFP_Nlogin&amp;language=zh-Hans&amp;mobile=[phone]&amp;os_version=12.4&amp;scree",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://new.yohoboys.com/yohonow/api/register/registerSms?appType=2&amp;app_version=5.9.4&amp;area=86&amp;client_secret=1296d0321e51188e17e698e128961947&amp;client_type=iphone&amp;curVersion=5.9.4&amp;degrees=%5B%5D&amp;fromPage=iFP_Nlogin&amp;language=zh-Hans&amp;mobile=[phone]&amp;os_version=12.4&amp;scree",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://mp.elong.com/mobilepromotion/common/sendactivitysmscodemtools?activityId=9880be64-a7c2-476e-9879-2fe371910f45&mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://new.yohoboys.com/yohonow/api/register/registerSms?appType=2&amp;app_version=5.9.4&amp;area=86&amp;client_secret=1296d0321e51188e17e698e128961947&amp;client_type=iphone&amp;curVersion=5.9.4&amp;degrees=[]&amp;fromPage=iFP_Nlogin&amp;language=zh-Hans&amp;mobile=[phone]&amp;os_version=12.4&amp;scree",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://mktmain.daikuan.360.cn/activity/pcguide/cdsmsCode?callback=_360jr1603842207037&mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://new.yohoboys.com/yohonow/api/register/registerSms?appType=2&app_version=5.9.4&area=86&client_secret=1296d0321e51188e17e698e128961947&client_type=iphone&curVersion=5.9.4&degrees=%5B%5D&fromPage=iFP_Nlogin&language=zh-Hans&mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://new.yohoboys.com/yohonow/api/register/registerSms?appType=2&app_version=5.9.4&area=86&client_secret=1296d0321e51188e17e698e128961947&client_type=iphone&curVersion=5.9.4&degrees=[]&fromPage=iFP_Nlogin&language=zh-Hans&mobile=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1714,13 +1467,6 @@
     {
         "desc": "通用采集",
         "url": "https://mobile.cmbchina.com/DUserManage/UserRegisterNew/URN_Register.aspx?phoneNo=[phone]&amp;showtopbar=true&amp;DeviceType=E&amp;Version=7.1.2&amp;SystemVersion=6.0.1&amp;behavior_entryid=lgf005001",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://m.lubsj.com/index.php?app=member&act=send_captcha&phone_mob=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1783,20 +1529,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "http://www.patfun.com/do.php?ac=check_sms&phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://m.xymens.com/index.php/Home/User/send_code?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "http://www.hotouzi.com/register/register_sms.html?telephone=[phone]&token=",
         "method": "GET",
         "header": "",
@@ -1846,49 +1578,7 @@
     },
     {
         "desc": "通用采集",
-        "url": "http://www.maizjr.com/register/identifyingcode.json?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://www.youmw.top/tool/dxhz/?hm=[phone]&ok=",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "http://passport.fanli.com/mobileapi/i/user/mobileFastReg?deviceno=860903034476055&mobile=[phone]&mobilestep=1&verification_code=&verify_flag=&verify_global=ma624mg0j80trr7ldvwcl15c1f&c_aver=1.0&c_src=2&c_v=5.3.1.24&devid=63599267906091",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://uniservice.kugou.com/v2/activity/sendCode?call_number=[phone]&cb=kgJSONP239130071",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://id.ifeng.com/api/simplesendmsg?mobile=[phone]&comefrom=7&auth=&msgtype=0",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://ucenter.inyuapp.com/v1/login/mobile/code?mobile=[phone]&country_code=86",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://www.xinrong.com/v2/register/register_tel_captcha_check_ip_and_phone.jso?tellPhone=://wap.gd.10086.cn/nwap/login/getSmsCode.jsps?_=1516384611767&mobile=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1910,13 +1600,6 @@
     {
         "desc": "通用采集",
         "url": "http://www.uwewe.com/get/IsUser.aspx?phone=[phone]&quhao=86",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "http://service.zol.com.cn/user/ajax/sendMsgCode.php?phone=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1965,13 +1648,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://www.xintongdai.com/customer/login/register/acquirePhoneAgreeItem?phone=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "http://api.zhuangdianbi.com/api/sendSms?phone=[phone]",
         "method": "GET",
         "header": "",
@@ -1990,5 +1666,124 @@
         "method": "GET",
         "header": "",
         "data": ""
+    },
+    {
+        "desc": "113.44.51.27:8181",
+        "url": "http://yiapp.yidaoway.cn/api/getCode",
+        "method": "POST",
+        "header": null,
+        "data": {
+            "phone": "[phone]"
+        }
+    },
+    {
+        "desc": "贩宝邀请注册",
+        "url": "http://app.fanbaowl.com/tao/user/sendMsg/15804608651/register",
+        "method": "GET",
+        "header": null,
+        "data": null
+    },
+    {
+        "desc": "8.130.149.199",
+        "url": "http://8.130.149.199/home/login/sendcode",
+        "method": "POST",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "pragma": "no-cache",
+            "proxy-connection": "keep-alive",
+            "x-requested-with": "XMLHttpRequest",
+            "Cookie": "PHPSESSID=i5eh5t8q9prcv8o50ofpvclbb2",
+            "Referer": "http://8.130.149.199/login"
+        },
+        "data": "tel=[phone]"
+    },
+    {
+        "desc": "市中教育",
+        "url": "http://47.105.69.106/api/sms/sendlink",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "data": "mobile=[phone]"
+    },
+    {
+        "desc": "51牛股数据分析",
+        "url": "http://111.230.212.238/SendCodevvv",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "data": "phone=[phone]"
+    },
+    {
+        "desc": "120.26.33.196",
+        "url": "http://120.26.33.196/smart-sms-api/api/sms/send",
+        "method": "POST",
+        "header": null,
+        "data": {
+            "phoneNumber": "[phone]",
+            "type": "auth",
+            "code": "5088"
+        }
+    },
+    {
+        "desc": "47.96.9.160",
+        "url": "https://47.96.9.160/sms_aliyun/send-sms",
+        "method": "POST",
+        "header": {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "cache-control": "no-cache",
+            "content-type": "application/json",
+            "pragma": "no-cache",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Microsoft Edge\";v=\"140\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-origin",
+            "x-csrf-token": "KpiiJK0L-RIfTeMp0bzOt8_79wpy8aJtabAY",
+            "cookie": "visitorId=518076a4-6de2-40bb-a40d-0699f6bd3980; _csrf=obHiprPgoPf6DETDs47qagHy",
+            "Referer": "https://47.96.9.160/"
+        },
+        "data": {
+            "phoneNumber": "[phone]"
+        }
+    },
+    {
+        "desc": "8.140.238.97",
+        "url": "https://8.140.238.97/App/login/fasong",
+        "method": "POST",
+        "header": null,
+        "data": "phone=[phone]"
+    },
+    {
+        "desc": "企顺宝",
+        "url": "https://m.qishunbao.com/index.php/Public/sendMsgCode",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "data": "phone=[phone]"
+    },
+    {
+        "desc": "速来客",
+        "url": "https://ymsite.cn/api/manager/managerSendVerifyCode",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "data": "phone=[phone]&plugin=1"
+    },
+    {
+        "desc": "志华网",
+        "url": "https://d.58zhihua.com/sendTaskCode?mobile=[phone]",
+        "method": "GET",
+        "header": null,
+        "data": null
     }
 ]
