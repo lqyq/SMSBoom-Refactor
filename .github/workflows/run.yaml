@@ -1,0 +1,48 @@
+name: 🚀 Run SMSBoom in Action
+
+# 触发 Action 的条件
+on: 
+  # 定时触发 参考 https://docs.github.com/cn/actions/using-workflows/events-that-trigger-workflows#schedule
+  schedule:
+      - cron: '30 1,6 * * *'
+  # 手动触发
+  workflow_dispatch:
+
+jobs:
+  # 检查 NUMBER secret 变量是否存在
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      has_number: ${{ steps.check_number.outputs.has_number }}
+    steps:
+      - name: Check NUMBER secret
+        id: check_number
+        env:
+          NUMBER: ${{ secrets.NUMBER }}
+        run: |
+          if [ -n "$NUMBER" ]; then
+            echo "has_number=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_number=false" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    needs: check
+    if: needs.check.outputs.has_number == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      # 签出项目代码
+      - uses: actions/checkout@v3
+      # 设置 py3.8 环境
+      - name: 🚀 Set up Python 3.x
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+      
+      - name: 🚀 Run SMSBoom Script
+        # 此处可以自定义命令行运行参数.替换手机号
+        run: |
+          pip3 install -r requirements.txt
+          echo ${{ secrets.NUMBER }} | sed 's/./& /g'
+          python3 smsboom.py run -p ${{ secrets.NUMBER }} -t 3
