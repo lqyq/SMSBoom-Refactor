@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>接口智能采集中心 - SMSBoom</title>
+    <!-- 使用国内 Staticfile CDN 加载 Bootstrap 4 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 强制显示 FontAwesome 图标 */
+        .fas, .far, .fab, .fa {
+            font-family: "Font Awesome 5 Free" !important;
+            font-weight: 900;
+        }
+    </style>
+    <style>
+        body { background-color: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .container-fluid { padding: 20px; }
+        .card { border: none; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .card-header { background-color: #fff; border-bottom: 1px solid #f0f0f0; font-weight: bold; padding: 12px 20px; }
+        
+        /* 紧凑型列表样式 */
+        .source-table td { vertical-align: middle; padding: 8px; font-size: 13px; }
+        .source-table .form-control-sm { height: 28px; padding: 2px 8px; font-size: 12px; }
+        
+        #log-container {
+            height: calc(100vh - 180px);
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            overflow-y: auto;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+        .log-entry { margin-bottom: 1px; border-left: 2px solid transparent; padding-left: 6px; }
+        .log-info { border-left-color: #007bff; }
+        .log-success { border-left-color: #28a745; color: #a3d9a5; }
+        .log-error { border-left-color: #dc3545; color: #f8d7da; }
+        
+        .status-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .status-running { background-color: #ffc107; box-shadow: 0 0 5px #ffc107; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        .preview-table-container { max-height: 500px; overflow-y: auto; }
+        .btn-xs { padding: 1px 5px; font-size: 11px; line-height: 1.5; border-radius: 3px; }
+        
+        /* 侧边栏滚动 */
+        .sidebar-scroll { height: calc(100vh - 180px); overflow-y: auto; }
+        
+        [v-cloak] { display: none !important; }
+    </style>
+</head>
+<body>
+
+
+    <div class="container-fluid" id="app" v-cloak>
+        <!-- 移动导航栏到这里 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-3" style="margin: -20px -20px 20px -20px;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/admin/apis/"><i class="fas fa-arrow-left mr-2"></i> 接口管理</a>
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-item nav-link active font-weight-bold" href="/scraper/" style="border-bottom: 2px solid #fff;">
+                        <i class="fas fa-search-plus mr-1"></i> 采集中心
+                    </a>
+                    <a class="nav-item nav-link text-light" href="/capture/">
+                        <i class="fas fa-crosshairs mr-1"></i> 抓包模式
+                    </a>
+                </div>
+                <div class="ml-auto">
+                    <button class="btn btn-sm btn-success" @click="saveAllSources" :disabled="isSaving">
+                        <i v-if="isSaving" class="fas fa-spinner fa-spin mr-1"></i>
+                        <i v-else class="fas fa-save mr-1"></i> 保存配置
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <!-- 左侧：采集源管理 (紧凑表格) -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-cog mr-2"></i> 采集源管理</span>
+                        <button class="btn btn-xs btn-primary" @click="addNewSource"><i class="fas fa-plus mr-1"></i> 新增来源</button>
+                    </div>
+                    <div class="card-body p-0 sidebar-scroll">
+                        <table class="table table-hover source-table mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 150px;">标题</th>
+                                    <th>目标 URL</th>
+                                    <th style="width: 100px;">类型</th>
+                                    <th style="width: 127px;">URL后缀/参数</th>
+                                    <th style="width: 100px;" class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(source, index) in sources" :key="index">
+                                    <td><input type="text" class="form-control form-control-sm" v-model="source.title" placeholder="来源名称"></td>
+                                    <td><input type="text" class="form-control form-control-sm" v-model="source.url" placeholder="http://..."></td>
+                                    <td>
+                                        <select class="form-control form-control-sm" v-model="source.type">
+                                            <option value="generic">通用</option>
+                                            <option value="bangtang">棒糖</option>
+                                            <option value="smstest">SMSTest</option>
+                                            <option value="dead">无效</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" v-model="source.key" placeholder="可选"></td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button class="btn btn-xs btn-primary" :disabled="isRunning" @click="startScrape(source)" title="开始采集">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            <button class="btn btn-xs btn-danger" @click="removeSource(index)" title="删除">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr v-if="sources.length === 0">
+                                    <td colspan="5" class="text-center text-muted py-4">暂无采集源，请点击右上角新增</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：实时日志 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-terminal mr-2"></i> 运行日志</span>
+                        <div v-if="isRunning">
+                            <span class="status-indicator status-running"></span>
+                            <small class="text-warning">运行中</small>
+                        </div>
+                    </div>
+                    <div class="card-body p-2">
+                        <div id="log-container" ref="logContainer">
+                            <div v-for="(log, i) in logs" :key="i" :class="['log-entry', getLogClass(log.type)]">
+                                <small class="text-muted mr-1">[[ log.time ]]</small>
+                                <span>[[ log.message ]]</span>
+                            </div>
+                            <div v-if="logs.length === 0" class="text-center text-muted mt-5">
+                                <i class="fas fa-ghost fa-2x mb-2"></i><br>等待任务...
+                            </div>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-between">
+                            <button class="btn btn-link btn-sm text-muted" @click="logs = []">清空</button>
+                            <small class="text-muted">SSE 实时流</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 采集结果预览模态框 (保持不变) -->
+        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content card">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-eye mr-2"></i> 采集结果预览 ([[ results.length ]] 条)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="alert alert-info m-3 py-2">
+                            <small><i class="fas fa-lightbulb mr-1"></i> 请勾选您想要导入的接口，系统会自动过滤重复的 URL。</small>
+                        </div>
+                        <div class="table-responsive preview-table-container">
+                            <table class="table table-hover table-sm mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 40px;"><input type="checkbox" v-model="selectAll" @change="toggleSelectAll"></th>
+                                        <th>描述</th>
+                                        <th>方法</th>
+                                        <th>URL</th>
+                                        <th>数据</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(res, i) in results" :key="i">
+                                        <td class="text-center"><input type="checkbox" v-model="res.selected"></td>
+                                        <td><input type="text" class="form-control form-control-sm" v-model="res.desc"></td>
+                                        <td><span :class="['badge', res.method === 'POST' ? 'badge-primary' : 'badge-success']">[[ res.method ]]</span></td>
+                                        <td><small class="text-break">[[ res.url ]]</small></td>
+                                        <td><small class="text-muted text-truncate d-inline-block" style="max-width: 150px;" :title="res.data">[[ res.data || '-' ]]</small></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="mr-auto text-muted small">已选中 [[ selectedCount ]] 个接口</span>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-success" @click="importSelected" :disabled="selectedCount === 0 || isImporting">
+                            <i v-if="isImporting" class="fas fa-spinner fa-spin mr-1"></i>
+                            [[ isImporting ? '导入中...' : '导入选中接口' ]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用国内 Staticfile CDN 加载前端依赖 -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/popper/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/vue/vue.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/axios/axios.min.js') }}"></script>
+
+    <script>
+        // 检查 Vue 是否加载
+        window.onload = function() {
+            if (typeof Vue === 'undefined') {
+                var errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:#dc3545;color:white;text-align:center;padding:20px;z-index:9999;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,0.2);';
+                errorDiv.innerHTML = '<i class=\"fas fa-exclamation-triangle mr-2\"></i> <strong>严重错误：</strong> Vue.js 资源加载失败。<br><small>请检查网络连接，或尝试 Ctrl+F5 强制刷新页面。</small>';
+                document.body.appendChild(errorDiv);
+            }
+        };
+
+        new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data: {
+                sources: [],
+                logs: [],
+                results: [],
+                isRunning: false,
+                isImporting: false,
+                isSaving: false,
+                currentSource: {},
+                selectAll: true
+            },
+            computed: {
+                selectedCount() {
+                    return this.results.filter(r => r.selected).length;
+                }
+            },
+            created() {
+                this.loadSources();
+            },
+            methods: {
+                loadSources() {
+                    axios.get('/api/scraper/sources/').then(res => {
+                        this.sources = res.data;
+                    });
+                },
+                addNewSource() {
+                    this.sources.unshift({
+                        title: '新采集源',
+                        url: '',
+                        type: 'generic',
+                        key: ''
+                    });
+                },
+                removeSource(index) {
+                    if(confirm('确定删除此采集源吗？')) {
+                        this.sources.splice(index, 1);
+                    }
+                },
+                saveAllSources() {
+                    this.isSaving = true;
+                    axios.post('/api/scraper/sources/save/', { sources: this.sources }).then(res => {
+                        if(res.data.status === 0) {
+                            alert('配置已保存');
+                        } else {
+                            alert('保存失败: ' + res.data.resp);
+                        }
+                    }).catch(err => {
+                        alert('请求失败: ' + err.message);
+                    }).finally(() => {
+                        this.isSaving = false;
+                    });
+                },
+                getLogClass(type) {
+                    return 'log-' + (type || 'info');
+                },
+                appendLog(message, type = 'info') {
+                    const time = new Date().toLocaleTimeString();
+                    this.logs.push({ time, message, type });
+                    this.$nextTick(() => {
+                        const container = this.$refs.logContainer;
+                        if(container) container.scrollTop = container.scrollHeight;
+                    });
+                },
+                startScrape(source) {
+                    if(!source.url) { alert('请先填写 URL'); return; }
+                    this.isRunning = true;
+                    this.currentSource = source;
+                    this.logs = [];
+                    this.results = [];
+                    this.appendLog(`启动任务: ${source.title}`, 'info');
+
+                    const eventSource = new EventSource(`/api/scraper/run/?url=${encodeURIComponent(source.url)}&type=${source.type}&key=${encodeURIComponent(source.key || '')}`);
+                    
+                    eventSource.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        if (data.type === 'log' || data.type === 'error' || data.type === 'success') {
+                            this.appendLog(data.message, data.type);
+                        } else if (data.type === 'result') {
+                            this.results = data.data.map(r => ({ ...r, selected: true }));
+                        } else if (data.type === 'done') {
+                            eventSource.close();
+                            this.isRunning = false;
+                            this.appendLog('采集完成!', 'success');
+                            if (this.results.length > 0) {
+                                $('#previewModal').modal('show');
+                            } else {
+                                alert('未发现新接口');
+                            }
+                        }
+                    };
+
+                    eventSource.onerror = (err) => {
+                        this.appendLog('SSE 连接异常', 'error');
+                        eventSource.close();
+                        this.isRunning = false;
+                    };
+                },
+                toggleSelectAll() {
+                    this.results.forEach(r => r.selected = this.selectAll);
+                },
+                importSelected() {
+                    const selected = this.results.filter(r => r.selected);
+                    this.isImporting = true;
+                    axios.post('/api/scraper/import/', { apis: selected }).then(res => {
+                        alert(res.data.resp);
+                        if (res.data.status === 0) {
+                            $('#previewModal').modal('hide');
+                        }
+                    }).finally(() => {
+                        this.isImporting = false;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

