@@ -25,15 +25,22 @@
 
 推荐使用虚拟环境以保持系统纯净。
 
-**方案一：使用 `pipenv` (推荐)**
+**方案一：使用 `uv` (推荐)**
 ```shell
-# 安装 pipenv
-pip install pipenv
+# 安装 uv
+pip install uv
+
 # 安装依赖
-pipenv install       # 仅核心功能
-pipenv install --dev # 使用 Web 管理后台
-# 进入虚拟环境
-pipenv shell
+uv sync             # 仅核心功能
+uv sync --group dev # 含 Web 管理后台
+```
+
+可通过 `uv run` 执行项目，无需手动激活环境；
+如需手动进入虚拟环境，先运行：
+
+```shell
+.\.venv\Scripts\activate  # Windows
+source .venv/bin/activate # Linux/macOS
 ```
 
 **方案二：使用原生 `venv`**

@@ -170,3 +170,4 @@ img/
 *.code-workspace
 browser_data/
 plans/
+flask_app/data.db
