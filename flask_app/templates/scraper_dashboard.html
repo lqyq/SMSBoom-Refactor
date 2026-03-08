@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>接口智能采集中心 - SMSBoom</title>
-    <!-- 使用国内 BootCDN 加载 Bootstrap 4 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- 使用国内 Staticfile CDN 加载 Bootstrap 4 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 强制显示 FontAwesome 图标 */
+        .fas, .far, .fab, .fa {
+            font-family: "Font Awesome 5 Free" !important;
+            font-weight: 900;
+        }
+    </style>
     <style>
         body { background-color: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
         .container-fluid { padding: 20px; }
@@ -54,7 +61,6 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-3" style="margin: -20px -20px 20px -20px;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/admin/apis/"><i class="fas fa-arrow-left mr-2"></i> 接口管理</a>
-                <span class="navbar-text text-white font-weight-bold">智能采集中心</span>
                 <div class="ml-auto">
                     <button class="btn btn-sm btn-success" @click="saveAllSources" :disabled="isSaving">
                         <i v-if="isSaving" class="fas fa-spinner fa-spin mr-1"></i>
@@ -194,12 +200,12 @@
         </div>
     </div>
 
-    <!-- 使用国内 BootCDN 加载前端依赖 -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.7.14/vue.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <!-- 使用国内 Staticfile CDN 加载前端依赖 -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/popper/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/vue/vue.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/axios/axios.min.js') }}"></script>
 
     <script>
         // 检查 Vue 是否加载

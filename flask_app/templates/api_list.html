@@ -112,6 +112,21 @@
         .status-success { background: #d4edda; color: #155724; }
         .status-failed { background: #f8d7da; color: #721c24; }
         .status-untested { background: #e2e3e5; color: #383d41; }
+
+        /* 有效状态行：轻量高亮（仅 success，避免原生整行着色过重） */
+        .table tbody tr.row-success-soft > td {
+            background-color: rgba(40, 167, 69, 0.06) !important;
+            border-top-color: rgba(40, 167, 69, 0.20) !important;
+            border-bottom-color: rgba(40, 167, 69, 0.20) !important;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .table tbody tr.row-success-soft > td:first-child {
+            box-shadow: inset 3px 0 0 rgba(40, 167, 69, 0.60);
+        }
+        .table.table-hover > tbody > tr.row-success-soft:hover > td,
+        .table-hover > tbody > tr.row-success-soft:hover > td {
+            background-color: rgba(40, 167, 69, 0.10) !important;
+        }
         
         /* 测试按钮状态 */
         .test-api-btn.testing {
@@ -164,6 +179,24 @@
             margin: 0 5px;
         }
     </style>
+
+    {% if request.args.get('style') == 'amnesty' %}
+    <style>
+        /* Amnesty 风格下改为黄黑体系，保持品牌一致 */
+        .table tbody tr.row-success-soft > td {
+            background-color: #fffde6 !important;
+            border-top-color: #d9d9d9 !important;
+            border-bottom-color: #d9d9d9 !important;
+        }
+        .table tbody tr.row-success-soft > td:first-child {
+            box-shadow: inset 4px 0 0 #ffff00;
+        }
+        .table.table-hover > tbody > tr.row-success-soft:hover > td,
+        .table-hover > tbody > tr.row-success-soft:hover > td {
+            background-color: #fff9bf !important;
+        }
+    </style>
+    {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -440,6 +473,9 @@
                 if (button.length === 0) return;
                 
                 const row = button.closest('tr');
+
+                // 仅保留“有效”状态的轻量高亮，不使用 Bootstrap 原生整行着色
+                row.removeClass('success danger warning info row-success-soft');
                 
                 // 0. 更新按钮的 data-status 属性，确保后续逻辑正确
                 button.attr('data-status', status);
@@ -449,6 +485,7 @@
                 button.removeClass('testing success failed btn-default btn-success btn-danger');
                 if (status === 'success') {
                     button.addClass('btn-success success').html('<i class="fa fa-refresh"></i> 重测');
+                    row.addClass('row-success-soft');
                 } else if (status === 'failed') {
                     button.addClass('btn-danger failed').html('<i class="fa fa-refresh"></i> 重测');
                 } else {
@@ -1248,9 +1285,13 @@
             // 初始化按钮状态（根据HTML中的data属性）
             $('.test-api-btn').each(function() {
                 const status = $(this).data('status');
+                const row = $(this).closest('tr');
+
+                row.removeClass('success danger warning info row-success-soft');
+
                 if (status === 'success') {
                     $(this).addClass('btn-success success').html('<i class="fa fa-refresh"></i> 重测');
-                    $(this).closest('tr').addClass('success'); // 初始高亮有效行
+                    row.addClass('row-success-soft');
                 } else if (status === 'failed') {
                     $(this).addClass('btn-danger failed').html('<i class="fa fa-refresh"></i> 重测');
                 }

@@ -78,10 +78,10 @@ class ApisModelVies(ModelView):
     # 状态列格式化
     column_formatters = {
         'status': lambda v, c, m, p: Markup(f'<div class="status-clickable" data-api-id="{m.id}" style="cursor:pointer" title="点击手动修改状态">' + ({
-            'untested': '<span class="label label-default">⚪ 未测</span>',
-            'success': '<span class="label label-success">✅ 有效</span>',
-            'failed': '<span class="label label-danger">❌ 无效</span>'
-        }.get(m.status, '<span class="label label-default">⚪</span>')) + '</div>'),
+            'untested': '<span class="status-badge status-untested">⚪ 未测</span>',
+            'success': '<span class="status-badge status-success">✅ 有效</span>',
+            'failed': '<span class="status-badge status-failed">❌ 无效</span>'
+        }.get(m.status, '<span class="status-badge status-untested">⚪ 未测</span>')) + '</div>'),
         'url': lambda v, c, m, p: Markup(f'<span title="{html.escape(str(m.url))}" class="text-content">{html.escape(str(m.url))}</span>'),
         'header': lambda v, c, m, p: Markup(f'<span title="{html.escape(str(m.header or ""))}" class="text-content">{html.escape(str(m.header or ""))}</span>'),
         'data': lambda v, c, m, p: Markup(f'<span title="{html.escape(str(m.data or ""))}" class="text-content">{html.escape(str(m.data or ""))}</span>'),

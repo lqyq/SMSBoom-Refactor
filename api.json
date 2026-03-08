@@ -1663,7 +1663,7 @@
     },
     {
         "desc": "贩宝邀请注册",
-        "url": "http://app.fanbaowl.com/tao/user/sendMsg/15804608651/register",
+        "url": "http://app.fanbaowl.com/tao/user/sendMsg/[phone]/register",
         "method": "GET",
         "header": null,
         "data": null
