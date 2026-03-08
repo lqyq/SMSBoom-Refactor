@@ -656,6 +656,7 @@ def import_scraped_apis():
                 header=header,
                 data=data,
                 status='untested',
+                last_test_response=item.get('response', ''), # 导入捕获到的响应内容
                 add_time=datetime.now()
             )
             db.session.add(new_api)

@@ -2,6 +2,7 @@
 import asyncio
 import threading
 import json
+import re
 import logging
 import os
 import platform
@@ -9,7 +10,7 @@ from typing import Optional, Dict, Any, List
 from playwright.async_api import async_playwright, Browser, BrowserContext, Page, Request, Response
 from queue import Queue, Empty
 import time
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote
 
 logger = logging.getLogger("playwright_capture")
 
@@ -39,6 +40,7 @@ class PlaywrightCapture:
         self.playwright = None
         
         self.phone: str = ""
+        self.pure_phone: str = "" # 纯数字手机号
         self.event_queue: Queue = Queue()
         self.is_running: bool = False
         self.stop_event = threading.Event()
@@ -78,6 +80,8 @@ class PlaywrightCapture:
                 raise RuntimeError("Capture session already running")
             
             self.phone = phone
+            # 提取纯数字手机号用于更灵活的匹配
+            self.pure_phone = ''.join(filter(str.isdigit, phone))
             self.is_running = True
             self.stop_event.clear()
             self.seen_requests.clear()
@@ -352,33 +356,58 @@ class PlaywrightCapture:
             url = request.url
             method = request.method
             
-            # 1. 基础过滤：排除静态资源
-            resource_type = request.resource_type
-            if resource_type in ['image', 'stylesheet', 'font', 'media']:
-                return
-            
-            # 排除常见无关后缀
-            if url.endswith(('.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.svg')):
-                return
+            # 1. 获取 post data (尝试多种方式)
+            post_data = ""
+            try:
+                post_data = request.post_data or ""
+                # 如果 post_data 为空但有 buffer，尝试手动解码
+                if not post_data and request.post_data_buffer:
+                    try:
+                        post_data = request.post_data_buffer.decode('utf-8', errors='ignore')
+                    except:
+                        pass
+            except Exception as e:
+                logger.debug(f"Error getting post data: {e}")
 
-            # 2. 核心过滤：检查手机号
-            has_phone = False
-            post_data = request.post_data or ""
-            headers = await request.all_headers()
+            # 2. 核心过滤：检查手机号 (精确匹配，防止误匹配长数字串)
+            has_phone = self._check_phone_exact(url) or self._check_phone_exact(post_data)
             
-            # 检查 URL
-            if self.phone in url:
-                has_phone = True
-            # 检查 Post Data
-            elif self.phone in post_data:
-                has_phone = True
-            # 某些情况下手机号可能在 header 里（较少见）
-            
+            # 3. 检查 Header (某些 API 会把手机号放在 Header)
+            headers = {}
             if not has_phone:
+                try:
+                    # 优先使用异步的 all_headers，如果失败则回退到同步的 headers
+                    headers = await request.all_headers()
+                except:
+                    headers = request.headers
+
+                for v in headers.values():
+                    if self._check_phone_exact(str(v)):
+                        has_phone = True
+                        break
+            
+            # 4. 如果没匹配到手机号，则进行基础过滤
+            if not has_phone:
+                resource_type = request.resource_type
+                if resource_type in ['image', 'stylesheet', 'font', 'media']:
+                    return
+                # 排除常见无关后缀
+                if url.endswith(('.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.svg')):
+                    return
+                # 既没手机号也不是静态资源，也丢弃
                 return
 
-            # 3. 生成指纹去重
-            fingerprint = f"{method}:{url}"
+            # 5. 确保 headers 已获取 (如果之前匹配成功跳过了获取步骤)
+            if not headers:
+                try:
+                    headers = await request.all_headers()
+                except:
+                    headers = request.headers
+
+            # 4. 生成指纹去重 (包含 method, url 和 post_data 的前 100 个字符)
+            # 这样即使 URL 相同，如果 Body 不同（比如换了手机号或参数），也会被捕获
+            body_part = post_data[:100] if post_data else ""
+            fingerprint = f"{method}:{url}:{body_part}"
             if fingerprint in self.seen_requests:
                 return
             self.seen_requests.add(fingerprint)
@@ -460,7 +489,7 @@ class PlaywrightCapture:
         
         for k, v in headers.items():
             k_lower = k.lower()
-            if k_lower in keep_headers or k_lower.startswith('x-'):
+            if k_lower in keep_headers or k_lower.startswith('x-') or k_lower.startswith('bx-'):
                 # 尝试获取标准写法
                 standard_key = header_map.get(k_lower)
                 
@@ -473,6 +502,36 @@ class PlaywrightCapture:
                 
                 cleaned[final_key] = v
         return cleaned
+
+    def _check_phone_exact(self, content: str) -> bool:
+        """精确检查内容中是否包含目标手机号（防止误匹配长数字串）"""
+        if not content:
+            return False
+        
+        # 动态构建并缓存正则模式
+        if not hasattr(self, '_phone_patterns') or getattr(self, '_last_pattern_phone', None) != self.phone:
+            self._last_pattern_phone = self.phone
+            match_targets = [self.phone]
+            if self.pure_phone and self.pure_phone != self.phone:
+                match_targets.append(self.pure_phone)
+            
+            all_targets = set()
+            for t in match_targets:
+                if t:
+                    all_targets.add(t)
+                    all_targets.add(quote(t))
+            
+            self._phone_patterns = []
+            for t in all_targets:
+                # 匹配逻辑：前后不能有数字，允许常见国家码前缀 (86, +86, 086)
+                # 使用 re.IGNORECASE 处理 URL 编码的大小写问题
+                pattern = re.compile(rf"(?<![0-9])(?:\+?86|086)?{re.escape(t)}(?![0-9])", re.IGNORECASE)
+                self._phone_patterns.append(pattern)
+        
+        for pattern in self._phone_patterns:
+            if pattern.search(content):
+                return True
+        return False
 
     def _generate_desc(self, url: str) -> str:
         """从 URL 生成简短描述"""

@@ -44,8 +44,23 @@
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
         /* 搜索标签 */
-        .search-tag { cursor: pointer; transition: all 0.2s; }
-        .search-tag:hover { transform: translateY(-1px); }
+        .search-tag {
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: #f0f2f5;
+            color: #666;
+            border: 1px solid #e0e0e0;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: normal;
+        }
+        .search-tag:hover {
+            background-color: #e7f3ff;
+            color: #007bff;
+            border-color: #007bff;
+            transform: translateY(-1px);
+        }
         
         /* 结果详情 */
         .detail-row { background-color: #f8f9fa; display: none; }
@@ -132,21 +147,31 @@
 
                         <div class="form-group">
                             <label>高级搜索规则</label>
-                            <div v-for="(rule, index) in searchRules" :key="index" class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <select class="custom-select" v-model="rule.type" style="width: 80px;">
-                                        <option value="text">全文</option>
-                                        <option value="title">标题</option>
-                                        <option value="url">URL</option>
-                                        <option value="body">正文</option>
-                                        <option value="site">域名</option>
-                                    </select>
+                            <div v-for="(rule, index) in searchRules" :key="index" class="mb-3 p-2 border rounded bg-light">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <select class="custom-select" v-model="rule.type" style="width: 80px;">
+                                            <option value="text">全文</option>
+                                            <option value="title">标题</option>
+                                            <option value="url">URL</option>
+                                            <option value="body">正文</option>
+                                            <option value="site">域名</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" class="form-control" v-model="rule.value" placeholder="关键词">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-danger" type="button" @click="removeRule(index)" v-if="searchRules.length > 1">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <input type="text" class="form-control" v-model="rule.value" placeholder="关键词">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-danger" type="button" @click="removeRule(index)" v-if="searchRules.length > 1">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                <div class="d-flex flex-wrap">
+                                    <span v-for="kw in commonKeywords[rule.type]"
+                                          :key="kw"
+                                          class="mr-1 mb-1 search-tag"
+                                          @click="rule.value = kw">
+                                        [[ kw ]]
+                                    </span>
                                 </div>
                             </div>
                             <button class="btn btn-sm btn-outline-primary btn-block dashed-btn" @click="addRule">
@@ -304,9 +329,15 @@
                 selectedEngines: ['google', 'fofa'],
                 searchRules: [
                     { type: 'title', value: '注册' },
-                    { type: 'text', value: '验证码' }
+                    { type: 'text', value: '发送验证码' }
                 ],
-                
+                commonKeywords: {
+                    text: ['发送验证码', '获取验证码', '短信', '手机号', '登录', '注册', '绑定', 'verify', 'sms', 'code', 'otp', 'vcode'],
+                    title: ['登录', '注册', '绑定', '找回密码', '安全验证', '短信验证', 'Login', 'Register', 'Verify'],
+                    url: ['login', 'register', 'sendsms', 'verify', 'otp', 'vcode', 'captcha', 'auth', 'message', 'check'],
+                    body: ['mobile', 'phone', 'phoneNumber', 'code', 'captcha', 'vcode', 'smsCode', 'verifyCode'],
+                    site: ['aliyun.com', 'tencent.com', 'baidu.com', '163.com', 'jd.com', 'meituan.com']
+                },
                 isRunning: false,
                 isImporting: false,
                 logs: [],
@@ -500,8 +531,9 @@
                             desc: item.desc, 
                             url: urlStr,
                             method: item.method,
-                            header: item.header, 
-                            data: dataStr
+                            header: item.header,
+                            data: dataStr,
+                            response: item.response // 同时导入捕获到的响应内容
                         };
                     });
                     
