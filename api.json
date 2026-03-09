@@ -809,25 +809,6 @@
     },
     {
         "desc": "来自smstest.lazy52.com",
-        "url": "https://wechat.yunexpress.cn/api/verify/sendauthcode",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/plain, */*",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-            "Cache-Control": "no-cache",
-            "Content-Type": "application/json;charset=UTF-8",
-            "Pragma": "no-cache",
-            "Cookie": "HWWAFSESID=5c1f073a36f383eea0; HWWAFSESTIME=1770117098736",
-            "Referer": "https://wechat.yunexpress.cn/weixin/index.html"
-        },
-        "data": {
-            "account": "[phone]",
-            "ImgCode": "",
-            "type": "3"
-        }
-    },
-    {
-        "desc": "来自smstest.lazy52.com",
         "url": "https://www.eportyun.com/sms!sendsmscode.do",
         "method": "POST",
         "header": {
@@ -1109,13 +1090,6 @@
     },
     {
         "desc": "通用采集",
-        "url": "https://kaojiazhao.eclicks.cn/xc_v1/Enroll/create_code?driving_cert_type=1&_cityCode=023&tel=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
         "url": "https://exmail.qq.com/cgi-bin/bizmail_portal?action=send_sms&type=11&t=biz_rf_portal_mgr&ef=jsnew&resp_charset=UTF8&area=86&mobile=[phone]",
         "method": "GET",
         "header": "",
@@ -1131,13 +1105,6 @@
     {
         "desc": "通用采集",
         "url": "https://class.hujiang.com/classtopic/handler/phonecaptcha?areaID=87051&phoneNumber=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://jiameng.baidu.com/portal/com/captcha?ajax=1&device=pc[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1173,20 +1140,6 @@
     {
         "desc": "通用采集",
         "url": "https://host.convertlab.com/sms/token?mobile=[phone]",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://helper.2bulu.com/sendValidateCode?p_userId=0&amp;p_productType=0&amp;p_terminalType=2&amp;p_appVersion=6.1.0&amp;mobileNumber=[phone]&amp;unique=1&amp;areaCode=86",
-        "method": "GET",
-        "header": "",
-        "data": ""
-    },
-    {
-        "desc": "通用采集",
-        "url": "https://helper.2bulu.com/sendValidateCode?p_userId=0&p_productType=0&p_terminalType=2&p_appVersion=6.1.0&mobileNumber=[phone]",
         "method": "GET",
         "header": "",
         "data": ""
@@ -1714,13 +1667,6 @@
         }
     },
     {
-        "desc": "8.140.238.97",
-        "url": "https://8.140.238.97/App/login/fasong",
-        "method": "POST",
-        "header": null,
-        "data": "phone=[phone]"
-    },
-    {
         "desc": "企顺宝",
         "url": "https://m.qishunbao.com/index.php/Public/sendMsgCode",
         "method": "POST",
@@ -1906,29 +1852,6 @@
             "Cookie": "JSESSIONID=FFE1D9E22A9303D38E5D1F3A36F58EFE"
         },
         "data": "telephone=[phone]"
-    },
-    {
-        "desc": "来自 SMSTest",
-        "url": "https://auth.5173.com/u/sms",
-        "method": "POST",
-        "header": {
-            "Host": "auth.5173.com",
-            "Connection": "keep-alive",
-            "Agent": "Mozilla/5.0",
-            "Appdomain": "shop.5173.com",
-            "Type": "application/json",
-            "Origin": "https://m.5173.com",
-            "With": "mark.via.gp",
-            "Site": "same-site",
-            "Mode": "cors",
-            "Dest": "empty",
-            "Referer": "https://m.5173.com/",
-            "Encoding": "gzip",
-            "Language": "zh-CN"
-        },
-        "data": {
-            "phone": "[phone]"
-        }
     },
     {
         "desc": "来自 SMSTest",
@@ -2344,5 +2267,253 @@
             "X-Requested-With": "XMLHttpRequest"
         },
         "data": "phonenumber=[phone]&type=login"
+    },
+    {
+        "desc": "北方国家版权交易中心",
+        "url": "https://www.nncec.com/portal_zh/public/id/sendRegVCode?dt=1772974773000",
+        "method": "POST",
+        "header": {
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "JSESSIONID=0D9262D153702A61E6201A84651D5707",
+            "Host": "www.nncec.com",
+            "Origin": "https://www.nncec.com",
+            "Referer": "https://www.nncec.com/portal_zh/public/user-register",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "tel=[phone]"
+    },
+    {
+        "desc": "会员手机验证码登录",
+        "url": "http://www.foundrypc.org/en/indexzhong.php/Login/sendSms",
+        "method": "POST",
+        "header": {
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "Hm_lvt_6640b2e4b0a107a3dbceaaf02da670d0=1772961896; PHPSESSID=3b1o5vibm123eajnrva863e6p0",
+            "Host": "www.foundrypc.org",
+            "Origin": "http://www.foundrypc.org",
+            "Referer": "http://www.foundrypc.org/en/indexzhong.php/Login/loginyztel",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "user_tel=[phone]"
+    },
+    {
+        "desc": "常德云党建",
+        "url": "https://api.dj100.gov.cn/auth-center/authentication/sendSMS?phoneNum=[phone]",
+        "method": "GET",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/json; charset=utf-8",
+            "Host": "api.dj100.gov.cn",
+            "Origin": "https://www.dj100.gov.cn",
+            "Referer": "https://www.dj100.gov.cn/",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        },
+        "data": null
+    },
+    {
+        "desc": "万相 | 领先的AI视频与图像生成模型",
+        "url": "https://wanx.biz.aliyun.com/wanx/api/public/user/verify/send",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/json",
+            "Cookie": "cna=iC80InNiPzgCATtSFdg+dm0j; channel=5cdQ7aXStd7gCvwcoEYmFsoqxOablS%2FevBmHfxXBd6BwSmUxnAnnosjhSZ4ToTmhMBx4cGHhRSj62w%2F7HNmjAA%3D%3D; visitId=658D1F595EE14F5AA8BCBA7BC494F497; isg=BCwsehREaVLAu31ud8HTli1o_Qpe5dCPdfdyQYZtAVd6kcybrPRwHyAisVkpHAjn; login_aliyunid_csrf=_csrf_tk_1235272975299421; aliyun_enable_passkey=1; WANX_CN_SESSION=NTlhZTY2ZDMtNTdlYy00YmVhLWJiZTYtMzc5YmI3NzFjMTc3; sca=f9b169f2; atpsida=abba392b90c9e7bd943b1fc4_1772975488_1; tfstk=c84OBJi4t9XM56S3A-IhizSv_KgAZTftnCMykkQfQKmBocYAiAUuyRENfbHrB6C..",
+            "Origin": "https://tongyi.aliyun.com",
+            "Referer": "https://tongyi.aliyun.com/wan/explore",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Platform": "web",
+            "X-Xsrf-Token": "8cf24d90-df98-48f2-8b23-376f1d8f7163"
+        },
+        "data": {
+            "phoneNumber": "[phone]",
+            "verifyType": "sms_verify_code"
+        }
+    },
+    {
+        "desc": "注册-豪爵铃木摩托车官方网站",
+        "url": "https://www.haojue.com/member/sendmsg2025102509.html",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "_scfc=c430b95b0095a6f19ec0a190eefd4ba6; Hm_lvt_812b7f13a424deaa7a78e1b858a72eb6=1772964502,1772975614; Hm_lpvt_812b7f13a424deaa7a78e1b858a72eb6=1772975614; HMACCOUNT=EA808DA86D48B8B0; boc_session_site=7Kb647VRvf0EVKcYqpEVf6qOJOVhb7HST9fPJvMYwWbcDugWcBrqMfhw5VZxKURazdifekq0Sf9kzXoMBw%2Fb5FLacu060iVarlopzVuu%2FTBVLV6sW1QnQurHkuWvCPe4ylG9ix0hu7hPVpXHyxcYbxGkrEABZD%2Fs%2BelidpoQzyxES83deF6Y4SIu42eIbwZ95dYzg96ehm72P9TF9Megya3AdLh1PQz0yEpYOMI8Qp8REeQda4d8amjdnOkmxynviuu8XkZUdSlpJetEWFFrxNn31B1qY4NsGHuH8koy1YM%2BRGX89jiVuBA5LLLfBFFplUkfOzmbalicRLpC8wl4uIYNwgynvzZ2DSVmgGE1VyQh1cxh%2FNtf6RGNvEtmFQSd7JraeD8oly%2B7mh3giGYZOMaIGNX7jFpeCQClkh%2B1d4Q%2FsmsbvX0LhZ6BvYTOx4o0AJpQ4Ab%2F9EnBdrNlrZ5AcQ%3D%3D3cc41b43a8517fb2f469ca5afc9102ebd5e9d067; SERVERID=3971abb2c1905190058cc3f8617db839|1772975614|1772975613",
+            "Origin": "https://www.haojue.com",
+            "Referer": "https://www.haojue.com/member/register2026.html",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "mobile=[phone]"
+    },
+    {
+        "desc": "登录",
+        "url": "https://console.botnow.cn/oidc/sms",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/json;charset=UTF-8",
+            "Cookie": "bff=s%3Aivb7sOA0ln7U8jjBEQSQH.ICbwoQitPZDi3RCqtQp1vIP9hB6vm7oCxHduAqqg0bM",
+            "Origin": "https://console.botnow.cn",
+            "Referer": "https://console.botnow.cn/oidc/login?back=%2Foidc%2Flogin%3Fclient_id%3Dbff-client%26redirect_uri%3Dhttps%253A%252F%252Fconsole.botnow.cn%252Fdock-app%26response_type%3Dcode%26scope%3Dopenid%2Bprofile%2Bemail%2Bgroups%2Boffline_access&state=xw6xlcsbr2us7i2tgnll5phzl&status=302&connector=",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        },
+        "data": {
+            "phone": "[phone]",
+            "type": "login"
+        }
+    },
+    {
+        "desc": "西藏饭店",
+        "url": "http://www.tibet-hotel.com/getXZLoginCode",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Host": "www.tibet-hotel.com",
+            "Origin": "http://www.tibet-hotel.com",
+            "Referer": "http://www.tibet-hotel.com/xzjd/login.html",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "phone=[phone]"
+    },
+    {
+        "desc": "Register Page",
+        "url": "https://t.adtigers.com/base/send_sms",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "csrftoken=EjLwQUFAgGXlBgF5dhcD1tTYqeeBQP2IjAhmOtrbUQ4ipzg1Wg2btzN51MLRliKD",
+            "Host": "t.adtigers.com",
+            "Origin": "https://t.adtigers.com",
+            "Referer": "https://t.adtigers.com/register?referer=",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "type=phone&a=[phone]&csrfmiddlewaretoken=VGiCLoswZC032fbkQq9xiAvw0uBlMLusAXOsJXe7DM70QyMgzpZ5KGpDB28Bhecn"
+    },
+    {
+        "desc": "中国铁塔",
+        "url": "https://zhaopin.chinatowercom.cn/login?mode=CODE&mobile=[phone]&tip=&tab_pane=mobile&last_mode=GETCODE",
+        "method": "GET",
+        "header": {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Host": "zhaopin.chinatowercom.cn",
+            "Referer": "https://zhaopin.chinatowercom.cn/login?mode=CODE",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        },
+        "data": null
+    },
+    {
+        "desc": "注册-智米官网",
+        "url": "https://www.zhimi.com/api/hmall-common-service/checkcode/sendCheckCode?mobileNumber=[phone]&companyId=1001",
+        "method": "GET",
+        "header": {
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Cookie": "Hm_lvt_6fe7d7cb2f2ffd295a368ac6474a01d2=1772989688; Hm_lpvt_6fe7d7cb2f2ffd295a368ac6474a01d2=1772989688; HMACCOUNT=EA808DA86D48B8B0; companyId=1001; site=ZM_PROD_PC; companyName=%E6%99%BA%E7%B1%B3%E5%95%86%E5%9F%8E; KLBRSID=b1ab110273d025d6948ece1ed659401d|1772989695|1772989682; code-time=1772989756802",
+            "Referer": "https://www.zhimi.com/register.html",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        },
+        "data": ""
+    },
+    {
+        "desc": "北京应急管理学会",
+        "url": "https://baem.org.cn/Customer/MemberRegisterSendCaptcha",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "yibu_rt_language=zh-CN; __RequestVerificationToken=VmaFtc9868XX18vR-vlXOhHKPD7Rfzw5P1t_0DjF-brHFavbDzbxRYhCDYmO4N1l0VpoEW3d6QvssVF3v0d5BS-yBOjr4Nqfk4Jde_IsNpM1; ASP.NET_SessionId=qfjdubi4dqqqftyolfp0ehei",
+            "Host": "baem.org.cn",
+            "Origin": "https://baem.org.cn",
+            "Referer": "https://baem.org.cn/register",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "userName=[phone]&timestamp=[timestamp]&__RequestVerificationToken=d0BJ6EkQlxP9CLJ3xRNeNKw5vaEub4UYF_dYgisjrA1xPHcjTjY62rSoCCGCvo0s72Mtk5u8R7co6ZfT6NkERYyGsnYDxNkG_bgVtX3Fm5Y1"
+    },
+    {
+        "desc": "全国住建系统专业技术人员在线学习平台",
+        "url": "https://www.mayortraining.net/entity/studentRegister/studentRegister_sendCode.action",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "acw_tc=7959d1da17729899490741360ee66827bdefd3d27296bb6c572cfff9c18cea; typx_cms_https=7bb6207b0db469c9f07ebdd601bebb93; typx_https=6b3d8ac4ba397b121cb2d04cd6849e72; JSESSIONID=684593AAEC62F221519665A881824927.jigou-typx-webapps-0001_typx_aliyun2; regLoginId=; regAuthimgCode=; regMobileCode=; regMobile=; pwdPass=; regPassword=; regAvatarId=; regIsValidCode=; Hm_lvt_90496d4ce6399d5e4d12d99d50f142a3=1772989951; Hm_lpvt_90496d4ce6399d5e4d12d99d50f142a3=1772989951; HMACCOUNT=EA808DA86D48B8B0; portalPath=index; organId=18b4b9de-203d-11ec-aeee-801844e81850; isChildOrgan=1; Hm_lvt_f5b7f242b7dd1344a57a8c291e81ced4=1772989952; Hm_lpvt_f5b7f242b7dd1344a57a8c291e81ced4=1772989952",
+            "Host": "www.mayortraining.net",
+            "Origin": "https://www.mayortraining.net",
+            "Referer": "https://www.mayortraining.net/cms/register.htm",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "phone=[phone]"
+    },
+    {
+        "desc": "会员注册",
+        "url": "https://m.qtccolor.com/ajax.axd?t=SendRegPhoneCode&phone=[phone]&ismail=0",
+        "method": "GET",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Cookie": "shopcartId=ba8b523aec8dd61d33daff462ae97c8f; ASP.NET_SessionId=vmu0q3rqe2nr41mtoe3nlgiz; sendcount2=QXsjh/O0Ym4=; Hm_lvt_9ee710a3761973efa0e6eefd3535c509=1772990056; Hm_lpvt_9ee710a3761973efa0e6eefd3535c509=1772990056; HMACCOUNT=EA808DA86D48B8B0; sem=1; site_key=; site_s=",
+            "Referer": "https://m.qtccolor.com/Register.aspx",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": ""
+    },
+    {
+        "desc": "注册 - TP-LINK培训认证体系",
+        "url": "https://training.tp-link.com.cn/api/public/code",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/json",
+            "Cookie": "_pk_ref.8.6b4f=%5B%22%22%2C%22%22%2C1772990122%2C%22https%3A%2F%2Fwww.google.com%2F%22%5D; _pk_id.8.6b4f=dbb27018d620ac9d.1772990122.; _pk_ses.8.6b4f=1",
+            "Origin": "https://training.tp-link.com.cn",
+            "Referer": "https://training.tp-link.com.cn/register",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+        },
+        "data": {
+            "phone": "[phone]",
+            "type": "register"
+        }
     }
 ]
