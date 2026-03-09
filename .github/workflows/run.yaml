@@ -33,7 +33,13 @@ jobs:
 
     steps:
       # 签出项目代码
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Checkout api.json
+        run: |
+          git fetch --no-tags --depth=1 origin feature
+          git checkout FETCH_HEAD -- api.json
+
       # 设置 py3.8 环境
       - name: 🚀 Set up Python 3.x
         uses: actions/setup-python@v3
