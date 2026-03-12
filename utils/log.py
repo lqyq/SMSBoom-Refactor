@@ -9,7 +9,6 @@ import os
 stdout_fmt = '{level.icon}  <cyan>{time:HH:mm:ss,SSS}</cyan> ' \
     '[<level>{level}</level>] ' \
     '<cyan>{thread.name}</cyan> ' \
-    '<blue>{module}</blue>:<cyan>{line}</cyan> - ' \
     '<level>{message}</level>'
 
 # 日志文件记录格式

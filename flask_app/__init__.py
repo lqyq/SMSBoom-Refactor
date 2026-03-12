@@ -1,9 +1,9 @@
 # encoding=utf8
 # app 工厂函数
-from flask import Flask,current_app
+from flask import Flask, current_app, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
+from flask_admin.base import AdminIndexView, expose
 from flask_babelex import Babel
 import sys
 import os
@@ -53,11 +53,27 @@ app.add_template_global(current_app,"current_app")
 # 扩展
 db = SQLAlchemy(app)
 babel = Babel(app)
-@babel.localeselector  
-def get_locale():  
+@babel.localeselector
+def get_locale():
     return 'zh_CN'  # 或者根据请求动态选择语言
 
-admin = Admin(app, name="sms api debug", template_mode='bootstrap3')
+
+class RedirectAdminIndexView(AdminIndexView):
+    """将 /admin/ 首页重定向到主要功能页，避免用户看到空白页。"""
+    @expose('/')
+    def index(self):
+        target = '/admin/apis/'
+        # 保留 query string（如 ?style=beautiful&page_size=100）
+        if request.query_string:
+            target = f"{target}?{request.query_string.decode('utf-8', errors='ignore')}"
+        return redirect(target)
+
+admin = Admin(
+    app,
+    name="sms api debug",
+    template_mode='bootstrap3',
+    index_view=RedirectAdminIndexView(),
+)
 from .model import ApisModelVies, Apis
 admin.add_view(ApisModelVies(Apis, db.session))
 

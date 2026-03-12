@@ -35,7 +35,7 @@ uv sync             # 仅核心功能
 uv sync --group dev # 含 Web 管理后台
 ```
 
-可通过 `uv run` 执行项目，无需手动激活环境；
+可通过 `uv run 脚本.py` 执行项目，无需手动激活环境；
 如需手动进入虚拟环境，先运行：
 
 ```shell
@@ -47,10 +47,9 @@ source .venv/bin/activate # Linux/macOS
 ```shell
 python -m venv venv
 
-# Windows
-.\venv\Scripts\activate
-# Linux/macOS
-source venv/bin/activate
+# 激活环境
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate # Linux/macOS
 # 安装依赖
 pip install -r requirements.txt      # 仅核心功能
 pip install -r requirements-dev.txt  # Web 管理后台
@@ -67,13 +66,30 @@ python run_flask_app.py start -p 9090
 
 #### 2. 命令行模式
 默认使用 `api.json` 中的接口进行测试。
+
 ```shell
 # 启动 64 线程，对目标手机号进行 1 轮测试
 python smsboom.py run -t 64 -p 188xxxxxxxx
-# 启动 64 线程，循环测试 60 次，间隔 30 秒
-python smsboom.py run -t 64 -p 188xxxxxxxx -f 60 -i 30
+# 循环测试：每轮只跑 2 个接口、每轮间隔 60 秒：
+python smsboom.py run -p 188xxxxxxxx -f 999 -i 60 --api-limit 2
 # 使用指定的接口 json 文件
 python smsboom.py run -p 188xxxxxxxx -a custom_api.json
+# 多手机号：重复传入 -p（会对每个手机号都执行同一批接口请求）
+python smsboom.py run -t 64 -p 188xxxxxxxx -p 199xxxxxxxx
+# 查看帮助
+python smsboom.py run --help
+```
+
+**常用参数说明（`run` 子命令）：**
+```
+Options:
+  -t, --thread INTEGER       线程数(默认64)
+  -p, --phone TEXT           手机号,可传入多个再使用-p传递  [required]
+  -f, --frequency INTEGER    执行轮次(默认1轮)
+  -i, --interval INTEGER     间隔时间(默认60s)
+  -e, --enable_proxy         开启代理(默认关闭)
+  -a, --api TEXT             接口json文件(默认api.json)
+  --api-limit INTEGER        每轮最多测试的接口数(默认0表示文件里的全部接口)
 ```
 
 ## ⚖️ 免责声明
