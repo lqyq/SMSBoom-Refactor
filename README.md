@@ -34,7 +34,7 @@ uv sync             # 仅核心功能
 uv sync --group dev # 含 Web 管理后台
 ```
 
-可通过 `uv run` 执行项目，无需手动激活环境；
+可通过 `uv run 脚本.py` 执行项目，无需手动激活环境；
 如需手动进入虚拟环境，先运行：
 
 ```shell
@@ -46,10 +46,9 @@ source .venv/bin/activate # Linux/macOS
 ```shell
 python -m venv venv
 
-# Windows
-.\venv\Scripts\activate
-# Linux/macOS
-source venv/bin/activate
+# 激活环境
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate # Linux/macOS
 # 安装依赖
 pip install -r requirements.txt      # 仅核心功能
 pip install -r requirements-dev.txt  # Web 管理后台
