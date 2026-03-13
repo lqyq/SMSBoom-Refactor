@@ -488,7 +488,7 @@ def import_json():
             
             # 验证方法
             method = item.get('method', 'GET').upper()
-            if method not in ['GET', 'POST']:
+            if method not in ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD']:
                 method = 'GET'
                 
             new_api = Apis(
@@ -649,10 +649,15 @@ def import_scraped_apis():
             if isinstance(data, (dict, list)):
                 data = json.dumps(data, ensure_ascii=False)
             
+            # 验证方法，避免写入数据库枚举以外的值
+            method = item.get('method', 'GET').upper()
+            if method not in ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD']:
+                method = 'GET'
+
             new_api = Apis(
                 desc=item.get('desc', '采集导入'),
                 url=url,
-                method=item.get('method', 'GET').upper(),
+                method=method,
                 header=header,
                 data=data,
                 status='untested',

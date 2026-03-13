@@ -355,8 +355,29 @@ class PlaywrightCapture:
             request = response.request
             url = request.url
             method = request.method
+            resource_type = request.resource_type
+
+            # 1. 严格过滤静态资源类型 (无论是否包含手机号，这些通常都不是 API)
+            if resource_type in ['image', 'stylesheet', 'font', 'media', 'texttrack', 'manifest']:
+                return
             
-            # 1. 获取 post data (尝试多种方式)
+            # 2. 过滤常见的静态文件后缀
+            # 即使包含手机号，如果是通过 <script> 或 <link> 加载的常规静态资源，通常也是干扰
+            clean_url = url.split('?')[0].lower()
+            static_exts = ('.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.svg', '.map', '.ttf', '.otf', '.woff2')
+            
+            if clean_url.endswith(static_exts):
+                # 静态资源后缀只有在满足以下“API 特征”时才允许通过：
+                # a) 是 XHR 或 Fetch 请求，或者是 POST 方法
+                # b) 且 URL 中包含明显的 API 关键词 (防止捕获统计/追踪脚本)
+                is_potential_api = (resource_type in ['xhr', 'fetch']) or (method == 'POST')
+                api_keywords = ['api', 'send', 'sms', 'verify', 'otp', 'login', 'vcode', 'code', 'auth']
+                has_api_keyword = any(k in url.lower() for k in api_keywords)
+                
+                if not (is_potential_api and has_api_keyword):
+                    return
+
+            # 3. 获取 post data (尝试多种方式)
             post_data = ""
             try:
                 post_data = request.post_data or ""
@@ -369,10 +390,10 @@ class PlaywrightCapture:
             except Exception as e:
                 logger.debug(f"Error getting post data: {e}")
 
-            # 2. 核心过滤：检查手机号 (精确匹配，防止误匹配长数字串)
+            # 4. 核心过滤：检查手机号 (精确匹配，防止误匹配长数字串)
             has_phone = self._check_phone_exact(url) or self._check_phone_exact(post_data)
             
-            # 3. 检查 Header (某些 API 会把手机号放在 Header)
+            # 5. 检查 Header (某些 API 会把手机号放在 Header)
             headers = {}
             if not has_phone:
                 try:
@@ -386,15 +407,8 @@ class PlaywrightCapture:
                         has_phone = True
                         break
             
-            # 4. 如果没匹配到手机号，则进行基础过滤
+            # 6. 如果没匹配到手机号，直接丢弃
             if not has_phone:
-                resource_type = request.resource_type
-                if resource_type in ['image', 'stylesheet', 'font', 'media']:
-                    return
-                # 排除常见无关后缀
-                if url.endswith(('.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.svg')):
-                    return
-                # 既没手机号也不是静态资源，也丢弃
                 return
 
             # 5. 确保 headers 已获取 (如果之前匹配成功跳过了获取步骤)
@@ -404,10 +418,12 @@ class PlaywrightCapture:
                 except:
                     headers = request.headers
 
-            # 4. 生成指纹去重 (包含 method, url 和 post_data 的前 100 个字符)
-            # 这样即使 URL 相同，如果 Body 不同（比如换了手机号或参数），也会被捕获
+            # 4. 生成指纹去重
+            # 移除 URL 中常见的随机参数 (timestamp, callback, nonce 等)，防止重复捕获
+            fingerprint_url = re.sub(r'[\?&](?:_|callback|t|v|timestamp|nonce|token|sig|hash)=[^&]*', '', url)
             body_part = post_data[:100] if post_data else ""
-            fingerprint = f"{method}:{url}:{body_part}"
+            fingerprint = f"{method}:{fingerprint_url}:{body_part}"
+            
             if fingerprint in self.seen_requests:
                 return
             self.seen_requests.add(fingerprint)

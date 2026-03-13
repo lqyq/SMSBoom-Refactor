@@ -28,6 +28,11 @@ class ApisModelVies(ModelView):
         'method': [
             ('GET', 'GET'),
             ('POST', 'POST'),
+            ('PUT', 'PUT'),
+            ('DELETE', 'DELETE'),
+            ('PATCH', 'PATCH'),
+            ('OPTIONS', 'OPTIONS'),
+            ('HEAD', 'HEAD'),
         ]
     }
 
@@ -105,7 +110,7 @@ class ApisModelVies(ModelView):
     }
 
     # 按状态筛选
-    column_filters = ['status', 'method', 'desc', 'url', 'last_test_response']
+    column_filters = ['status', 'method', 'desc', 'url', 'data', 'last_test_response', 'last_test_time', 'add_time']
 
     # 添加单行操作按钮
     def _list_row_actions(self):
@@ -151,7 +156,7 @@ class Apis(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键
     desc = db.Column(db.String(25), default="Default")  # 描述
     url = db.Column(db.String(9999), unique=True, nullable=False)  # 链接
-    method = db.Column(db.Enum("GET", "POST"), nullable=False)  # 请求方法
+    method = db.Column(db.Enum("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"), nullable=False)  # 请求方法
     header = db.Column(db.String(9999))  # 请求头
     data = db.Column(db.String(9999))  # 请求数据
     add_time = db.Column(db.DateTime(), default=datetime.now)  # 添加时间
