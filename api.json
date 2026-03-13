@@ -3459,5 +3459,60 @@
             "X-Requested-With": "XMLHttpRequest"
         },
         "data": "hash=&varify=&mobile=[phone]"
+    },
+    {
+        "desc": "找回密码-锐动云控制台",
+        "url": "http://dianbook.17rd.com/business/verify/sendcode?0.9350173200022249",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "PHPSESSID=f9abf859bf89607276777d6f60dc1552",
+            "Host": "dianbook.17rd.com",
+            "Origin": "http://dianbook.17rd.com",
+            "Referer": "http://dianbook.17rd.com/business/verify/recover",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "account=[phone]"
+    },
+    {
+        "desc": "魔鹏云",
+        "url": "http://san.mufengyue.com/index.php?s=/Api/User/get_mobile_code",
+        "method": "POST",
+        "header": {
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "PHPSESSID=152ab83d1919597eb70f3c678dc6052a",
+            "Host": "san.mufengyue.com",
+            "Origin": "http://san.mufengyue.com",
+            "Referer": "http://san.mufengyue.com/html/phone_register.html",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "mobile=[phone]"
+    },
+    {
+        "desc": "用户注册",
+        "url": "https://thinktank.china-eia.com/EIAExpert/uc/open/sendVerificationCode?GcUpVg1b=0cwk1uAlqWWE7gEJ0MqwiWazGCC0HHAwXrNLNe84D_7gEj0ma4XcpPqAMLUHo3UvEzI0A0FPFyPcgi7cAJRszcUzjn2B3JvhCqrHgPBOQXcMwpmsBIZu4Sq",
+        "method": "POST",
+        "header": {
+            "Accept": "application/json, text/javascript, */*; q=0.01",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "Connection": "keep-alive",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Cookie": "hebp.session.id=b5d8b1d3f55046a99e13b5c9a9630cf8; m5TEkyPGTubaO=603vXNJ6Q3iGRu1dBX7Mqhu_6kq7KJT4zwZfovF6f3RB3xDppHhmmZ.V9DgS6Kw.IwG_V2RDkVCb.zynctCCmGHA; m5TEkyPGTubaP=0UmgVs.jsdNpNYz3YIWoBbe6McX__dHHhJp6IZaR29copVpbmRBfIqpWAw7kkGOniLE5FXf2i7yf_0aJO9aCaVMNxBKCJfSnrF5yRoiwWzpcagr_RW1Mu_tz91dMGx0_5NsQXrEegn5QFdGNUB6kOKMHNAKqdilsaljwh1KkDpavrozVvXBvYOa_C0y5bHbVjNlJZqcmKQPa8Mbc2z8MXVpWc4k4fcWJLAvau6Rv39llRtVbn5OiDEx1SAfMZjyBH79EYaXcU3DTF5xNfe5pZBDhb9X8nhOlpDn2HlSZRWi3jyJAX7YAsS0KSdGwFWjT.muQ2NChCuTmy2tFKR.UiGMQvxmC1Eh7cPGIddmF05DECJPwKWLKMQ9bdhMWjFPn7QIxRp80SSP7GX5M.hbpEgder9NvrDi0c43a2Rx9jbYsLjJtP48z_NOCzKT9HUXkrpotYK4hETxqipatnTXO8ga",
+            "Host": "thinktank.china-eia.com",
+            "Origin": "https://thinktank.china-eia.com",
+            "Referer": "https://thinktank.china-eia.com/EIAExpert/uc/open/register",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": "phone=[phone]&smsCode=register"
     }
 ]

@@ -8,7 +8,9 @@ import os
 import platform
 from typing import Optional, Dict, Any, List
 from playwright.async_api import async_playwright, Browser, BrowserContext, Page, Request, Response
+from playwright_stealth import Stealth
 from queue import Queue, Empty
+import random
 import time
 from urllib.parse import urlparse, quote
 
@@ -164,17 +166,23 @@ class PlaywrightCapture:
             async with async_playwright() as p:
                 self.playwright = p
                 
-                # 启动参数配置
+                # 优化启动参数，增加随机性
                 launch_args = [
                     "--no-sandbox", 
                     "--disable-setuid-sandbox",
-                    "--disable-blink-features=AutomationControlled", # 禁用自动化特征
-                    "--excludeSwitches=enable-automation", # 排除自动化开关
+                    # "--disable-blink-features=AutomationControlled", # 由 stealth 库处理
+                    # "--excludeSwitches=enable-automation", # 由 stealth 库处理
                     "--disable-infobars", # 禁用信息栏
                     "--no-first-run", # 禁用首次运行向导
                     "--password-store=basic", # 使用基础密码存储
                     "--use-mock-keychain", # 使用模拟钥匙串
+                    "--disable-web-security", # 允许跨域抓包
+                    "--disable-features=IsolateOrigins,site-per-process", # 优化抓包性能
                 ]
+                
+                # 随机化窗口大小
+                width = random.randint(1200, 1440)
+                height = random.randint(600, 800)
                 
                 # 尝试使用持久化上下文启动
                 # 根据用户数据目录智能判断浏览器通道
@@ -189,8 +197,9 @@ class PlaywrightCapture:
                         channel=channel_to_use,
                         headless=False, 
                         args=launch_args,
-                        viewport={"width": 1280, "height": 800},
-                        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0" # 模拟 Edge UA
+                        viewport={"width": width, "height": height},
+                        # 移除硬编码 UA，让 Playwright 自动生成匹配浏览器的 UA
+                        # user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0" 
                     )
                 except Exception as e:
                     if "SingletonLock" in str(e):
@@ -221,8 +230,8 @@ class PlaywrightCapture:
                 
                 self.browser_context = context
                 
-                # 注入更强的反检测脚本
-                await self._add_stealth_scripts(context)
+                # 注入更强的反检测脚本 (使用 playwright-stealth)
+                # await self._add_stealth_scripts(context)
                 
                 # 监听上下文级别的新页面事件
                 context.on("page", self._on_new_page)
@@ -242,7 +251,9 @@ class PlaywrightCapture:
                             # 稍微延迟一下，避免并发太高被风控
                             await asyncio.sleep(1)
                             page = await context.new_page()
-                            
+                        
+                        # 应用 stealth
+                        await Stealth().apply_stealth_async(page)
                         self._setup_page_listeners(page)
                         self.event_queue.put({"type": "log", "message": f"正在打开: {url}"})
                         try:
@@ -342,6 +353,8 @@ class PlaywrightCapture:
     def _on_new_page(self, page: Page):
         """处理新标签页"""
         self.event_queue.put({"type": "log", "message": "检测到新标签页"})
+        # 为新页面应用 stealth
+        asyncio.create_task(Stealth().apply_stealth_async(page))
         self._setup_page_listeners(page)
 
     def _setup_page_listeners(self, page: Page):
