@@ -2,7 +2,7 @@
 # 请求的方法
 import httpx
 from httpx import Limits
-from typing import Union, List
+from typing import Union, List, Optional
 import asyncio
 from utils import default_header_user_agent
 from utils.models import API
@@ -19,7 +19,7 @@ def _clone_api(src: API) -> API:
         return src.model_copy(deep=True)  # type: ignore[attr-defined]
     return src.copy(deep=True)
 
-def _make_sync_client(proxy: dict | None = None) -> httpx.Client:
+def _make_sync_client(proxy: Optional[dict] = None) -> httpx.Client:
     """兼容不同 httpx 版本的代理参数（proxies -> proxy）。"""
     kwargs = {
         'headers': default_header_user_agent(),
