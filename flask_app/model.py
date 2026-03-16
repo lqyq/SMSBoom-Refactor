@@ -13,6 +13,7 @@ from flask import flash, redirect, url_for, request
 from flask_admin.actions import action
 from flask_admin import expose
 from markupsafe import Markup
+from wtforms.fields import TextAreaField
 
 class ApisModelVies(ModelView):
     create_template = 'api_edit.html'
@@ -157,8 +158,8 @@ class Apis(db.Model):
     desc = db.Column(db.String(25), default="Default")  # 描述
     url = db.Column(db.String(9999), unique=True, nullable=False)  # 链接
     method = db.Column(db.Enum("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"), nullable=False)  # 请求方法
-    header = db.Column(db.String(9999))  # 请求头
-    data = db.Column(db.String(9999))  # 请求数据
+    header = db.Column(db.Text(9999))  # 请求头
+    data = db.Column(db.Text(9999))  # 请求数据
     add_time = db.Column(db.DateTime(), default=datetime.now)  # 添加时间
     # 新增：测试状态字段
     status = db.Column(db.String(20), default="untested")  # untested, success, failed
