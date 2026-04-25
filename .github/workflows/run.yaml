@@ -2,11 +2,18 @@ name: 🚀 Run SMSBoom in Action
 
 # 触发 Action 的条件
 on: 
-  # 定时触发 参考 https://docs.github.com/cn/actions/using-workflows/events-that-trigger-workflows#schedule
+  # 定时触发 (注意：GitHub Actions 的 schedule 有延迟，可能不会精确到秒)
   schedule:
       - cron: '*/10 * * * *'
   # 手动触发
   workflow_dispatch:
+
+# === 核心修复：并发控制 ===
+# 这行代码确保同一时间只有一个该工作流在运行。
+# 如果新的任务触发，旧的正在运行的任务会被取消，防止堆积。
+concurrency: 
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   # 检查 NUMBER secret 变量是否存在
@@ -30,6 +37,11 @@ jobs:
     needs: check
     if: needs.check.outputs.has_number == 'true'
     runs-on: ubuntu-latest
+    
+    # === 核心修复：设置时区为上海时间 ===
+    # 否则 cron 表达式会按照 UTC 时间执行，导致比你预期的晚8小时
+    env:
+      TZ: Asia/Shanghai
 
     steps:
       # 签出项目代码
@@ -47,8 +59,9 @@ jobs:
           python-version: '3.8'
       
       - name: 🚀 Run SMSBoom Script
-        # 此处可以自定义命令行运行参数.替换手机号
+        # 此处可以自定义命令行运行参数
         run: |
           pip3 install -r requirements.txt
+          # 打印手机号掩码用于调试（可选）
           echo ${{ secrets.NUMBER }} | sed 's/./& /g'
           python3 smsboom.py run -p ${{ secrets.NUMBER }} -t 3
